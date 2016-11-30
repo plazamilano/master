@@ -626,6 +626,10 @@ class ControllerProductCategory extends Controller {
 			//Соберем размеры
 			$data['size'] = $this->model_catalog_attribute->getSisezOnProduct($product_ids_no_size_filter);
 			$data['sizes'] = $this->model_catalog_attribute->getSisezOnProductNoGroup($product_ids_no_size_filter);
+		
+		header("Content-Type: text/html; charset=UTF-8");
+		echo "<pre>";  print_r(var_dump( $data['sizes'] )); echo "</pre>";
+		
 			
 			$this->load->model('catalog/manufacturer');
 			$data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturersByCategoryId($category_id);
