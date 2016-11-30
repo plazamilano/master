@@ -90,7 +90,8 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <span class="b-quickview">Быстрая покупка</span> <span class="b-add_to_wishlist b-product_tile-add_to_wishlist" data-href="/ru/wishlist-add?pid=F61D5TFMME1S8031&amp;source=search">В список желаний</span>
+                                                <!--span class="b-quickview">Быстрая покупка</span>
+                                                <span class="b-add_to_wishlist b-product_tile-add_to_wishlist" data-href="/ru/wishlist-add?pid=F61D5TFMME1S8031&amp;source=search">В список желаний</span-->
                                             </div>
                                             <a class="b-product_name product_name" href="<?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['name']; ?></a>
                                         </div>

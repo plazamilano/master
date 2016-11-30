@@ -1,5 +1,8 @@
 <?php echo $header; ?>
-
+<?php
+//header("Content-Type: text/html; charset=UTF-8");
+//echo "<pre>";  print_r(var_dump( get_defined_vars() )); echo "</pre>";
+?>
     <main role="main">
         <noscript>
             <div class="b-js_off_alert">

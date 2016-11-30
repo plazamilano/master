@@ -10,6 +10,8 @@ class ControllerCommonCart extends Controller {
 		$total = 0;
 		$taxes = $this->cart->getTaxes();
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		// Display prices
 		if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
 			$sort_order = array();
@@ -286,7 +288,7 @@ class ControllerCommonCart extends Controller {
 				'text'  => $this->currency->format($result['value']),
 			);
 		}
-
+		$data['language_href'] = $this->session->data['language_href'];
 		$data['cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link('checkout/checkout', '', 'SSL');
 

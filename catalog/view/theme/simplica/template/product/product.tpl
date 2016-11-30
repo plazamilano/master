@@ -200,7 +200,13 @@
                                                         <?php if($option_value['quantity'] <= 0) { ?>
                                                         <li class="b-swatches_size-item emptyswatch m-unselectable">
                                                         <?php }else{ ?>
-                                                        <li class="b-swatches_size-item emptyswatch">
+                                                        
+                                                            <?php if(isset($_GET['option'][(int)$option['product_option_id']]) AND $_GET['option'][(int)$option['product_option_id']] == $option_value['product_option_value_id']){?>
+                                                                <li class="b-swatches_size-item b-swatches_size-item-selected">
+                                                            <?php }else{ ?>
+                                                                <li class="b-swatches_size-item emptyswatch">
+                                                            <?php } ?>
+                                                
                                                         <?php } ?>
 
                                                             <input type="radio"
@@ -209,6 +215,7 @@
                                                                    class="b-swatches_size-radio"
                                                                    id="option_<?php echo $option['product_option_id']; ?>_value_<?php echo $option_value['product_option_value_id']; ?>" 
                                                                    <?php if($option_value['quantity'] <= 0) { echo 'disabled'; } ?>
+                                                                   <?php if(isset($_GET['option'][(int)$option['product_option_id']]) AND $_GET['option'][(int)$option['product_option_id']] == $option_value['product_option_value_id']){ echo ' checked ';}?>
                                                                    />
 
                                                             <label for="option_<?php echo $option['product_option_id']; ?>_value_<?php echo $option_value['product_option_value_id']; ?>"

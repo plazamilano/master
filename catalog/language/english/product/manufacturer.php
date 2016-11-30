@@ -25,3 +25,14 @@ $_['text_rating_desc']  = 'Rating (Highest)';
 $_['text_model_asc']    = 'Model (A - Z)';
 $_['text_model_desc']   = 'Model (Z - A)';
 $_['text_limit']        = 'Show:';
+
+$_['text_search_detail']        = 'Уточнить результаты поиска по:';
+$_['text_close']        = 'Закрыть';
+$_['text_onesize']        = 'Один размер';
+$_['text_select_size']        = 'Выбрать размер';
+$_['text_size_help']        = 'Как выбрать размер?';
+$_['text_filter']        = 'Фильтр';
+$_['text_sort']        = 'Сортировать по';
+$_['text_size']        = 'Размер';
+$_['text_category']        = 'Категория';
+$_['text_color']        = 'Цвет';

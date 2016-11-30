@@ -7,7 +7,7 @@ class ControllerProductManufacturer extends Controller {
 
 		$this->load->model('tool/image');
 		
-		
+		$data['language_href'] = $this->session->data['language_href'];
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -83,6 +83,8 @@ class ControllerProductManufacturer extends Controller {
 		
 		$this->load->model('catalog/attribute');
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		if(isset($this->request->get['helikopter'])){
 			$data['helikopter'] = (int)$this->request->get['helikopter'];
 		}else{
@@ -250,6 +252,18 @@ class ControllerProductManufacturer extends Controller {
 			$data['button_list'] = $this->language->get('button_list');
 			$data['button_grid'] = $this->language->get('button_grid');
 
+			$data['text_search_detail'] = $this->language->get('text_search_detail');
+			$data['text_close'] = $this->language->get('text_close');
+			$data['text_onesize'] = $this->language->get('text_onesize');
+			$data['text_select_size'] = $this->language->get('text_select_size');
+			$data['text_size_help'] = $this->language->get('text_size_help');
+			$data['text_filter'] = $this->language->get('text_filter');
+			$data['text_sort'] = $this->language->get('text_sort');
+			$data['text_size'] = $this->language->get('text_size');
+			$data['text_category'] = $this->language->get('text_category');
+			$data['text_color'] = $this->language->get('text_color');
+		
+			
 			$data['compare'] = $this->url->link('product/compare');
 
 			$data['products'] = array();
@@ -293,8 +307,10 @@ class ControllerProductManufacturer extends Controller {
 
 				if ($result['image']) {
 					$image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+					$image_second = $this->model_tool_image->resize($result['image_second'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
 				} else {
 					$image = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+					$image_second = $this->model_tool_image->resize('placeholder.png', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
 				}
 
 				if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
@@ -335,6 +351,7 @@ class ControllerProductManufacturer extends Controller {
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
+					'thumb_second'       => $image_second,
 					'original_url'      => $result['original_url'],
 					'name'        		=> $result['name'],
 					'loved'        		=> $result['loved'],
