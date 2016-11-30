@@ -1163,10 +1163,11 @@ margin-left: 0px;
 }
 .b-refinement-ul {
     max-height: 240px;
+    height: 100%;
 }
 
 .l-search_result-wrapper .b-refinement-list, .l-search_result-wrapper .b-refinement .b-swatches {
-    height: auto;
+    overflow: auto;
 }
 
 .l-error_page {

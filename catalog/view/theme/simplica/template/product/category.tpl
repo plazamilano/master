@@ -71,8 +71,8 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
 
                                             <?php if ( isset($subcategories) && count($subcategories) > 0 ) { ?>
                                             <div class="b-refinement">
-                                                <div class="b-refinement-sub_title"><?php echo $text_category; ?></div>
-                                                <div class="js-scrollbar scrollbar-light b-refinement-ul">
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_category; ?></div>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <?php if ( isset($subcategories) AND count($subcategories) > 0) {
                                                         print_children_list($subcategories, $selected_attributes_alias, $category_alias);
                                                     } ?>
@@ -82,8 +82,8 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
 
                                             <?php if ( isset($product_attributes) && count($product_attributes) > 0 ) { ?>
                                             <div class="b-refinement">
-                                                <div class="b-refinement-sub_title"><?php echo $text_filter; ?></div>
-                                                <div class="js-scrollbar scrollbar-light b-refinement-ul">
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_filter; ?></div>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <ul class="b-refinement-list">
                                                     <?php foreach ($product_attributes as $attribut) { ?>
                                                         <li class="b-refinement-item">
@@ -113,8 +113,8 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
 
                                             <?php if ( isset($product_attribute_colors) && count($product_attribute_colors) > 0 ) { ?>
                                             <div class="b-refinement">
-                                                <div class="b-refinement-sub_title"><?php echo $text_color; ?></div>
-                                                <div class="js-scrollbar scrollbar-light b-refinement-ul">
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_color; ?></div>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden>
                                                     <ul class="b-refinement-list">
                                                     <?php foreach ($product_attribute_colors['attributes'] as $attribut) { ?>
                                                         <li class="b-refinement-item">
@@ -133,8 +133,8 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
 
                                             <?php if ( isset($manufacturers) AND count($manufacturers) > 0 AND is_array($manufacturers)) { ?>
                                             <div class="b-refinement">
-                                                <div class="b-refinement-sub_title"><?php echo $text_manufacturer; ?></div>
-                                                <div class="js-scrollbar scrollbar-light b-refinement-ul">
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_manufacturer; ?></div>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <ul class="b-refinement-list">
                                                     <?php foreach ($manufacturers as $attribut) { ?>
                                                         <li class="b-refinement-item">
@@ -154,8 +154,8 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
 
                                             <?php if ( isset($sizes) && count($sizes) > 0 ) { ?>
                                             <div class="b-refinement b-refinement--clothingsize">
-                                                <div class="b-refinement-sub_title"><?php echo $text_size; ?></div>
-                                                <div class="js-scrollbar scrollbar-light b-refinement-ul">
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_size; ?></div>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <ul class="b-refinement-list">
                                                     <?php foreach ($sizes as $size) { ?>
                                                         <li class="b-refinement-item">
@@ -399,11 +399,19 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
         </div>
     </main>
 
-<link href="/catalog/view/theme/simplica/stylesheet/jquery.scrollbar.css" rel="stylesheet">
-<script src="catalog/view/theme/simplica/js/jquery.scrollbar.min.js" type="text/javascript"></script>
+<!-- <link href="/catalog/view/theme/simplica/stylesheet/jquery.scrollbar.css" rel="stylesheet"> -->
+<!-- <script src="catalog/view/theme/simplica/js/jquery.scrollbar.min.js" type="text/javascript"></script> -->
 <script>
-    $('.js-scrollbar').scrollbar();
+    //$('.js-scrollbar').scrollbar();
 </script>
+
+
+<script>
+    $('.js-mob-filter-popup-link').on('click', function(){
+        $(this).siblings('.js-mob-filter-popup').toggleClass('h-mob-hidden');
+    });
+</script>
+
 
 <?php
 //header("Content-Type: text/html; charset=UTF-8");

@@ -11,8 +11,8 @@
 
 <ol class="b-checkout_progress_indicator">
     <li class="b-checkout_progress_indicator-step js-indication-step-1"><a href="/index.php?route=checkout/cart">Корзина</a></li>
-    <li class="b-checkout_progress_indicator-step js-indication-step-2 b-checkout_progress_indicator-step--active">Заказать</li>
-    <li class="b-checkout_progress_indicator-step js-indication-step-3">Подтверждение заказа</li>
+    <li class="b-checkout_progress_indicator-step js-indication-step-2 b-checkout_progress_indicator-step--active"><span>Заказать</span></li>
+    <li class="b-checkout_progress_indicator-step js-indication-step-3"><span>Подтверждение заказа</span></li>
   </ol>
   <div class="l-checkout_cart">
 
@@ -45,20 +45,14 @@
         <div class="b-checkout_shipping_address-wrapper">
 
     <?php if($logged) { ?>
-          <div class="f-field f-field-textinput">
-            <h3 class="b-checkout_shipping_address-title b-checkout_shipping_address-title--sub-title">Адрес доставки</h3>
-          </div>
           <div class="f-field f-field-textinput f-state-required">
-              <div class="f-select-wrapper">
-      <?php          
-                 header("Content-Type: text/html; charset=UTF-8");
-    echo "<pre>";  print_r(var_dump( $customer_info['addresses'] )); echo "</pre>";
-    ?>
+              <div class="f-select-wrapper" id="select_address">
+
                 <select class="f-select country js-state-required" id="delivery_address" name="delivery_address">
                     <option value="0"><?php echo $text_select_delive_adress; ?></option>
                     <?php if(isset($customer_info['addresses']) AND is_array($customer_info['addresses'])){ ?>
                         <?php foreach ($customer_info['addresses'] as $result) { ?>
-                            <option value="2"><?php echo $result['city'].', '.$result['address_1'].', '.$result['address_2']; ?></option>
+                            <option value="<?php echo $result['address_id']; ?>"><?php echo $result['city'].', '.$result['address_1'].', '.$result['address_2']; ?></option>
                         <?php } ?>
                     <?php } ?>
                 </select>
@@ -67,8 +61,45 @@
                 <span class="f-error_message-block js-error_country"></span>
               </span>
           </div>
+            <script>
+                $(document).on('change', '#delivery_address', function(){
+                        
+                    $.ajax({
+                        url: 'index.php?route=checkout/checkout/get_address',
+                        type: 'post',
+                        data: $('#select_address select'),
+                        dataType: 'json',
+                        beforeSend: function() {
+                            
+                        },
+                        complete: function() {
+                            
+                        },
+                        success: function(json) {
+                            
+                            //console.log(json);
+                            
+                            if (json['success'] == 1) {
+                                
+                                $('#first_name').val(json['firstname']);
+                                $('#last_name').val(json['lastname']);
+                                $('#address1').val(json['address_1']);
+                                $('#address2').val(json['address_2']);
+                                $('#fields_zip').val(json['postcode']);
+                                $('#city').val(json['city']);
+                                $('#country').val(json['iso_code_2']);
+                                 
+                            }
+                            
+                        },
+                        error: function(xhr, ajaxOptions, thrownError) {
+                            alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+                        }
+                    });
+                });
+        
+            </script>
     <?php } ?>
-
 
 
           <div class="f-field f-field-email f-state-required">
@@ -159,19 +190,37 @@
           </div>
 
           <div class="f-field f-field-textinput f-state-required">
-            <label class="f-label" for="address">
+            <label class="f-label" for="address1">
               <span class="f-label-value">Адрес</span>
             </label>
             <div class="f-field-wrapper">
-              <input id="address"
-                     name="address"
+              <input id="address1"
+                     name="address1"
                      class="f-textinput f-state-required js-state-required"
                      placeholder="Адрес 1 - например, ul. Pushkina, 62"
-                     value="<?php echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
+                     value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="35">
               <span class="f-error_message">
-                <span class="f-error_message-block js-error_address"></span>
+                <span class="f-error_message-block js-error_address1"></span>
+              </span>
+            </div>
+          </div>
+
+          <div class="f-field f-field-textinput f-state-required">
+            <label class="f-label" for="address2">
+              <span class="f-label-value">Адрес 2</span>
+            </label>
+            <div class="f-field-wrapper">
+              <input id="address2"
+                     name="address2"
+                     class="f-textinput f-state-required js-state-required"
+                     placeholder="Адрес 2 - например, ul. Pushkina, 62"
+                     value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
+                     type="text"
+                     maxlength="35">
+              <span class="f-error_message">
+                <span class="f-error_message-block js-error_address2"></span>
               </span>
             </div>
           </div>
@@ -185,7 +234,7 @@
                      name="fields_zip"
                      class="f-textinput f-state-required js-state-required"
                      placeholder="например,150000"
-                     value="<?php echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
+                     value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="100">
               <span class="f-error_message">
@@ -203,7 +252,7 @@
                      name="city"
                      class="f-textinput f-state-required js-state-required"
                      placeholder="например, Moskva"
-                     value="<?php echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
+                     value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="50">
               <span class="f-error_message">
@@ -219,12 +268,9 @@
             <div class="f-field-wrapper">
               <div class="f-select-wrapper">
                 <select class="f-select country js-state-required" id="country" name="country">
-                  <?php //foreach () { ?>
-                  <option value="AU">Австралия</option>
-                  <option value="AT">Австрия</option>
-                  <option value="AL">Албания</option>
-                  <option value="DZ">Алжир</option>
-                  <?php //} ?>
+                  <?php foreach($countries as $country) { ?>
+                  <option value="<?php echo $country['iso_code_2'];?>"><?php echo $country['name'];?></option>
+                  <?php } ?>
                 </select>
               </div>
               <span class="f-error_message">
@@ -238,14 +284,6 @@
               <span class="f-label-value">Номер телефона</span>
             </label>
             <div class="f-field-wrapper">
-              <div class="f-select-wrapper">
-                <select class="f-select phoneCode f-state-required js-state-required" id="fields_phoneCode" name="fields_phoneCode">
-                  <option value="1">+1</option>
-                  <option value="971" selected="selected">+971</option>
-                  <option value="974">+974</option>
-                  <option value="994">+994</option>
-                </select>
-              </div>
               <span class="f-error_message">
                 <span class="f-error_message-block js-error_fields_phoneCode"></span>
               </span>
@@ -258,7 +296,7 @@
                      class="f-textinput phone f-state-required js-state-required"
                      placeholder="Номер телефона"
                      maxlength="20"
-                     value=""
+                     value="<?php echo isset($customer_info['telephone']) ? $customer_info['telephone'] : ''; ?>"
                      type="text">
               <span class="f-field_description"></span>
               <span class="f-error_message">
@@ -268,106 +306,6 @@
           </div>
 
 
-<?php if($logged) { ?>
-          <div class="f-field f-field-textinput">
-            <h3 class="b-checkout_shipping_address-title b-checkout_shipping_address-title--sub-title">Адрес доставки</h3>
-          </div>
-          <div class="f-field f-field-textinput f-state-required">
-              <div class="f-select-wrapper">
-                <select class="f-select country js-state-required" id="delivery_address" name="delivery_address">
-                  <?php //foreach ($addresses as $result) { ?>
-                  <option value="1"><?php //echo $result['address']; ?>Адрес 1</option>
-                  <option value="2">Адрес 2</option>
-                  <option value="3">Адрес 3</option>
-                  <?php //} ?>
-                </select>
-              </div>
-              <span class="f-error_message">
-                <span class="f-error_message-block js-error_country"></span>
-              </span>
-          </div>
-                    <div class="form-group required f-field f-state-required">
-            <label class="control-label f-label" for="input-firstname">
-              <span class="f-label-value"><?php //echo $entry_firstname; ?>Имя</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="firstname" value="<?php //echo $firstname; ?>" placeholder="<?php //echo $entry_firstname; ?>" id="input-firstname" class="form-control f-textinput" />
-              <?php //if ($error_firstname) { ?>
-              <span class="f-error_message">
-                <span class="f-error_message-block"><?php //echo $error_firstname; ?></span>
-              </span>
-              <?php //} ?>
-            </div>
-          </div>
-          <div class="form-group required f-field f-state-required">
-            <label class="control-label f-label" for="input-lastname">
-              <span class="f-label-value"><?php //echo $entry_lastname; ?>Фамилия</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="lastname" value="<?php //echo $lastname; ?>" placeholder="<?php //echo $entry_lastname; ?>" id="input-lastname" class="form-control f-textinput" />
-              <?php //if ($error_lastname) { ?>
-              <span class="f-error_message">
-                <span class="f-error_message-block"><?php //echo $error_lastname; ?></span>
-              </span>
-              <?php //} ?>
-            </div>
-          </div>
-          <div class="form-group f-field">
-            <label class="control-label f-label" for="input-company">
-              <span class="f-label-value"><?php //echo $entry_company; ?>Компания</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="company" value="<?php //echo $company; ?>" placeholder="<?php //echo $entry_company; ?>" id="input-company" class="form-control f-textinput" />
-            </div>
-          </div>
-          <div class="form-group required f-field f-state-required">
-            <label class="control-label f-label" for="input-address-1">
-              <span class="f-label-value"><?php //echo $entry_address_1; ?>Адрес 1</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="address_1" value="<?php //echo $address_1; ?>" placeholder="<?php //echo $entry_address_1; ?>" id="input-address-1" class="form-control f-textinput" />
-              <?php //if ($error_address_1) { ?>
-              <span class="f-error_message">
-                <span class="f-error_message-block"><?php //echo $error_address_1; ?></span>
-              </span>
-              <?php //} ?>
-            </div>
-          </div>
-          <div class="form-group f-field">
-            <label class="control-label f-label" for="input-address-2">
-              <span class="f-field-value"><?php //echo $entry_address_2; ?>Адрес 2</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="address_2" value="<?php //echo $address_2; ?>" placeholder="<?php //echo $entry_address_2; ?>" id="input-address-2" class="form-control f-textinput" />
-            </div>
-          </div>
-          <div class="form-group required f-field f-state-required">
-            <label class="control-label f-label" for="input-city">
-              <span class="f-label-value"><?php //echo $entry_city; ?>Город</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="city" value="<?php //echo $city; ?>" placeholder="<?php //echo $entry_city; ?>" id="input-city" class="form-control f-textinput" />
-              <?php //if ($error_city) { ?>
-              <span class="f-error_message">
-                <span class="f-error_message-block"><?php //echo $error_city; ?></span>
-              </span>
-              <?php //} ?>
-            </div>
-          </div>
-          <div class="form-group required f-field f-state-required">
-            <label class="control-label f-label" for="input-postcode">
-              <span class="f-label-value"><?php //echo $entry_postcode; ?>Индекс</span>
-            </label>
-            <div class="f-field-wrapper">
-              <input type="text" name="postcode" value="<?php //echo $postcode; ?>" placeholder="<?php //echo $entry_postcode; ?>" id="input-postcode" class="form-control f-textinput" />
-              <?php //if ($error_postcode) { ?>
-              <span class="f-error_message">
-                <span class="f-error_message-block"><?php //echo $error_postcode; ?></span>
-              </span>
-              <?php //} ?>
-            </div>
-          </div>
-<?php } ?>
 
         </div>
       </div>
@@ -712,7 +650,8 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
                 setErrorMessage(id, '<?php //echo $error_password; ?>Введите пароль');
             }
         break;
-        case 'address':
+        case 'address1':
+        case 'address2':
         case 'fields_zip':
         case 'city':
             if(val.length > 0 && val != '') {
@@ -793,6 +732,7 @@ $('.js-indication-step-3').on('click', function(){
 });
 
 $('#step').on('change', function(){
+    debugger;
   var s = $('#step').val();
   switch(s) {
     case '2':
@@ -810,7 +750,8 @@ $('#step').on('change', function(){
         $('.js-indication-step-3').addClass('b-checkout_progress_indicator-step--active');
         $('.js-indication-step-2').removeClass('b-checkout_progress_indicator-step--active');
         var address_summary = '<p>' + $('#first_name').val() + ' ' + $('#last_name').val()  + '</p>' +
-                              '<p>' + $('#address').val() + '</p>' +
+                              '<p>' + $('#address1').val() + '</p>' +
+                              '<p>' + $('#address2').val() + '</p>' +
                               '<p>' + $('#city').val() + ' ' + $('#country').val() + '</p>';
         $('.js-checkout_shipping_address_summary').html(address_summary);
       } else {
@@ -825,7 +766,6 @@ $('#step').on('change', function(){
         // переходим на следующий шаг:
         //alert('Дописать отправку формы....');
         //$('#step').val(3);
-        
         $.ajax({
           type: 'get',
           url: 'index.php?route=checkout/confirm',
@@ -838,10 +778,11 @@ $('#step').on('change', function(){
             $('#button-confirm').button('reset');
           },
           success: function(html) {
-            //console.log(html);
+            console.log(html);
+     //       debugger;
             //$('.l-main_checkout').html(html);
             //$('a[href=\'#collapse-checkout-confirm\']').trigger('click');
-            location = '/index.php?route=checkout/success';
+            //location = '/index.php?route=checkout/success';
           }
         });
         
@@ -857,63 +798,6 @@ $('#step').on('change', function(){
 
 
 </script>
-
-<?php
-//header("Content-Type: text/html; charset=UTF-8");
-//echo "<pre>";  print_r(var_dump( get_defined_vars() )); echo "</pre>";
-//echo "<style> pre header {display: none;}</style>";
-?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <div class="container h-hidden">
 
