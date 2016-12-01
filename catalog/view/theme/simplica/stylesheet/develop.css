@@ -1305,7 +1305,7 @@ body.checkout-checkout {
 .b-login_block-auth-social {
     text-align: center;
     border-bottom: 1px solid #ccc;
-    padding-bottom: 20px;
+    padding-bottom: 10px;
 }
 .b-login_auth-social__item {
     display: inline-block;
@@ -1337,6 +1337,9 @@ body.checkout-checkout {
 }
 .b-login_account-content {
     margin-bottom: 15px;
+}
+.b-login_account-form {
+    margin-bottom: 0;
 }
 .b-login_account-form .f-field-email, .b-login_account-form .f-field-password {
     width: 100%;
@@ -1370,7 +1373,7 @@ body.checkout-checkout {
 }
 
 .b-login_account-form_row {
-    margin-bottom: 15px;
+    margin-bottom: 7px;
 }
 
 .b-login_account-forgotten_pass_back,

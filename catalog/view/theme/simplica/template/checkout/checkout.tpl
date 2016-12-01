@@ -7,6 +7,8 @@ $text_order = 'Заказать';
 $text_confirmation_order = 'Подтверждение заказа';
 $text_delivery_information = 'Информация о доставке';
 $text_summary_information_on_ordering = 'Итоговая информация о заказе';
+$text_help_is_needed = 'Нужна помощь?';
+$text_write_to_us = 'Написать нам';
 $text_faq = 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ';
 $text_send_email = 'Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
 
@@ -608,12 +610,12 @@ $text_error_credit_card_name = 'Пожалуйста, введите Ваше и
             <br> 
             <h3 class="b-checkout_content_block-toggle_title b-checkout_content_block-toggle_title--open js-checkout_contact_us_block_tt"
                 data-hide=".js-faq-questions_block_tt"
-                data-toggles=".js-checkout_contact_us_block">Нужна помощь?</h3>
+                data-toggles=".js-checkout_contact_us_block"><?php echo $text_help_is_needed; ?></h3>
 
             <div class="js-checkout_contact_us_block">
               <div class="b-checkout_content_block-table">
                 <div class="b-checkout_content_block-table-col">
-                  <div class="b-checkout_content_block-title">Написать нам</div>
+                  <div class="b-checkout_content_block-title"><?php echo $text_write_to_us; ?></div>
                   <br>
                   <div class="b-checkout_content_block-icon_block">
                     <a class="b-checkout_content_block-icon_mail" href="#">

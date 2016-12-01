@@ -1,3 +1,15 @@
+<?php
+$text_write_to_us = 'Написать нам';
+$text_customer_service = 'Клиентская служба онлайн';
+
+/*
+Осталось:
+ "mail@plazamilano.com" - нужна переменная...
+*/
+
+
+?>
+
 <?php echo $header; ?>
 
 <main role="main" class="l-main_customer_service">
@@ -8,8 +20,8 @@
                 <div class="b-customer_service-sub_header" style="padding-left:31%">
                     <div class="b-customer_service-sub_header-sub_title">
                         <div class="b-customer_service-sub_header-right">
-                            <div class="b-customer_service-sub_header-title">Написать нам</div>
-                            <div class="b-customer_service-sub_header-sub_title">Клиентская служба онлайн</div>
+                            <div class="b-customer_service-sub_header-title"><?php echo $text_write_to_us; ?></div>
+                            <div class="b-customer_service-sub_header-sub_title"><?php echo $text_customer_service; ?></div>
                             <a class="b-customer_service-sub_header-link" href="index.php?route=information/contact">mail@plazamilano.com</a>
                         </div>
                     </div>

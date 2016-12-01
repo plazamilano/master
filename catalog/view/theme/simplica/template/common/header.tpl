@@ -1,3 +1,35 @@
+<?php
+$text_email = 'E-mail';
+$text_password_reset = 'Востановление пароля';
+$text_i_remember_password = 'Помню пароль';
+$text_reestablish = 'Востановить';
+$text_name = 'Имя';
+$text_register_new_buyer = 'Регистрация нового пользователя';
+$text_register_new_wholesale_buyer = 'Регистрация оптового покупателя';
+$text_sign_up = 'Зарегистрироваться';
+$text_cabinet = 'Кабинет';
+$text_enter_in_account = 'Войти в аккаунт';
+$text_back_to_shopping = 'Вернуться к покупкам';
+$text_go_back = 'Назад';
+
+$text_error_name = 'Имя должно быть от 3 до 32 символов!'';
+$text_error_email = 'E-mail адрес введен неверно!';
+$text_error_password = 'Введите пароль';
+$text_error_password_confirm = 'Введите пароль ещё раз';
+$text_error_form_valid = 'Не все поля заполнены верно!';
+
+
+/*
+Осталось без перевода:
+1) пункты в мобильном меню: "Ваша корзина", "Список желаний", "Клиентская служба"
+2) помоему это не задействовано (смысл переводить?) : "Вы в Украина", "Верный язык?", "Верная страна?", "Оставить", "Изменить"
+*/
+
+
+
+?>
+
+
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <!--[if IE 8 ]><html dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" class="ie8"><![endif]-->
@@ -83,9 +115,9 @@
                             <fieldset class="b-login_account-form_fildset">
                                 <div class="js-fields_for_iframe b-login_account-fields_for_iframe">
                                     <div class="f-field f-field-email f-type-username f-state-required" data-required-text="<?php echo $text_email_required; ?>" data-valid-text="">
-                                        <label class="f-label" for="input-email"><span class="f-label-value">Email</span></label>
+                                        <label class="f-label" for="input-email"><span class="f-label-value"><?php echo $text_email;?></span></label>
                                         <div class="f-field-wrapper">
-                                            <input class="f-email f-state-required" id="input-email" maxlength="50" name="email" placeholder="E-Mail" type="email">
+                                            <input class="f-email f-state-required" id="input-email" maxlength="50" name="email" placeholder="<?php echo $text_email; ?>" type="email">
                                             <span class="f-error_message">
                                                 <span class="f-error_message-block js-error_input-email"></span>
                                             </span>
@@ -112,15 +144,15 @@
                     </div>
 
                     <div class="b-login_block-forgotten-pass js-login_block-forgotten-pass h-hidden">
-                        <p class="b-login_account-info"><?php //echo $text_login_enter; ?>Востановление пароля</p>
+                        <p class="b-login_account-info"><?php echo $text_password_reset; ?></p>
                         <form action="">
                             <div class="js-error_form f-form_error_message"></div>
                             <fieldset>
                                 <div class="b-login_account-fields_for_iframe">
                                     <div class="f-field">
-                                        <label class="f-label" for="input-email-forgotten"><span class="f-label-value">Email</span></label>
+                                        <label class="f-label" for="input-email-forgotten"><span class="f-label-value"><?php echo $text_email; ?></span></label>
                                         <div class="f-field-wrapper">
-                                            <input class="f-email f-state-required" id="input-email-forgotten" maxlength="50" name="email_forgotten" placeholder="E-Mail" type="email">
+                                            <input class="f-email f-state-required" id="input-email-forgotten" maxlength="50" name="email_forgotten" placeholder="<?php echo $text_email; ?>" type="email">
                                             <span class="f-error_message">
                                                 <span class="f-error_message-block js-error_input-email-forgotten"></span>
                                             </span>
@@ -131,8 +163,8 @@
                                     <button class="b-login_account-forgotten_pass_back js_show_block"
                                             data-show-block=".js-login_block-auth-form"
                                             data-hide-block=".js-login_block-forgotten-pass"
-                                            onclick="return false">Помню пароль</button>
-                                    <button class="b-login_account-forgotten_pass_button js-forgotten-submit" name="dwfrm_forgotten_pass" type="submit" value=""><?php //echo $text_enter; ?>Востановить</button>
+                                            onclick="return false"><?php echo $text_i_remember_password; ?></button>
+                                    <button class="b-login_account-forgotten_pass_button js-forgotten-submit" name="dwfrm_forgotten_pass" type="submit" value=""><?php echo $text_reestablish; ?></button>
                                 </div>
                             </fieldset>
                         </form>
@@ -141,17 +173,17 @@
                     <div class="b-login_block-registration-user">
                         <span class="js_show_block"
                               data-show-block=".b-registration_block"
-                              data-hide-block=".b-login_block"><?php //echo $text_register_now; ?>Регистрация нового пользователя</span>
+                              data-hide-block=".b-login_block"><?php echo $text_register_new_buyer; ?></span>
                     </div>
 
                     <div class="b-login_block-registration-user">
-                        <span><a href="/<?php echo $language_href; ?>index.php?route=account/register&opt"><?php //echo $text_register_now; ?>Регистрация оптового покупателя</a></span>
+                        <span><a href="/<?php echo $language_href; ?>index.php?route=account/register&opt"><?php echo $text_register_new_wholesale_buyer; ?></a></span>
                     </div>
 
                 </div>
 
                 <div class="b-registration_block js-registration_block h-hidden">
-                    <h3 class="b-login_account-title"><?php //echo $text_login; ?>Регистрация</h3>
+                    <h3 class="b-login_account-title"><?php echo $text_register; ?></h3>
 
                     <div class="b-registaration_block-registration">
                         <form action="/<?php echo $language_href; ?>index.php?route=account/register" method="POST">
@@ -159,9 +191,9 @@
                             <fieldset>
                                 <div class="b-login_account-fields_for_iframe">
                                     <div class="f-field">
-                                        <label class="f-label" for="input-reg-email"><span class="f-label-value">Email</span></label>
+                                        <label class="f-label" for="input-reg-email"><span class="f-label-value"><?php echo $text_email; ?></span></label>
                                         <div class="f-field-wrapper">
-                                            <input class="f-email f-state-required" id="input-reg-email" maxlength="50" name="email" placeholder="E-Mail" type="email">
+                                            <input class="f-email f-state-required" id="input-reg-email" maxlength="50" name="email" placeholder="<?php echo $text_email; ?>" type="email">
                                             <span class="f-error_message">
                                                 <span class="f-error_message-block js-error_input-reg-email"></span>
                                             </span>
@@ -186,9 +218,9 @@
                                         </div>
                                     </div>
                                     <div class="f-field">
-                                        <label class="f-label" for="input-reg-name"><span class="f-label-value"><?php //echo $text_pass; ?>name</span></label>
+                                        <label class="f-label" for="input-reg-name"><span class="f-label-value"><?php echo $text_name; ?></span></label>
                                         <div class="f-field-wrapper">
-                                            <input class="f-email" id="input-reg-name" maxlength="25" name="firstname" placeholder="<?php //echo $text_pass; ?>name" type="text">
+                                            <input class="f-email" id="input-reg-name" maxlength="25" name="firstname" placeholder="<?php echo $text_name; ?>" type="text">
                                             <span class="f-error_message">
                                                 <span class="f-error_message-block js-error_input-reg-name"></span>
                                             </span>
@@ -196,14 +228,14 @@
                                     </div>
                                 </div>
                                 <div class="b-login_account-form_row">
-                                    <button class="b-login_account-registaration_button js-registaration-submit" name="dwfrm_registration" type="submit" value=""><?php //echo $text_enter; ?>Зарегистрироваться</button>
+                                    <button class="b-login_account-registaration_button js-registaration-submit" name="dwfrm_registration" type="submit" value=""><?php echo $text_sign_up; ?></button>
                                 </div>
                             </fieldset>
                         </form>
                     </div>
 
                     <div class="b-registaration_block-auth">
-                        <span class="b-registaration_block-auth__title">Войти : </span>
+                        <span class="b-registaration_block-auth__title"><?php echo $text_enter; ?> : </span>
                         <span class="b-registaration_auth-social__item auth-social__item_vk"></span>
                         <span class="b-registaration_auth-social__item auth-social__item_fb"></span>
                         <span class="b-registaration_auth-social__item auth-social__item_gp"></span>
@@ -230,12 +262,12 @@
             <li class="l-header_service_menu-list">
                 <?php if($logged) { ?>
                 <div class="b-login_header-link">
-                    <a href="/index.php?route=account/edit">Кабинет</a>
+                    <a href="/index.php?route=account/edit"><?php echo $text_cabinet; ?></a>
                 </div>
                 <?php }else{ ?>
                 <div class="b-login_header-link js-login_popup_link">
-                    <span class="h-hidden-mob">Войти в аккаунт</span>
-                    <span class="h-show-mob">Войти</span>
+                    <span class="h-hidden-mob"><?php echo $text_enter_in_account; ?></span>
+                    <span class="h-show-mob"><?php echo $text_enter; ?></span>
                 </div>
                 <?php } ?>
                       
@@ -243,8 +275,8 @@
             <li class="l-header_service_menu-list">
                 <a class="b-back_to_shopping" href="/<?php echo $language_href.$_SERVER['REQUEST_URI']; ?>">
                     <span class="b-back_to_shopping-message">
-                        <span class="h-hidden-mob">Вернуться к покупкам</span>
-                        <span class="h-show-mob">Назад</span>
+                        <span class="h-hidden-mob"><?php echo $text_back_to_shopping; ?></span>
+                        <span class="h-show-mob"><?php echo $text_go_back; ?></span>
                     </span>
                 </a>
             </li>
@@ -549,7 +581,7 @@ $('input#input-email, input#input-password, input#input-email-forgotten, input#i
             if(val.length > 2 && val != '' && rv_name.test(val)) {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_name; ?>Имя должно быть от 3 до 32 символов!');
+                setErrorMessage(id, '<?php echo $text_error_name; ?>');
             }
         break;
         case 'input-email':
@@ -559,7 +591,7 @@ $('input#input-email, input#input-password, input#input-email-forgotten, input#i
             if(val.length > 2 && val != '' && rv_email.test(val)) {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>E-mail адрес введен неверно!');
+                setErrorMessage(id, '<?php echo $text_error_email; ?>');
             }
         break;
         case 'input-password':
@@ -567,14 +599,14 @@ $('input#input-email, input#input-password, input#input-email-forgotten, input#i
             if(val.length > 0 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_password; ?>Введите пароль');
+                setErrorMessage(id, '<?php echo $text_error_password; ?>');
             }
         break;
         case 'input-reg-password2':
             if(val.length > 0 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_password; ?>Введите пароль ещё раз');
+                setErrorMessage(id, '<?php echo $text_error_password_confirm; ?>');
             }
         break;
     }
@@ -589,7 +621,7 @@ $('.js-login-submit').on('click', function(e){
         return true;  // отправка формы
     } else {
         //scrollToElement( $('.f-state-error').first() );
-        alert('Не все поля заполнены верно!');
+        alert('<?php echo $text_error_form_valid; ?>');
         return false;
     }
 });
@@ -599,7 +631,7 @@ $('.js-forgotten-submit').on('click', function(e){
         return true;  // отправка формы
     } else {
         //scrollToElement( $('.f-state-error').first() );
-        alert('Не все поля заполнены верно!');
+        alert('<?php echo $text_error_form_valid; ?>');
         return false;
     }
 });
@@ -609,7 +641,7 @@ $('.js-registaration-submit').on('click', function(e){
         return true;  // отправка формы
     } else {
         //scrollToElement( $('.f-state-error').first() );
-        alert('Не все поля заполнены верно!');
+        alert('<?php echo $text_error_form_valid; ?>');
         return false;
     }
 });
