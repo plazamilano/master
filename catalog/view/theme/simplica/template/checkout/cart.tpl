@@ -25,13 +25,18 @@ $column_duti = 'Пошлины';     // эта колонка скрыта, но
 $text_conditional_preliminary_confirmation = 'Условное предварительное подтверждение';  // этот текст сейчас скрыт. нужно переводить?
 
 
+
+
+$faq_array = array ();   // Сюда засунуть фак
+//$faq_array['href'];
+//$faq_array['title'];
+
+
+
 /*
 Осталось без перевода:
 1) "Размещая заказ, Вы принимаете наши" и дальше идет перечисление ссылок на различные условия ("Условия продажи", "Политику конфиденциальности")
 Наверно для этого текста нужно предусмотреть возможность изменения через админку? Если да, то необходимость перевода внутри шаблона отпадает...
-2) Cписок ссылок в блоке FAQ.
-Как и первый пункт: наверно для этого списка ссылок нужно предусмотреть возможность изменения через админку?
-
 */
 
 
@@ -300,6 +305,7 @@ $text_conditional_preliminary_confirmation = 'Условное предвари�
         </div>
       </div>
 
+<?php if ( $faq_array ) { ?>
       <div class="b-checkout_content_block">
         <div class="b-checkout_content_block-faq">
           <div class="b-content_asset b-content_asset--faq-checkout-checkout content-asset">
@@ -309,17 +315,20 @@ $text_conditional_preliminary_confirmation = 'Условное предвари�
                   data-hide=".js-checkout_contact_us_block_tt"><?php echo $text_faq; ?></h3>
 
               <ul class="h-hidden b-checkout_content_block-faq_questions js-faq-questions_block">
-                <li class="row b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-4" href="#">Должен ли я зарегистрироваться, чтобы оформить заказ?</a></li>
-                <li class="ru b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-7" href="#">Моя подпись необходима?</a></li>
-                <li class="row b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-5" href="#">Останется ли моя личная информация конфиденциальной?</a></li>
-                <li class="ru b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-1" href="#">Могу ли я добавить изделия к уже существующему заказу?</a></li>
-                <li class="b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-6" href="#">Могу ли я изменить адрес доставки после того, как заказ был отправлен?</a></li>
+
+                <?php foreach( $faq_array as $faq ) { ?>
+                <li class="row b-checkout_content_block-faq_questions-li">
+                  <a class="b-checkout_content_block-faq_questions-link" href="$faq['href']">$faq['title']</a>
+                </li>
+                <?php } ?>
+
               </ul>
 
             </div>
           </div>
         </div>
       </div>
+<?php } ?>
 
     </div>
 <!-- Правая колонка. END -->

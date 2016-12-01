@@ -86,6 +86,14 @@ $text_error_year = 'Это поле обязательно';
 $text_error_credit_card_cvn = 'Пожалуйста, введите Ваш код безопасности';
 $text_error_credit_card_name = 'Пожалуйста, введите Ваше имя, как указано на карте';
 
+
+
+$faq_array = array ();   // Сюда засунуть фак
+//$faq_array['href'];
+//$faq_array['title'];
+
+
+
 ?>
 
 <main role="main" class="l-main_checkout">
@@ -632,6 +640,7 @@ $text_error_credit_card_name = 'Пожалуйста, введите Ваше и
         </div>
       </div>
 
+<?php if ( $faq_array ) { ?>
       <div class="b-checkout_content_block">
         <div class="b-checkout_content_block-faq">
           <div class="b-content_asset b-content_asset--faq-checkout-checkout content-asset">
@@ -641,17 +650,20 @@ $text_error_credit_card_name = 'Пожалуйста, введите Ваше и
                   data-hide=".js-checkout_contact_us_block_tt"><?php echo $text_faq; ?></h3>
 
               <ul class="h-hidden b-checkout_content_block-faq_questions js-faq-questions_block">
-                <li class="row b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-4" href="#">Должен ли я зарегистрироваться, чтобы оформить заказ?</a></li>
-                <li class="ru b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-7" href="#">Моя подпись необходима?</a></li>
-                <li class="row b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-5" href="#">Останется ли моя личная информация конфиденциальной?</a></li>
-                <li class="ru b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-1" href="#">Могу ли я добавить изделия к уже существующему заказу?</a></li>
-                <li class="b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-6" href="#">Могу ли я изменить адрес доставки после того, как заказ был отправлен?</a></li>
+
+                <?php foreach( $faq_array as $faq ) { ?>
+                <li class="row b-checkout_content_block-faq_questions-li">
+                  <a class="b-checkout_content_block-faq_questions-link" href="$faq['href']">$faq['title']</a>
+                </li>
+                <?php } ?>
+
               </ul>
 
             </div>
           </div>
         </div>
       </div>
+<?php } ?>
 
     </div>
 <!-- Правая колонка. END -->

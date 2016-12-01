@@ -12,7 +12,7 @@ $text_enter_in_account = 'Войти в аккаунт';
 $text_back_to_shopping = 'Вернуться к покупкам';
 $text_go_back = 'Назад';
 
-$text_error_name = 'Имя должно быть от 3 до 32 символов!'';
+$text_error_name = 'Имя должно быть от 3 до 32 символов!';
 $text_error_email = 'E-mail адрес введен неверно!';
 $text_error_password = 'Введите пароль';
 $text_error_password_confirm = 'Введите пароль ещё раз';
