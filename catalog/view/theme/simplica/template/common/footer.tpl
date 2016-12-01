@@ -4,7 +4,7 @@
            )
          ) { ?>
 <footer class="l-footer_checkout">
-    <div class="b-copyright_footer"><a href="<?php echo $home; ?>" target="_blank">Site</a> - managed by The Level Group S.r.l - Copyright © Plazamilano 2016 – All rights reserved - any reproduction of the contents is strictly forbidden</div>
+    <div class="b-copyright_footer"><a href="/" target="_blank">Site</a> - managed by The Level Group S.r.l - Copyright © Plazamilano 2016 – All rights reserved - any reproduction of the contents is strictly forbidden</div>
 </footer>
 <?php } else { ?>
 

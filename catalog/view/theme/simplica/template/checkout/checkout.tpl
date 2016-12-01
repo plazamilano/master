@@ -1,8 +1,89 @@
 <?php echo $header; ?>
+
 <?php
-    $text_select_delive_adress = 'Выбрать из списка сохраненных адресов';
-    
-   
+$text_select_delive_adress = 'Выбрать из списка сохраненных адресов';
+$text_cart = 'Корзина';
+$text_order = 'Заказать';
+$text_confirmation_order = 'Подтверждение заказа';
+$text_delivery_information = 'Информация о доставке';
+$text_summary_information_on_ordering = 'Итоговая информация о заказе';
+$text_faq = 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ';
+$text_send_email = 'Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+
+$text_email = 'Email';
+$text_email_placeholder = 'Например, name@email.com';
+$text_password = 'Пароль';
+$text_password_placeholder = 'Пароль';
+$text_password_confirm = 'Повтор пароля';
+$text_password_confirm_placeholder = 'Пароль ещё раз';
+$text_name = 'Имя';
+$text_name_placeholder = 'Имя';
+$text_last_name = 'Фамилия';
+$text_last_name_placeholder = 'Фамилия';
+$text_address1 = 'Адрес';
+$text_address1_placeholder = 'Адрес 1 - например, ul. Pushkina, 62';
+$text_address2 = 'Адрес 2';
+$text_address2_placeholder = 'Адрес 2 - например, ul. Pushkina, 62';
+$text_fields_zip = 'Индекс';
+$text_fields_zip_placeholder = 'Например, 150000';
+$text_city = 'Город';
+$text_city_placeholder = 'Например, Moskva';
+$text_country = 'Страна';
+$text_fields_phone = 'Номер телефона';
+$text_fields_phone_placeholder = 'Номер телефона';
+
+$text_have_questions = 'Если у Вас остались вопросы по Вашему заказу Вы можете связаться с нами';
+$text_live_chat = 'Live chat';
+$text_email_us = 'E-mail us';
+
+$text_delivery_info = 'Информация о доставке';
+$text_delivery_edit = 'Редактировать';
+
+$text_payment_details = 'Ваши детали оплаты';
+$text_credit_card_number = 'Номер';
+$text_credit_card_number_placeholder = 'Номер';
+$text_credit_card_expiration = 'Дата окончания: ';
+$text_month = 'Месяц';
+$text_month_mm = 'ММ';
+$text_january = 'Январь';
+$text_february = 'Февраль';
+$text_march = 'Март';
+$text_april = 'Апрель';
+$text_may = 'Май';
+$text_june = 'Июнь';
+$text_july = 'Июль';
+$text_august = 'Август';
+$text_september = 'Сентябрь';
+$text_october = 'Октябрь';
+$text_november = 'Ноябрь';
+$text_december = 'Декабрь';
+$text_year = 'Год';
+$text_year_yyyy = 'ГГГГ';
+$text_credit_card_cvn = 'CVV/CID/CVC';
+$text_credit_card_cvn_placeholder = 'CVV/CID/CVC';
+$text_what_is_it = 'Что это?';
+$text_what_is_cvn = 'Что такое проверочный код карты (CVN)?';
+$text_what_is_cvn_text = 'Для MasterCard и Visa введите последние три цифры на полосе с подписью.';
+$text_credit_card_name = 'Имя на карте';
+$text_credit_card_name_placeholder = 'Имя на карте';
+
+$text_error_name = 'Пожалуйста, введите имя';
+$text_error_last_name = 'Пожалуйста, введите фамилию';
+$text_error_email = 'E-mail адрес введен неверно!';
+$text_error_password = 'Введите пароль';
+$text_error_password_confirm = 'Введите пароль еще раз';
+$text_error_addres1 = 'Пожалуйста, введите адрес';
+$text_error_addres2 = 'Пожалуйста, введите адрес';
+$text_error_fields_zip = 'Пожалуйста, введите индекс';
+$text_error_city = 'Пожалуйста, введите город';
+$text_error_fields_phone = 'Пожалуйста, введите номер телефона';
+
+$text_error_credit_card_number = 'Пожалуйста, введите номер, как указано на карте';
+$text_error_month = 'Это поле обязательно';
+$text_error_year = 'Это поле обязательно';
+$text_error_credit_card_cvn = 'Пожалуйста, введите Ваш код безопасности';
+$text_error_credit_card_name = 'Пожалуйста, введите Ваше имя, как указано на карте';
+
 ?>
 
 <main role="main" class="l-main_checkout">
@@ -10,9 +91,9 @@
 <input type="text" class="h-hidden" value="2" id="step">
 
 <ol class="b-checkout_progress_indicator">
-    <li class="b-checkout_progress_indicator-step js-indication-step-1"><a href="/index.php?route=checkout/cart">Корзина</a></li>
-    <li class="b-checkout_progress_indicator-step js-indication-step-2 b-checkout_progress_indicator-step--active"><span>Заказать</span></li>
-    <li class="b-checkout_progress_indicator-step js-indication-step-3"><span>Подтверждение заказа</span></li>
+    <li class="b-checkout_progress_indicator-step js-indication-step-1"><a href="/index.php?route=checkout/cart"><?php echo $text_cart; ?></a></li>
+    <li class="b-checkout_progress_indicator-step js-indication-step-2 b-checkout_progress_indicator-step--active"><span><?php echo $text_order; ?></span></li>
+    <li class="b-checkout_progress_indicator-step js-indication-step-3"><span><?php echo $text_confirmation_order; ?></span></li>
   </ol>
   <div class="l-checkout_cart">
 
@@ -41,7 +122,7 @@
 
   <!-- Информация о доставке START -->
       <div class="b-checkout_shipping_address js-step-2">
-        <h3 class="b-checkout_shipping_address-title">Информация о доставке</h3>
+        <h3 class="b-checkout_shipping_address-title"><?php echo $text_delivery_information; ?></h3>
         <div class="b-checkout_shipping_address-wrapper">
 
     <?php if($logged) { ?>
@@ -104,13 +185,13 @@
 
           <div class="f-field f-field-email f-state-required">
             <label class="f-label" for="address_email">
-              <span class="f-label-value">Email</span>
+              <span class="f-label-value"><?php echo $text_email; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="address_email"
                      name="address_email"
                      class="f-email f-state-required js-state-required"
-                     placeholder="например, name@email.com"
+                     placeholder="<?php echo $text_email_placeholder; ?>"
                      value="<?php echo isset($customer_info['email']) ? $customer_info['email'] : ''; ?>"
                      type="email">
               <span class="f-error_message">
@@ -121,13 +202,13 @@
 <?php if( !$logged ) { ?>
           <div class="f-field f-field-password f-state-required">
             <label class="f-label" for="password">
-              <span class="f-label-value">Пароль</span>
+              <span class="f-label-value"><?php echo $text_password; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="password"
                      name="password"
                      class="f-password f-state-required js-state-required"
-                     placeholder="Пароль"
+                     placeholder="<?php echo $text_password_placeholder; ?>"
                      value="<?php echo isset($customer_info['email']) ? $customer_info['email'] : ''; ?>"
                      type="password">
               <span class="f-error_message">
@@ -138,13 +219,13 @@
 
           <div class="f-field f-field-password f-state-required">
             <label class="f-label" for="confirm">
-              <span class="f-label-value">Повтор пароля </span>
+              <span class="f-label-value"><?php echo $text_password_confirm; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="confirm"
                      name="confirm"
                      class="f-password f-state-required js-state-required"
-                     placeholder="Пароль ещё раз"
+                     placeholder="<?php echo $text_password_confirm_placeholder; ?>"
                      value="<?php echo isset($customer_info['email']) ? $customer_info['email'] : ''; ?>"
                      type="password">
               <span class="f-error_message">
@@ -155,13 +236,13 @@
 <?php } ?>
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="first_name">
-              <span class="f-label-value">Имя</span>
+              <span class="f-label-value"><?php echo $text_name; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="first_name"
                      name="first_name"
                      class="f-textinput f-state-required js-state-required"
-                     placeholder="Имя"
+                     placeholder="<?php echo $text_name_placeholder; ?>"
                      value="<?php echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="35">
@@ -173,13 +254,13 @@
 
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="last_name">
-              <span class="f-label-value">Фамилия</span>
+              <span class="f-label-value"><?php echo $text_last_name; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="last_name"
                      name="last_name"
                      class="f-textinput f-state-required js-state-required"
-                     placeholder="Фамилия"
+                     placeholder="<?php echo $text_last_name_placeholder; ?>"
                      value="<?php echo isset($customer_info['lastname']) ? $customer_info['lastname'] : ''; ?>"
                      type="text"
                      maxlength="35">
@@ -191,13 +272,13 @@
 
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="address1">
-              <span class="f-label-value">Адрес</span>
+              <span class="f-label-value"><?php echo $text_address1; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="address1"
                      name="address1"
                      class="f-textinput f-state-required js-state-required"
-                     placeholder="Адрес 1 - например, ul. Pushkina, 62"
+                     placeholder="<?php echo $text_address1_placeholder; ?>"
                      value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="35">
@@ -209,13 +290,13 @@
 
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="address2">
-              <span class="f-label-value">Адрес 2</span>
+              <span class="f-label-value"><?php echo $text_address2; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="address2"
                      name="address2"
                      class="f-textinput f-state-required js-state-required"
-                     placeholder="Адрес 2 - например, ul. Pushkina, 62"
+                     placeholder="<?php echo $text_address2_placeholder; ?>"
                      value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="35">
@@ -227,13 +308,13 @@
 
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="fields_zip">
-              <span class="f-label-value">Индекс</span>
+              <span class="f-label-value"><?php echo $text_fields_zip; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="fields_zip"
                      name="fields_zip"
                      class="f-textinput f-state-required js-state-required"
-                     placeholder="например,150000"
+                     placeholder="<?php echo $text_fields_zip_placeholder; ?>"
                      value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="100">
@@ -245,13 +326,13 @@
 
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="city">
-              <span class="f-label-value">Город</span>
+              <span class="f-label-value"><?php echo $text_city; ?></span>
             </label>
             <div class="f-field-wrapper">
               <input id="city"
                      name="city"
                      class="f-textinput f-state-required js-state-required"
-                     placeholder="например, Moskva"
+                     placeholder="<?php echo $text_city_placeholder; ?>"
                      value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
                      maxlength="50">
@@ -263,7 +344,7 @@
 
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="country">
-              <span class="f-label-value">Страна</span>
+              <span class="f-label-value"><?php echo $text_country; ?></span>
             </label>
             <div class="f-field-wrapper">
               <div class="f-select-wrapper">
@@ -281,7 +362,7 @@
 
           <div class="f-field f-field-select f-type-phonecode f-state-required">
             <label class="f-label" for="fields_phoneCode">
-              <span class="f-label-value">Номер телефона</span>
+              <span class="f-label-value"><?php echo $text_fields_phone; ?></span>
             </label>
             <div class="f-field-wrapper">
               <span class="f-error_message">
@@ -289,12 +370,12 @@
               </span>
             </div>
           </div>
-          <div class="f-field f-field-textinput f-type-phone f-state-required" data-required-text="Пожалуйста, введите номер телефона">
+          <div class="f-field f-field-textinput f-type-phone f-state-required">
             <div class="f-field-wrapper">
               <input id="fields_phone"
                      name="fields_phone"
                      class="f-textinput phone f-state-required js-state-required"
-                     placeholder="Номер телефона"
+                     placeholder="<?php echo $text_fields_phone_placeholder; ?>"
                      maxlength="20"
                      value="<?php echo isset($customer_info['telephone']) ? $customer_info['telephone'] : ''; ?>"
                      type="text">
@@ -314,28 +395,28 @@
 
 
       <div class="b-checkout_shipping_address js-step-3 h-hidden">
-        <p>Если у Вас остались вопросы по Вашему заказу Вы можете связаться с нами</p>
+        <p><?php echo $text_have_questions; ?></p>
         <div class="b-checkout_payment-title--center">
           <div class="b-checkout_content_block-icon_block">
-            <div class="b-checkout_content_block-icon_block-title">Live chat</div>
+            <div class="b-checkout_content_block-icon_block-title"><?php echo $text_live_chat; ?></div>
             <a class="b-checkout_content_block-icon_mail" href="#"></a>
           </div>
           <div class="b-checkout_content_block-icon_block">
-            <div class="b-checkout_content_block-icon_block-title">E-mail us</div>
+            <div class="b-checkout_content_block-icon_block-title"><?php echo $text_email_us; ?></div>
             <a class="b-checkout_content_block-icon_mail" href="#"></a>
           </div>
         </div>
       </div>
 
       <div class="b-checkout_payment js-step-3 h-hidden">
-        <h3 class="b-checkout_shipping_address-title">Информация о доставке</h3>
+        <h3 class="b-checkout_shipping_address-title"><?php $text_delivery_info; ?></h3>
         <div class="b-checkout_shipping_address--summary js-checkout_shipping_address_summary"></div>
-        <span class="b-checkout_shipping_address--summary-edit js-prev-step">Редактировать</span>
+        <span class="b-checkout_shipping_address--summary-edit js-prev-step"><?php $text_delivery_edit; ?></span>
       </div>
 
   <!-- Детали оплаты START -->
       <div class="b-checkout_payment js-step-3 h-hidden">
-        <h3 class="b-checkout_payment-title">Ваши детали оплаты</h3>
+        <h3 class="b-checkout_payment-title"><?php echo $text_payment_details; ?></h3>
         <div class="b-checkout_payment-wrapper">
           <div id="PaymentMethod_CREDIT_CARD" class="b-checkout_payment-payment_method_expanded">
 
@@ -343,13 +424,13 @@
 
               <div class="f-field f-field-textinput f-state-required">
                 <label class="f-label" for="creditCard_number">
-                  <span class="f-label-value">Номер</span>
+                  <span class="f-label-value"><?php echo $text_credit_card_number; ?></span>
                 </label>
                 <div class="f-field-wrapper">
                   <input id="creditCard_number"
                          name="creditCard_number"
                          class="f-textinput ccnumber f-state-required js-state-required"
-                         placeholder="Номер"
+                         placeholder="<?php echo $text_credit_card_number_placeholder; ?>"
                          value=""
                          type="text"
                          maxlength="20"
@@ -369,29 +450,29 @@
               </div>
 
             </div>
-            <span class="f-label">Дата окончания: <span class="required-indicator">*</span></span>
+            <span class="f-label"><?php echo $text_credit_card_expiration; ?><span class="required-indicator">*</span></span>
             <div class="b-checkout_payment-exp_date">
               <div class="b-checkout_payment-exp_date-month">
                 <div class="f-field f-field-select month f-state-required">
                   <label class="f-label" for="creditCard_month">
-                    <span class="f-label-value">Месяц</span>
+                    <span class="f-label-value"><?php echo $text_month; ?></span>
                   </label>
                   <div class="f-field-wrapper">
                     <div class="f-select-wrapper">
                       <select class="f-select f-state-required js-state-required" id="creditCard_month" name="creditCard_month">
-                        <option selected="selected" disabled="">MM</option>
-                        <option value="1">Январь</option>
-                        <option value="2">Февраль</option>
-                        <option value="3">Март</option>
-                        <option value="4">Апрель</option>
-                        <option value="5">Май</option>
-                        <option value="6">Июнь</option>
-                        <option value="7">Июль</option>
-                        <option value="8">Август</option>
-                        <option value="9">Сентябрь</option>
-                        <option value="10">Октябрь</option>
-                        <option value="11">Ноябрь</option>
-                        <option value="12">Декабрь</option>
+                        <option selected="selected" disabled=""><?php echo $text_month_mm; ?></option>
+                        <option value="1"><?php echo $text_january; ?></option>
+                        <option value="2"><?php echo $text_february; ?></option>
+                        <option value="3"><?php echo $text_march; ?></option>
+                        <option value="4"><?php echo $text_april; ?></option>
+                        <option value="5"><?php echo $text_may; ?></option>
+                        <option value="6"><?php echo $text_june; ?></option>
+                        <option value="7"><?php echo $text_july; ?></option>
+                        <option value="8"><?php echo $text_august; ?></option>
+                        <option value="9"><?php echo $text_september; ?></option>
+                        <option value="10"><?php echo $text_october; ?></option>
+                        <option value="11"><?php echo $text_november; ?></option>
+                        <option value="12"><?php echo $text_december; ?></option>
                       </select>
                     </div>
                     <span class="f-error_message">
@@ -403,12 +484,12 @@
               <div class="b-checkout_payment-exp_date-year">  
                 <div class="f-field f-field-select f-type-dynamic_year f-state-required">
                   <label class="f-label" for="creditCard_year">
-                    <span class="f-label-value">Год</span>
+                    <span class="f-label-value"><?php echo $text_year; ?></span>
                   </label>
                   <div class="f-field-wrapper">
                     <div class="f-select-wrapper">
                       <select class="f-select f-state-required js-state-required" id="creditCard_year" name="creditCard_year">
-                        <option selected="selected" disabled="">ГГГГ</option>
+                        <option selected="selected" disabled=""><?php echo $text_year_yyyy; ?></option>
                         <option value="2016">2016</option>
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
@@ -432,13 +513,13 @@
 
             <div class="f-field f-field-textinput b-checkout_payment-cvn_block-field f-state-required">
               <label class="f-label" for="creditCard_cvn">
-                <span class="f-label-value">CVV/CID/CVC</span>
+                <span class="f-label-value"><?php echo $text_credit_card_cvn; ?></span>
               </label>
               <div class="f-field-wrapper">
                 <input id="creditCard_cvn"
                        name="creditCard_cvn"
                        class="f-textinput f-state-required js-state-required"
-                       placeholder="CVV/CID/CVC"
+                       placeholder="<?php echo $text_credit_card_cvn_placeholder; ?>"
                        value=""
                        type="text"
                        maxlength="100">
@@ -448,11 +529,11 @@
               </div>
               <div class="b-checkout_payment-cvn_block-cvn_tip">
                 <div class="g-tooltip g-tooltip--up">
-                  <span class="g-tooltip-link">Что это?</span>
+                  <span class="g-tooltip-link"><?php echo $text_what_is_it; ?></span>
                   <span class="g-tooltip-content">    
                     <div class="b-content_asset b-content_asset--checkout-security-code content-asset">
-                      <p style="margin: 5px; font-weight: bold;"><img alt="Номер CVN" class="imgright" src="/catalog/view/theme/simplica/img/cvnimage.png" width="180" height="241">Что такое проверочный код карты (CVN)?</p>
-                      <p style="margin: 5px;">Для MasterCard и Visa введите последние три цифры на полосе с подписью.</p>
+                      <p style="margin: 5px; font-weight: bold;"><img alt="Номер CVN" class="imgright" src="/catalog/view/theme/simplica/img/cvnimage.png" width="180" height="241"><?php echo $text_what_is_cvn; ?></p>
+                      <p style="margin: 5px;"><?php echo $text_what_is_cvn_text; ?></p>
                     </div>
                   </span> 
                 </div>
@@ -462,12 +543,13 @@
             <div class="b-checkout_payment-name_card">
               <div class="f-field f-field-textinput f-state-required">
                 <label class="f-label" for="creditCard_owner">
-                  <span class="f-label-value">Имя на карте</span>
+                  <span class="f-label-value"><?php echo $text_credit_card_name; ?></span>
                 </label>
                 <div class="f-field-wrapper">
                   <input id="creditCard_owner"
                          name="creditCard_owner"
                          class="f-textinput f-state-required js-state-required"
+                         placeholder="<?php echo $text_credit_card_name_placeholder; ?>"
                          value=""
                          type="text"
                          maxlength="40"
@@ -490,7 +572,7 @@
         
           <div class="l-checkout_button">
             <button class="b-checkout_button js-next-step" name="checkout_submitStep" value="0">
-              Заказать
+              <?php echo $text_order; ?>
             </button>
           </div>
         
@@ -502,7 +584,7 @@
 <!-- Правая колонка. START -->
     <div class="l-checkout_cart-right js-checkout_order_summary" style="">
       <div class="b-summary_list"> 
-        <h2 class="b-summary_list-title">Итоговая информация о заказе</h2>
+        <h2 class="b-summary_list-title"><?php echo $text_summary_information_on_ordering; ?></h2>
 
         <?php foreach ($totals as $total) { ?>
         <div class="b-summary_list-line b-summary_list-your_cart">
@@ -515,7 +597,7 @@
 
       <div class="l-checkout_button">
         <button class="b-checkout_button js-next-step" name="submitStep">
-          Заказать
+          <?php echo $text_order; ?>
         </button>
       </div>
 
@@ -541,7 +623,7 @@
               </div>
 
               <div class="b-checkout_content_block-text">
-                <p>Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.</p>
+                <p><?php echo $text_send_email; ?></p>
               </div>
             </div>
           </div>
@@ -554,7 +636,7 @@
             <div class="content">
               <h3 class="b-checkout_content_block-toggle_title b-checkout_content_block-toggle_title--close js-faq-questions_block_tt"
                   data-toggles=".js-faq-questions_block"
-                  data-hide=".js-checkout_contact_us_block_tt">ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h3>
+                  data-hide=".js-checkout_contact_us_block_tt"><?php echo $text_faq; ?></h3>
 
               <ul class="h-hidden b-checkout_content_block-faq_questions js-faq-questions_block">
                 <li class="row b-checkout_content_block-faq_questions-li"><a class="b-checkout_content_block-faq_questions-link" id="question-4" href="#">Должен ли я зарегистрироваться, чтобы оформить заказ?</a></li>
@@ -632,7 +714,7 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             if(val.length > 2 && val != '' && rv_name.test(val)) {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_name; ?>Пожалуйста, введите имя');
+                setErrorMessage(id, '<?php echo $text_error_name; ?>');
             }
         break;
         case 'last_name':
@@ -640,7 +722,7 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             if(val.length > 2 && val != '' && rv_name.test(val)) {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_name; ?>Пожалуйста, введите фамилию');
+                setErrorMessage(id, '<?php echo $text_error_last_name; ?>');
             }
         break;
         case 'address_email':
@@ -648,7 +730,7 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             if(val.length > 2 && val != '' && rv_email.test(val)) {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>E-mail адрес введен неверно!');
+                setErrorMessage(id, '<?php echo $text_error_email; ?>');
             }
             
             $.ajax({
@@ -662,7 +744,7 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
                   //debugger;
                     
                     if (html == '0'){
-                        setErrorMessage(id, '<?php //echo $error_email; ?>E-mail адрес введен неверно!');
+                        setErrorMessage(id, '<?php echo $text_error_email; ?>');
                     }
                 
                 }
@@ -670,21 +752,44 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             
         break;
         case 'password':
+            if(val.length > 0 && val != '') {
+                setErrorMessage(id, '');
+            } else {
+                setErrorMessage(id, '<?php echo $text_error_password; ?>');
+            }
         case 'confirm':
             if(val.length > 0 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_password; ?>Введите пароль');
+                setErrorMessage(id, '<?php echo $text_error_password_confirm; ?>');
             }
         break;
         case 'address1':
+            if(val.length > 0 && val != '') {
+                setErrorMessage(id, '');
+            } else {
+                setErrorMessage(id, '<?php echo $text_error_addres1; ?>');
+            }
+        break;
         case 'address2':
+            if(val.length > 0 && val != '') {
+                setErrorMessage(id, '');
+            } else {
+                setErrorMessage(id, '<?php echo $text_error_addres2; ?>');
+            }
+        break;
         case 'fields_zip':
+            if(val.length > 0 && val != '') {
+                setErrorMessage(id, '');
+            } else {
+                setErrorMessage(id, '<?php echo $text_error_fields_zip; ?>');
+            }
+        break;
         case 'city':
             if(val.length > 0 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_password; ?>Пожалуйста, введите адрес');
+                setErrorMessage(id, '<?php echo $text_error_city; ?>');
             }
         break;
         case 'fields_phone':
@@ -693,36 +798,41 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             if(val.length > 2 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>Пожалуйста, введите номер телефона');
+                setErrorMessage(id, '<?php echo $text_error_fields_phone; ?>');
             }
         break;
         case 'creditCard_number':
             if(val.length > 2 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>Пожалуйста, введите номер, как указано на карте');
+                setErrorMessage(id, '<?php echo $text_error_credit_card_number; ?>');
             }
         break;
         case 'creditCard_month':
+            if(val.length > 0 && val != '') {
+                setErrorMessage(id, '');
+            } else {
+                setErrorMessage(id, '<?php echo $text_error_month; ?>');
+            }        
         case 'creditCard_year':
             if(val.length > 0 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>Это поле обязательно');
+                setErrorMessage(id, '<?php echo $text_error_year; ?>');
             }
         break;
         case 'creditCard_cvn':
             if(val.length > 1 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>Пожалуйста, введите Ваш код безопасности');
+                setErrorMessage(id, '<?php echo $text_error_credit_card_cvn; ?>');
             }
         break;
         case 'creditCard_owner':
             if(val.length > 1 && val != '') {
                 setErrorMessage(id, '');
             } else {
-                setErrorMessage(id, '<?php //echo $error_email; ?>Пожалуйста, введите Ваше имя, как указано на карте');
+                setErrorMessage(id, '<?php echo $text_error_credit_card_name; ?>');
             }
         break;
     }
