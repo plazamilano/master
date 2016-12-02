@@ -63,6 +63,8 @@ $_['text_delivery_and_return']                           = 'Delivery and return'
 $_['text_color']                           = 'color';
 $_['text_bay']                           = 'Bay';
 
+$_['text_onesize']        = 'OneSize';
+
 //Раземры
 $_['entry_size']          = 'Размер товара';
 $_['entry_alternative_size']          = 'Размер на сайт';

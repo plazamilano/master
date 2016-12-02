@@ -23,7 +23,12 @@ class Currency {
 			);
 		}
 
-		$this->set($this->config->get('config_currency'));
+		if (isset($this->session->data['currency']) ){
+			$this->set($this->session->data['currency']);	
+		}else{
+			$this->set($this->config->get('config_currency'));
+		}
+		
 		/*
 		if (isset($this->request->get['currency']) && (array_key_exists($this->request->get['currency'], $this->currencies))) {
 			$this->set($this->request->get['currency']);
@@ -40,10 +45,12 @@ class Currency {
 	}
 
 	public function set($currency) {
+		
 		$this->code = $currency;
 
 		if (!isset($this->session->data['currency']) || ($this->session->data['currency'] != $currency)) {
 			$this->session->data['currency'] = $currency;
+			$_SESSION['currency'] = $currency;
 		}
 
 		if (!isset($this->request->cookie['currency']) || ($this->request->cookie['currency'] != $currency)) {

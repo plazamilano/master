@@ -136,6 +136,7 @@ class ControllerCommonFooter extends Controller {
 	
 		$this->load->model('localisation/currency');
 		$data['currencies'] = $this->model_localisation_currency->getCurrencies();
+		$data['currency'] = $this->load->controller('common/currency');
 	
 		$data['powered'] = sprintf($this->language->get('text_powered'), $this->config->get('config_name'), date('Y', time()));
 

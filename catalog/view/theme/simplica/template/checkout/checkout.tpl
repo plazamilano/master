@@ -298,7 +298,7 @@ $faq_array = array ();   // Сюда засунуть фак
             </div>
           </div>
 
-          <div class="f-field f-field-textinput f-state-required">
+          <!--div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="address2">
               <span class="f-label-value"><?php echo $text_address2; ?></span>
             </label>
@@ -314,8 +314,15 @@ $faq_array = array ();   // Сюда засунуть фак
                 <span class="f-error_message-block js-error_address2"></span>
               </span>
             </div>
-          </div>
-
+          </div-->
+        <input id="address2"
+                     name="address2"
+                     class="f-textinput f-state-required js-state-required"
+                     placeholder="<?php echo $text_address2_placeholder; ?>"
+                     value=""
+                     type="hidden"
+                     maxlength="35">
+                     
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="fields_zip">
               <span class="f-label-value"><?php echo $text_fields_zip; ?></span>
@@ -786,11 +793,13 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             }
         break;
         case 'address2':
+            /*
             if(val.length > 0 && val != '') {
                 setErrorMessage(id, '');
             } else {
                 setErrorMessage(id, '<?php echo $text_error_addres2; ?>');
             }
+            */
         break;
         case 'fields_zip':
             if(val.length > 0 && val != '') {

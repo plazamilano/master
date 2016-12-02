@@ -176,6 +176,7 @@ class ControllerAccountRegister extends Controller {
 			$data['error_confirm'] = '';
 		}
 
+		
 		$data['action'] = $this->url->link('account/register', '', 'SSL');
 
 		$data['customer_groups'] = array();
@@ -197,7 +198,13 @@ class ControllerAccountRegister extends Controller {
 		} else {
 			$data['customer_group_id'] = $this->config->get('config_customer_group_id');
 		}
-
+		
+		
+		if(isset($this->request->post['opt'])){
+			$data['opt'] = true;
+			$data['customer_group_id'] = 3;
+		}
+	
 		if (isset($this->request->post['firstname'])) {
 			$data['firstname'] = $this->request->post['firstname'];
 		} else {
@@ -356,7 +363,7 @@ class ControllerAccountRegister extends Controller {
 		$data['header'] = $this->load->controller('common/header');
 
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/account/register.tpl')) {
-			if(isset($_GET['opt'])){
+			if(isset($_GET['opt']) OR $data['customer_group_id'] == 3){
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/register_opt.tpl', $data));
 			}else{
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/account/register.tpl', $data));	

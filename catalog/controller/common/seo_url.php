@@ -11,7 +11,25 @@ class ControllerCommonSeoUrl extends Controller {
 			$this->session->data['language_href'] = $this->session->data['language'].'/';
 			
 		}
-		
+
+
+
+		//Если прилетела смена валюты
+		if (isset($this->request->get['currency'])) {
+			
+			$this->currency->set($this->request->get['currency']);
+
+			unset($this->session->data['shipping_method']);
+			unset($this->session->data['shipping_methods']);
+			
+			$redirect = $_SERVER['REDIRECT_URL'];
+			if($redirect == '') $redirect = '/';
+			header('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".$redirect ."");
+			exit(0);
+		}
+
+	
 		//Статичные Алиасы без обращения в базу
 		if(isset($this->request->get['_route_'])){
 			

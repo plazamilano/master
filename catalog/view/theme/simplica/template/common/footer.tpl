@@ -1,3 +1,18 @@
+<?php
+           
+            $currency_text = "Валюта";
+            $country_language_text = 'Валюта&amp;Язык:';
+            $text_select_currency = 'Валюта';
+            $text_selected_currency = $currencies[$_SESSION['default']['currency']]['title'];
+            
+            /*
+            header("Content-Type: text/html; charset=UTF-8");
+            echo "<pre>";  print_r(var_dump( $_SERVER )); echo "</pre>";
+            echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
+            echo "<pre>";  print_r(var_dump( $currencies )); echo "</pre>";
+            */
+?>
+
 <?php if ( isset($_GET['route']) AND 
            ( $_GET['route'] == 'checkout/cart' OR 
              $_GET['route'] == 'checkout/checkout' 
@@ -57,7 +72,7 @@
             <div class="b-footer_navigation_list-item">
                 <div class="b-language_selector">
                     <span class="js_fancybox">
-                        <div>Country&amp;Language:</div>Ukraine / <?php echo $languages[$language_code]['name'];?> (<?php echo $text_change; ?>)
+                        <div><?php echo $country_language_text; ?></div><?php echo $text_selected_currency; ?> / <?php echo $languages[$language_code]['name'];?> (<?php echo $text_change; ?>)
                     </span>
                     <span class="h-hidden">
                         <div class="b-language_selector-flyout js-country_language_selector">
@@ -66,15 +81,12 @@
                                 <p class="b-language_selector-country_title"><?php echo $text_select_country; ?></p>
 
                                 <ul class="b-language_selector-country_list">
-                                    <?php foreach ($countries as $countri) { ?>
+                                    <?php foreach ($currencies as $index => $currency) { ?>
                                     <li class="b-language_selector-country_item">
-                                        <a class="b-language_selector-country_link" href="select-country?Country=<?php echo $countri['iso_code_2']; ?>"><?php echo $countri['name']; ?></a>
+                                        <a class="b-language_selector-country_link" href="<?php echo $_SERVER['REQUEST_URI']; ?>?currency=<?php echo $index; ?>"><?php echo $currency['symbol_left'].' '.$currency['symbol_right'].' '.$currency['title']; ?></a>
                                     </li>
                                     <?php } ?>
-                                    <li class="b-language_selector-country_item">
-                                        <a class="b-language_selector-country_link" href="CountryGateway-Start" title="Больше стран"><?php echo $text_more_country; ?></a>
-                                    </li>
-                                </ul>
+                                  </ul>
                             </div>
 
                             <div class="b-language_selector-language">
@@ -96,7 +108,7 @@
                 </div>
             </div>
 
-            <div class="b-footer_navigation_list-item">
+            <!--div class="b-footer_navigation_list-item">
                 <div class="b-content_asset b-content_asset--mobile-footer-social-icons content-asset">
                     <ul class="b-mobile_social_menu">
                             <li class="b-mobile_social_menu-item">
@@ -137,7 +149,7 @@
                             </li>
                     </ul>
                 </div>
-            </div>
+            </div-->
 
             <div class="b-footer_navigation_list-item">
                 <div class="b-content_asset b-content_asset--mobile-footer-copyright content-asset">
@@ -153,10 +165,10 @@
         <div class="l-footer_top-locale">
             <div class="l-footer_top-country">
                 <div class="l-footer_top-locale-labels">
-                    <?php echo $text_country; ?>:
+                    <?php echo $text_select_currency; ?>:
                 </div>
                 <div class="l-footer_top-locale-selectors">
-                    <span class="b-language_selector-current_language">Украина</span> <span class="l-footer_top-locale-selectors-change js-toggler"
+                    <span class="b-language_selector-current_language"><?php echo $text_selected_currency; ?></span> <span class="l-footer_top-locale-selectors-change js-toggler"
                                 data-close-element=".country-selector-close"
                                 data-slide=".js-footer_min_country_selector"
                                 data-toggle-class="h-minimized"
@@ -165,17 +177,15 @@
                     <div class="b-country_selector-flyout js-footer_min_country_selector js-toggler-slide h-minimized">
                         <div class="b-country_selector-container">
                             <div class="b-country_selector-country">
-                                <h3><?php echo $text_select_country; ?></h3>
-                                <p class="b-language_selector-country_title"><?php echo $text_select_country; ?></p>
+                                <h3><?php echo $text_select_currency; ?></h3>
+                                <p class="b-language_selector-country_title"><?php echo $text_selected_currency; ?></p>
                                 <ul class="b-language_selector-country_list">
-                                    <?php foreach ($countries as $countri) { ?>
+                                        <?php //echo $currency; ?>
+                                    <?php foreach ($currencies as $index => $currency) { ?>
                                     <li class="b-language_selector-country_item">
-                                        <a class="b-language_selector-country_link" href="select-country?Country=<?php echo $countri['iso_code_2']; ?>"><?php echo $countri['name']; ?></a>
+                                        <a class="b-language_selector-country_link" href="<?php echo $_SERVER['REQUEST_URI']?>?currency=<?php echo $index; ?>"><?php echo $currency['symbol_left'].' '.$currency['symbol_right'].' '.$currency['title']; ?></a>
                                     </li>
                                     <?php } ?>
-                                    <li class="b-language_selector-country_item">
-                                        <a class="b-language_selector-country_link" href="CountryGateway-Start" title="Больше стран"><?php echo $text_more_country; ?></a>
-                                    </li>
                                 </ul>
                             </div>
                         </div>

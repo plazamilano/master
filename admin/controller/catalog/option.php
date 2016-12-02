@@ -378,7 +378,7 @@ class ControllerCatalogOption extends Controller {
 		if (isset($this->request->post['option_sizes_value'])) {
 			$option_params = $this->request->post['option_sizes_value'];
 		} elseif (isset($this->request->get['option_id'])) {
-			$option_params = $this->model_catalog_option->getOptionParams($this->request->get['option_id']);
+			$option_params = array();//$this->model_catalog_option->getOptionParams($this->request->get['option_id']);
 		} else {
 			$option_params = array();
 		}

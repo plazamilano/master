@@ -34,12 +34,16 @@ class ModelAccountCustomer extends Model {
 	public function addCustomer($data) {
 		$this->event->trigger('pre.customer.add', $data);
 
-		if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
-			$customer_group_id = $data['customer_group_id'];
-		} else {
-			$customer_group_id = $this->config->get('config_customer_group_id');
+		if(isset($data['customer_group_id']) AND $data['customer_group_id'] == 3){
+			$customer_group_id = 3;
+		}else{
+			if (isset($data['customer_group_id']) && is_array($this->config->get('config_customer_group_display')) && in_array($data['customer_group_id'], $this->config->get('config_customer_group_display'))) {
+				$customer_group_id = $data['customer_group_id'];
+			} else {
+				$customer_group_id = $this->config->get('config_customer_group_id');
+			}
 		}
-
+			
 		$this->load->model('account/customer_group');
 
 		$customer_group_info = $this->model_account_customer_group->getCustomerGroup($customer_group_id);

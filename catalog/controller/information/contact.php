@@ -23,8 +23,15 @@ class ControllerInformationContact extends Controller {
 			$mail->setFrom($this->request->post['email']);
 			$mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
 			$mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
-			$mail->setText($this->request->post['enquiry']);
-			$mail->send();
+			
+			$html = 'От:'.$this->request->post['name'].' '.$this->request->post['lastname'].'<br>';
+			$html .= 'Заказ:'.$this->request->post['ordernumber'].'<br>';
+			$html .= 'Тема:'.$this->request->post['myquestion'].'<br>';
+			$html .= 'Страна:'.$this->request->post['countries_country'].'<br>';
+			$html .= 'Сообщение:'.$this->request->post['input-enquiry'].'<br>';
+			
+			$mail->setText($html);
+			//@$mail->send();
 
 			$this->response->redirect($this->url->link('information/contact/success'));
 		}
@@ -62,6 +69,12 @@ class ControllerInformationContact extends Controller {
 			$data['error_name'] = $this->error['name'];
 		} else {
 			$data['error_name'] = '';
+		}
+		
+		if (isset($this->error['error_lastname'])) {
+			$data['error_lastname'] = $this->error['error_lastname'];
+		} else {
+			$data['error_lastname'] = '';
 		}
 
 		if (isset($this->error['email'])) {
@@ -183,10 +196,10 @@ $data[''] = $this->language->get('');
 			$data['email'] = $this->customer->getEmail();
 		}
 
-		if (isset($this->request->post['enquiry'])) {
-			$data['enquiry'] = $this->request->post['enquiry'];
+		if (isset($this->request->post['input-enquiry'])) {
+			$data['input-enquiry'] = $this->request->post['input-enquiry'];
 		} else {
-			$data['enquiry'] = '';
+			$data['input-enquiry'] = '';
 		}
 		
 
@@ -221,8 +234,8 @@ $data[''] = $this->language->get('');
 			$this->error['email'] = $this->language->get('error_email');
 		}
 
-		if ((utf8_strlen($this->request->post['enquiry']) < 10) || (utf8_strlen($this->request->post['enquiry']) > 3000)) {
-			$this->error['enquiry'] = $this->language->get('error_enquiry');
+		if ((utf8_strlen($this->request->post['input-enquiry']) < 10) || (utf8_strlen($this->request->post['input-enquiry']) > 3000)) {
+			$this->error['input-enquiry'] = $this->language->get('error_enquiry');
 		}
 
 		// Captcha

@@ -299,6 +299,8 @@ $data['text_using_product'] = $this->language->get('text_using_product');
 $data['text_delivery_and_return'] = $this->language->get('text_delivery_and_return');
 $data['text_color'] = $this->language->get('text_color');
 $data['text_bay'] = $this->language->get('text_bay');
+	$data['text_onesize'] = $this->language->get('text_onesize');
+		
 $data[''] = $this->language->get('');
 $data[''] = $this->language->get('');
 $data[''] = $this->language->get('');
@@ -553,6 +555,7 @@ $data[''] = $this->language->get('');
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
+					'size'			=> $result['size'],
 					'name'        => $result['name'],
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
 					'price'       => $price,

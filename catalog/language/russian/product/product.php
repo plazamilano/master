@@ -65,6 +65,7 @@ $_['text_delivery_and_return']                           = 'Доставка и 
 $_['text_color']                           = 'цвет';
 $_['text_bay']                           = 'В корзину';
 
+$_['text_onesize']        = 'Один размер';
 
 //Раземры
 $_['entry_size']          = 'Размер товара';

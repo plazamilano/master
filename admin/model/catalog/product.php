@@ -83,6 +83,7 @@ class ModelCatalogProduct extends Model {
 							if(!isset($product_option_value['price'])) $product_option_value['price'] = 0;
 							
 							
+							
 							if(isset($product_option_value['params'])){
 								foreach ($product_option_value['params'] as $index => $value) {
 									if($value > 0){
@@ -289,7 +290,7 @@ class ModelCatalogProduct extends Model {
 							
 							$this->db->query("DELETE FROM " . DB_PREFIX . "product_option_params WHERE product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "'");
 							
-							$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_value SET
+							$sql = "INSERT INTO " . DB_PREFIX . "product_option_value SET
 												product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "',
 												alternative_size = '" . (int)$product_option_value['alternative_size'] . "',
 												product_option_id = '" . (int)$product_option_id . "',
@@ -303,15 +304,23 @@ class ModelCatalogProduct extends Model {
 												points = '" . (int)$product_option_value['points'] . "',
 												points_prefix = '" . $this->db->escape($product_option_value['points_prefix']) . "',
 												weight = '" . (float)$product_option_value['weight'] . "',
-												weight_prefix = '" . $this->db->escape($product_option_value['weight_prefix']) . "'");
+												weight_prefix = '" . $this->db->escape($product_option_value['weight_prefix']) . "'";
+												
+							$this->db->query($sql);
+
+							if(!(int)$product_option_value['product_option_value_id']) $product_option_value['product_option_value_id'] = $this->db->getLastId();
 							
 							if(isset($product_option_value['params'])){
 								foreach ($product_option_value['params'] as $index => $value) {
 									if($value > 0){
-										$this->db->query("INSERT INTO " . DB_PREFIX . "product_option_params SET
+										
+										$sql = "INSERT INTO " . DB_PREFIX . "product_option_params SET
 													 product_option_value_id = '" . (int)$product_option_value['product_option_value_id'] . "',
 													 param_key = '" . $this->db->escape($index). "',
-													 param_value = '" . $this->db->escape($value) . "'");
+													 param_value = '" . $this->db->escape($value) . "'";
+													 
+										$this->db->query($sql);
+										
 									}
 								}
 							}

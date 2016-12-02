@@ -345,6 +345,34 @@ class ControllerProductManufacturer extends Controller {
 					$rabat = '';	
 				}
 				
+				$options = array();
+				foreach ($this->model_catalog_product->getProductOptions($result['product_id']) as $option) {
+					$product_option_value_data = array();
+	
+					foreach ($option['product_option_value'] as $option_value) {
+						//if (!$option_value['subtract'] || ($option_value['quantity'] > 0)) {
+							$product_option_value_data[] = array(
+								'product_option_value_id' => $option_value['product_option_value_id'],
+								'option_value_id'         => $option_value['option_value_id'],
+								'quantity'         => $option_value['quantity'],
+								'name'                    => $option_value['name'],
+								'image'                   => $this->model_tool_image->resize($option_value['image'], 50, 50),
+								'price_prefix'            => $option_value['price_prefix']
+							);
+						//}
+					}
+	
+					$options[] = array(
+						'product_option_id'    => $option['product_option_id'],
+						'product_option_value' => $product_option_value_data,
+						'option_id'            => $option['option_id'],
+						'name'                 => $option['name'],
+						'type'                 => $option['type'],
+						'value'                => $option['value'],
+						'required'             => $option['required']
+					);
+				}
+			
 	
 				$data['category_alias'] = $result['manufacturer_href'];
 	
@@ -352,6 +380,7 @@ class ControllerProductManufacturer extends Controller {
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
 					'thumb_second'       => $image_second,
+					'options'        	=> $options,
 					'original_url'      => $result['original_url'],
 					'name'        		=> $result['name'],
 					'loved'        		=> $result['loved'],

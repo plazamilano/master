@@ -89,7 +89,7 @@ class ControllerCatalogProduct extends Controller {
 					'update_relationships' => true,
 				]
 			);
-			
+	
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_success');
