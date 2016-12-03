@@ -4092,12 +4092,12 @@ html {
     width: 150px;
 }
 
-.b-language_selector-country_item:last-child .b-language_selector-country_link {
+/*.b-language_selector-country_item:last-child .b-language_selector-country_link {
     font-size: 11px;
     color: #999;
     text-transform: uppercase;
     text-decoration: underline;
-}
+}*/
 
 .b-language_selector-language {
     display: inline-block;

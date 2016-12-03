@@ -1370,6 +1370,10 @@ body.checkout-checkout {
     font: 12px/18px FuturaStd-Medium,Arial,Times,sans-serif;
     letter-spacing: 2px;
     cursor: pointer;
+    color: #252525;
+}
+.b-login_block-registration-user span:hover {
+    text-decoration: underline;
 }
 
 .b-login_account-form_row {

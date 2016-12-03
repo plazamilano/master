@@ -5,6 +5,17 @@
             $text_select_currency = 'Валюта';
             $text_selected_currency = $currencies[$_SESSION['default']['currency']]['title'];
             
+             
+            if($_SERVER['REQUEST_URI'] == '/'){
+                $curr_href = 'index.php?currency=';
+            }else{
+                if(strpos($_SERVER['REQUEST_URI'],'?') !== false){
+                    $curr_href =  $_SERVER['REQUEST_URI'].'&currency=';
+                }else{
+                    $curr_href =  $_SERVER['REQUEST_URI'].'?currency=';
+                } 
+            }
+            
             /*
             header("Content-Type: text/html; charset=UTF-8");
             echo "<pre>";  print_r(var_dump( $_SERVER )); echo "</pre>";
@@ -83,7 +94,7 @@
                                 <ul class="b-language_selector-country_list">
                                     <?php foreach ($currencies as $index => $currency) { ?>
                                     <li class="b-language_selector-country_item">
-                                        <a class="b-language_selector-country_link" href="<?php echo $_SERVER['REQUEST_URI']; ?>?currency=<?php echo $index; ?>"><?php echo $currency['symbol_left'].' '.$currency['symbol_right'].' '.$currency['title']; ?></a>
+                                        <a class="b-language_selector-country_link" href="<?php echo $curr_href.$index; ?>"><?php echo $currency['symbol_left'].' '.$currency['symbol_right'].' '.$currency['title']; ?></a>
                                     </li>
                                     <?php } ?>
                                   </ul>
@@ -174,16 +185,16 @@
                                 data-toggle-class="h-minimized"
                                 data-toggle-closeonesc="yes"
                                 data-toggle-closeonoutsideclick="yes" data-toggle-elem-class="h-toggled">(<?php echo $text_change; ?>)</span>
-                    <div class="b-country_selector-flyout js-footer_min_country_selector js-toggler-slide h-minimized">
-                        <div class="b-country_selector-container">
-                            <div class="b-country_selector-country">
+                    <div class="b-language_selector-flyout js-footer_min_country_selector js-toggler-slide h-minimized">
+                        <div class="b-language_selector-container">
+                            <div class="b-language_selector-language">
                                 <h3><?php echo $text_select_currency; ?></h3>
                                 <p class="b-language_selector-country_title"><?php echo $text_selected_currency; ?></p>
                                 <ul class="b-language_selector-country_list">
                                         <?php //echo $currency; ?>
                                     <?php foreach ($currencies as $index => $currency) { ?>
-                                    <li class="b-language_selector-country_item">
-                                        <a class="b-language_selector-country_link" href="<?php echo $_SERVER['REQUEST_URI']?>?currency=<?php echo $index; ?>"><?php echo $currency['symbol_left'].' '.$currency['symbol_right'].' '.$currency['title']; ?></a>
+                                    <li class="b-language_selector-country_item <?php if($index == $_SESSION['default']['currency']){?>b-language_selector-language_item--selected<?php } ?>">
+                                        <a class="b-language_selector-country_link" href="<?php echo $curr_href.$index; ?>"><?php echo $currency['symbol_left'].' '.$currency['symbol_right'].' '.$currency['title']; ?></a>
                                     </li>
                                     <?php } ?>
                                 </ul>

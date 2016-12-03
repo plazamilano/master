@@ -18,7 +18,11 @@
 
   <div class="l-main_account-content">
 <!-- Левая колонка. START -->
-    <div class="l-main_account-left">
+    <div class="l-main_account-left-mob-button js-toggler"
+                 data-slide=".js-l-main_account-left"
+                 data-toggle-class="h-minimized-main_account-left"
+                 data-toggle-elem-class="h-toggled"></div>
+    <div class="l-main_account-left js-l-main_account-left h-minimized-main_account-left">
       <?php echo $column_right; ?>
     </div>
 <!-- Левая колонка. END -->

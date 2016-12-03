@@ -83,10 +83,10 @@ $faq_array = array ();   // Сюда засунуть фак
                   <img class="b-product_image" src="<?php echo $product['thumb']; ?>" alt="<?php echo $product['name']; ?>" title="<?php echo $product['name']; ?>">
                 </div>
               </div>
-              <div class="b-cart_table-cols b-cart_table-body_col_edit_details">
+              <!--div class="b-cart_table-cols b-cart_table-body_col_edit_details">
                 <a class="b-cart_table-body_col_edit_details-edit_poput_link " title="Редактировать"></a>
                 <div class="js-edit_product-popup"></div>
-              </div>
+              </div-->
             </div>
             <div class="b-cart_table-rows">
 

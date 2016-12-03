@@ -1,11 +1,21 @@
 <?php echo $header; ?>
 
+<?php
+$text_size_table = 'Таблица размеров';
+$text_help_is_needed = 'Если Вам необходима дополнительная поддержка, пожалуйста, свяжитесь с нашей Клиентской службой по email:';
+$text_prev = 'Предыдущее';
+$text_next = 'Далее';
+
+$email = 'mail@plazamilano.com';
+?>
+
 <span class="h-hidden">
     <div class="b-table-size_popup js-table-size_popup">
         <div class="b-size_guide">
-            <p class="b-size_guide-title">Таблица размеров</p>
+
+            <p class="b-size_guide-title"><?php echo $text_size_table; ?></p>
             <p class="b-size_guide-text">
-                Если Вам необходима дополнительная поддержка, пожалуйста, свяжитесь с нашей Клиентской службой по email: mail@plazamilano.com</p>
+                <?php echo $text_help_is_needed.' '.$email; ?></p>
 
             <?php foreach($options_table as $name_options_group => $options_group) { ?>
             <p class="b-size_guide-title"><?php echo $name_options_group; ?></p>
@@ -13,9 +23,18 @@
                 <tbody>
                     <?php foreach($options_group as $val) { ?>
 
+                    <?php
+                    $tmp = $options_group;
+                    reset($tmp);
+                    next($tmp);
+                    $first_key_data = key($tmp);
+                    ?>
+
                     <tr>
-                        <?php foreach($val as $v) { ?>
-                        <td><?php echo $v; ?></td>
+                        <?php foreach($val as $k => $v) { ?>
+                            <?php if ($options_group[$first_key_data][$k]) { ?>
+                            <td><?php echo $v; ?></td>
+                            <?php } ?>
                         <?php } ?>
                     </tr>
 
@@ -48,10 +67,10 @@
 
             <div class="b-product_nav">
                 <a class="b-product_nav-link_prev" href="#" title="">
-                    <span class="b-product_nav-text_prev">Предыдущее</span>
+                    <span class="b-product_nav-text_prev"><?php echo $text_prev; ?></span>
                 </a>
                 <a class="b-product_nav-link_next" href="#" title="">
-                    <span class="b-product_nav-text_next">Далее</span>
+                    <span class="b-product_nav-text_next"><?php echo $text_next; ?></span>
                 </a>
             </div>
         </div>
@@ -853,12 +872,5 @@ $('#button-cart, .js-add_to_cart').on('click', function() {
 });
 
 </script>
-
-
-<?php
-//header("Content-Type: text/html; charset=UTF-8");
-//echo "<pre>";  print_r(var_dump( get_defined_vars() )); echo "</pre>";
-//echo "<style> pre header {display: none;}</style>";
-?>
 
 <?php echo $footer; ?>
