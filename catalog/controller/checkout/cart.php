@@ -72,6 +72,7 @@ class ControllerCheckoutCart extends Controller {
 
 			$this->load->model('tool/image');
 			$this->load->model('tool/upload');
+			$this->load->model('catalog/product');
 
 			$data['products'] = array();
 
@@ -117,6 +118,7 @@ class ControllerCheckoutCart extends Controller {
 					);
 				}
 
+				
 				// Display prices
 				if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
 					$price = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')));
@@ -153,11 +155,19 @@ class ControllerCheckoutCart extends Controller {
 					}
 				}
 
+				if(isset($product['option'][0]['quantity'])){
+					$in_stock = $product['option'][0]['quantity'];
+				}else{
+					$in_stock = $this->model_catalog_product->getProductInStock($product['product_id']);
+				}
+
 				$data['products'][] = array(
 					'cart_id'   => $product['cart_id'],
 					'thumb'     => $image,
 					'name'      => $product['name'],
+					'in_stock'  => $in_stock,
 					'model'     => $product['model'],
+					'attributes'    => $this->model_catalog_product->getProductAttributes($product['product_id']),
 					'option'    => $option_data,
 					'recurring' => $recurring,
 					'quantity'  => $product['quantity'],
@@ -169,6 +179,10 @@ class ControllerCheckoutCart extends Controller {
 				);
 			}
 
+			$data['currency']['SymbolLeft'] = $this->currency->getSymbolLeft($this->session->data['currency']);
+			$data['currency']['SymbolRight'] = $this->currency->getSymbolRight($this->session->data['currency']);
+		
+				
 			// Gift Voucher
 			$data['vouchers'] = array();
 
@@ -187,7 +201,16 @@ class ControllerCheckoutCart extends Controller {
 			$this->load->model('localisation/country');
 	
 			$data['countries'] = $this->model_localisation_country->getCountries();
-	
+
+			//echo $this->session->data['country_id'];
+			$data['country_code'] = 'RU';
+			
+			//Подставим страну по выбранному языку
+			if($data['language_href'] != '') $data['country_code'] = strtoupper(str_replace('/', '', $data['language_href']));
+			
+			//Если страна уже выбиралась и есть в сессии - возьмем ее
+			if(isset($this->session->data['country_code'])) $data['country_code'] = $this->session->data['country_code'];
+
 			// Totals
 			$this->load->model('extension/extension');
 
@@ -396,6 +419,8 @@ class ControllerCheckoutCart extends Controller {
 
 				$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total));
 				$json['int_total'] = $this->cart->countProducts();
+				$json['int_summ_curr'] = $this->currency->format($total);
+				$json['int_summ'] = $total;
 			} else {
 				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']));
 			}
@@ -472,6 +497,34 @@ class ControllerCheckoutCart extends Controller {
 
 		$json['total'] = sprintf($this->language->get('text_items'), $this->cart->countProducts() + (isset($this->session->data['vouchers']) ? count($this->session->data['vouchers']) : 0), $this->currency->format($total));
 		$json['total_products'] = $this->cart->countProducts();
+		
+		if (isset($this->session->data['country_id'])) {
+			$country_id = (int)$this->session->data['country_id'];
+		}else {
+			$this->session->data['country_id'] = $country_id = 176;
+		}
+		
+		$this->load->model('checkout/delivery');
+		
+		if(is_numeric($country_id)){
+			$tmp = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
+		}else{
+			$tmp = $this->model_checkout_delivery->getDeliveryOnCountryCode($country_id);	
+		}
+		
+		if(!$tmp){
+			$tmp = $this->model_checkout_delivery->getDeliveryOnCountryId(176);
+		}
+		
+		$json['total'] = $this->currency->format($total);
+		
+		foreach($tmp as $index => $row){
+			$json['delivery_summ'] = number_format($this->currency->convert($row['price'], $row['code'], $this->session->data['currency']),2,'.',' ');
+			$total += (float)$json['delivery_summ'];
+		}
+		
+		$json['delivery_summ1'] = $json['delivery_summ'];
+		$json['delivery_summ'] = $this->currency->format($json['delivery_summ']);
 		$json['total_summ'] = $this->currency->format($total);
 		
 		$this->response->addHeader('Content-Type: application/json');

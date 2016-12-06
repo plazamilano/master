@@ -359,21 +359,31 @@ $faq_array = array ();   // Сюда засунуть фак
             </div>
           </div>
 
-          <div class="f-field f-field-textinput f-state-required">
+          <div class="f-field f-field-textinput">
             <label class="f-label" for="country">
               <span class="f-label-value"><?php echo $text_country; ?></span>
             </label>
+            
+            
             <div class="f-field-wrapper">
               <div class="f-select-wrapper">
-                <select class="f-select country js-state-required" id="country" name="country">
+                
+                <?php foreach($countries as $country) { ?>
+                    <?php if($country_code == $country['iso_code_2']) { ?>
+                    <input type="hidden" name="country" class="f-textinput country js-state-required" value="<?php echo $country['iso_code_2'];?>">
+                    <label class="f-label"><?php echo $country['name'];?></label>
+                    <?php } ?>
+                <?php } ?>
+                  
+                <!--select class="f-select country js-state-required" id="country" name="country">
                   <?php foreach($countries as $country) { ?>
                   <option value="<?php echo $country['iso_code_2'];?>"><?php echo $country['name'];?></option>
                   <?php } ?>
-                </select>
+                </select-->
               </div>
-              <span class="f-error_message">
+              <!--span class="f-error_message">
                 <span class="f-error_message-block js-error_country"></span>
-              </span>
+              </span-->
             </div>
           </div>
 
@@ -713,7 +723,7 @@ $('.js-faq-questions_block_tt, .js-checkout_contact_us_block_tt').on('click', fu
 
 <script>
   // Валидация формы. START
-$('input.js-state-required, select.js-state-required').on('blur', function(){
+$('input.js-state-required').on('blur', function(){
     var id = $(this).attr('id');
     var val = $(this).val();
     if (val == null) {
@@ -791,15 +801,6 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             } else {
                 setErrorMessage(id, '<?php echo $text_error_addres1; ?>');
             }
-        break;
-        case 'address2':
-            /*
-            if(val.length > 0 && val != '') {
-                setErrorMessage(id, '');
-            } else {
-                setErrorMessage(id, '<?php echo $text_error_addres2; ?>');
-            }
-            */
         break;
         case 'fields_zip':
             if(val.length > 0 && val != '') {
@@ -903,7 +904,8 @@ $('#step').on('change', function(){
     break;
     case '3':
       $('.js-step-2 input.js-state-required, .js-step-2 select.js-state-required').blur();
-      if ( $('.js-step-2 .f-state-valid').length == $('.js-step-2 input.f-state-required').length ) {
+       
+      if ( $('.js-step-2 .f-state-valid').length == ($('.js-step-2 input.f-state-required').length - 1) ) {
         // переходим на следующий шаг:
         $('.js-step-2').addClass('h-hidden');
         $('.js-step-3').removeClass('h-hidden');
@@ -911,7 +913,6 @@ $('#step').on('change', function(){
         $('.js-indication-step-2').removeClass('b-checkout_progress_indicator-step--active');
         var address_summary = '<p>' + $('#first_name').val() + ' ' + $('#last_name').val()  + '</p>' +
                               '<p>' + $('#address1').val() + '</p>' +
-                              '<p>' + $('#address2').val() + '</p>' +
                               '<p>' + $('#city').val() + ' ' + $('#country').val() + '</p>';
         $('.js-checkout_shipping_address_summary').html(address_summary);
       } else {

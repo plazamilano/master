@@ -10,6 +10,7 @@ $_['text_checkout_payment_address']  = 'Шаг 2: Платежная инфор�
 $_['text_checkout_shipping_address'] = 'Шаг 3: Адрес доставки';
 $_['text_checkout_shipping_method']  = 'Шаг 4: Способ доставки';
 $_['text_checkout_payment_method']   = 'Шаг 5: Способ оплаты';
+$_['text_delivery']  = 'Доставка';
 $_['text_checkout_confirm']          = 'Шаг 6: Подтверждение заказа';
 $_['text_modify']                    = 'Изменить &raquo;';
 $_['text_new_customer']              = 'Новый покупатель';

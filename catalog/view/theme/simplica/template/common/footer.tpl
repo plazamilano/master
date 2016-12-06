@@ -333,7 +333,7 @@
     <div class="b-scroll_to_top js-scroll_to_top h-opaque"></div>
 </div>
 
-<? } ?>
+<?php } ?>
 
 
 

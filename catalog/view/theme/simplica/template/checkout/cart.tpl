@@ -16,6 +16,8 @@ $text_help_is_needed = 'Нужна помощь?';
 $text_write_to_us = 'Написать нам';
 $text_faq = 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ';
 $text_send_email = 'Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+$text_size = 'Размер:';
+$text_color = 'Цвет:';
 
 
 $column_name = 'Товар';       // есть переменная column_name = 'Название' - переименовать на 'Товар'
@@ -25,12 +27,15 @@ $column_duti = 'Пошлины';     // эта колонка скрыта, но
 $text_conditional_preliminary_confirmation = 'Условное предварительное подтверждение';  // этот текст сейчас скрыт. нужно переводить?
 
 
-
-
 $faq_array = array ();   // Сюда засунуть фак
 //$faq_array['href'];
 //$faq_array['title'];
 
+
+/*
+header("Content-Type: text/html; charset=UTF-8");
+echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
+*/
 
 
 /*
@@ -107,12 +112,24 @@ $faq_array = array ();   // Сюда засунуть фак
                     </span>
                   </div>
 
-                  <?php if ($product['option']) { ?>
+                  <?php if ($product['attributes']) { ?>
+                    <?php foreach($product['attributes'] as $attribute) { ?>
+                    <?php if($attribute['attribute_group_id'] == 15){ ?>
+                      <div class="b-cart_table-body_col_product-attribute m-color">
+                        <span class="b-cart_table-body_col_product-attribute-label"><?php echo $text_color;?></span>
+                        <span class="b-cart_table-body_col_product-attribute-value">
+                            <?php echo $attribute['attribute'][0]['name']?>
+                        </span>
+                      </div>
+                    <?php } ?>
+                    <?php } ?>
+                  <?php } ?>
+                <?php if ($product['option']) { ?>
                     <?php foreach($product['option'] as $option) { ?>
                     <div class="b-cart_table-body_col_product-attribute m-color">
-                      <span class="b-cart_table-body_col_product-attribute-label"><?php echo $option['name'];?></span>
+                      <span class="b-cart_table-body_col_product-attribute-label"><?php echo $text_size;//$option['name'];?></span>
                       <span class="b-cart_table-body_col_product-attribute-value">
-                          <?php echo $option['value']?>
+                          <?php echo $option['value'];?>
                       </span>
                     </div>
                     <?php } ?>
@@ -137,14 +154,14 @@ $faq_array = array ();   // Сюда засунуть фак
                 </div>
               </div>
 
-
               <div class="b-cart_table-cols b-cart_table-body_col_qty">
                 <div class="b-cart_table-body_col_qty-item_quantity">
                   <span class="b-cart_table-body_col_qty-item_quantity-minus js-quantity-minus" data-key="<?php echo $product['cart_id']; ?>"></span>
                   <input name="dwfrm_cart_shipments_i0_items_i0_quantity"
                          type="text"
                          size="4"
-                         maxlength="6"
+                         data-maxqty="<?php echo $product['in_stock']; ?>"
+                          maxlength="6"
                          value="<?php echo $product['quantity']; ?>"
                          class="js-item_qty b-cart_table-body_col_qty-item_quantity-qty">
                   <span class="b-cart_table-body_col_qty-item_quantity-plus js-quantity-plus" data-key="<?php echo $product['cart_id']; ?>"></span>
@@ -187,7 +204,9 @@ $faq_array = array ();   // Сюда засунуть фак
               <div class="f-select-wrapper">
                 <select class="f-select country" id="delivery_address" name="dwfrm_singleshipping_shippingAddress_addressFields_country">
                   <?php foreach($countries as $country) { ?>
-                  <option value="<?php echo $country['iso_code_2'];?>"><?php echo $country['name'];?></option>
+                  <option value="<?php echo $country['iso_code_2'];?>"
+                  <?php if($country_code == $country['iso_code_2']){ echo 'selected';} ?>
+                  ><?php echo $country['name'];?></option>
                   <?php } ?>
                 </select>
               </div>
@@ -339,6 +358,11 @@ $faq_array = array ();   // Сюда засунуть фак
 
 
 <script>
+  //Обновим доставку
+  $(document).ready(function(){
+      $('#delivery_address').trigger('change');
+  });
+  
   //Смена страны и доставки
  $(document).on('change', '#delivery_address', function(){
     
@@ -352,7 +376,7 @@ $faq_array = array ();   // Сюда засунуть фак
           cache: false,
           success: function(json) {
             
-            console.log(json);
+            //console.log(json);
             //debugger;
             
             var html = '';
@@ -394,12 +418,17 @@ $faq_array = array ();   // Сюда засунуть фак
     
     var radio = $('input[name="Address_shippingMethodID"]:checked').val();
     
-    var sum = parseFloat($('#summa').html(), 10);
+    var str_price = $('#summa').html();
+    str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
+    str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');
+
+  
+    var sum = parseFloat(str_price, 10);
     var delivery_sum = $('#shipping-method-'+radio).data('realprice');
     var simbol_price = $('#shipping-method-'+radio).data('realprice-s');
     
     $('#delivery_summ').html(simbol_price);
-    $('#total').html($('#shipping-method-'+radio).data('simbol_left')+(delivery_sum + sum)+$('#shipping-method-'+radio).data('simbol-right'));
+    $('#total').html($('#shipping-method-'+radio).data('simbol_left')+(parseFloat(delivery_sum) + parseFloat(sum))+$('#shipping-method-'+radio).data('simbol-right'));
     
  });
  
@@ -426,17 +455,23 @@ $('.js-faq-questions_block_tt, .js-checkout_contact_us_block_tt').on('click', fu
 
 // Плюс/минус для товара START
 function updateTotal(){
+  $('.f-radio').trigger('change');
 };
 
 $('.js-quantity-minus').on('click', function(){
   var v = parseInt($(this).siblings('input').val()) - 1;
   var k = $(this).data('key');
   var str_price = $(this).closest('.b-cart_table-rows').find('.b-cart_table-body_col_price-item_price-value').html();
-  str_price.replace('р.', '');
-  var price = parseInt(str_price);
+  str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
+  str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');
+ var price = parseFloat(str_price);
 
   $(this).siblings('input').val(v);
-  $(this).closest('.b-cart_table-rows').find('.js-product-total-price').html(v * price + 'p.');
+  
+  var summ = v * price;
+  //summ = summ.number(true,2);
+  
+  $(this).closest('.b-cart_table-rows').find('.js-product-total-price').html('<?php echo $currency['SymbolLeft'];?>' + summ + '<?php echo $currency['SymbolRight'];?>');
   if (v == 0) {
     cart.remove(k);
   } else {
@@ -446,14 +481,26 @@ $('.js-quantity-minus').on('click', function(){
 });
 
 $('.js-quantity-plus').on('click', function(){
+  //debugger;
   var v = parseInt($(this).siblings('input').val()) + 1;
   var k = $(this).data('key');
   var str_price = $(this).closest('.b-cart_table-rows').find('.b-cart_table-body_col_price-item_price-value').html();
-  str_price.replace('р.', '');
-  var price = parseInt(str_price);
+  var max = $(this).parent('div').children('input').data('maxqty');
+ //debugger;
+  str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
+  str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');
+  
+  var price = parseFloat(str_price);
 
+  if (v > max) {
+     v = max;
+  }
+ 
+   var summ = v * price;
+ // summ = summ.number(true,2);
+ 
   $(this).siblings('input').val(v);
-  $(this).closest('.b-cart_table-rows').find('.js-product-total-price').html(v * price + 'p.');
+  $(this).closest('.b-cart_table-rows').find('.js-product-total-price').html('<?php echo $currency['SymbolLeft'];?>' + summ + '<?php echo $currency['SymbolRight'];?>');
   cart.update(k, v);
   updateTotal();
 });

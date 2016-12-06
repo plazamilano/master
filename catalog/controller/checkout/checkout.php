@@ -10,6 +10,8 @@ class ControllerCheckoutCheckout extends Controller {
 		// Validate minimum quantity requirements.
 		$products = $this->cart->getProducts();
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		foreach ($products as $product) {
 			$product_total = 0;
 
@@ -63,6 +65,8 @@ class ControllerCheckoutCheckout extends Controller {
 		$data['text_checkout_shipping_method'] = $this->language->get('text_checkout_shipping_method');
 		$data['text_checkout_payment_method'] = $this->language->get('text_checkout_payment_method');
 		$data['text_checkout_confirm'] = $this->language->get('text_checkout_confirm');
+
+		$data['text_delivery'] = $this->language->get('text_delivery');
 
 		if (isset($this->session->data['error'])) {
 			$data['error_warning'] = $this->session->data['error'];
@@ -127,16 +131,67 @@ class ControllerCheckoutCheckout extends Controller {
 			array_multisort($sort_order, SORT_ASC, $total_data);
 		}
 
+		//echo $this->session->data['country_id'];
+		$data['country_code'] = 'RU';
 		
-		$data['totals'] = array();
+		//Подставим страну по выбранному языку
+		if($data['language_href'] != '') $data['country_code'] = strtoupper(str_replace('/', '', $data['language_href']));
+		
+		//Если страна уже выбиралась и есть в сессии - возьмем ее
+		if(isset($this->session->data['country_code'])) $data['country_code'] = $this->session->data['country_code'];
+	
+		if (isset($this->session->data['country_id'])) {
+			$country_id = (int)$this->session->data['country_id'];
+		}else {
+			$country_id = 176;
+		}
 
+		$this->load->model('checkout/delivery');
+
+		if(is_numeric($country_id)){
+			$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
+		}else{
+			$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryCode($country_id);	
+		}
+		
+		if(!$delivery_info){
+			$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId(176);
+		}
+	
+		foreach($delivery_info as $index => $row){
+			
+			$data['delivery']['realprice'] = number_format($row['price'],2,'.',' ');
+			$data['delivery']['real_simbol_left'] = $this->currency->getSymbolLeft($this->session->data['currency']);
+			$data['delivery']['real_simbol_right'] = $this->currency->getSymbolRight($this->session->data['currency']);
+			
+		}
+	
+		$data['totals'] = array();
+		
+		$data['totals'][] = array(
+				'title' => $total_data[0]['title'],
+				'text'  => $this->currency->format($total_data[0]['value']),
+			);
+		$data['totals'][] = array(
+				'title' => $data['text_delivery'],
+				'text'  => $data['delivery']['real_simbol_left'].$data['delivery']['realprice'].$data['delivery']['real_simbol_right'],
+			);
+		$data['totals'][] = array(
+				'title' => $total_data[1]['title'],
+				'text'  => $this->currency->format($data['delivery']['realprice'] + $total_data[0]['value']),
+			);
+		
+		//header("Content-Type: text/html; charset=UTF-8");
+		//echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
+
+/*
 		foreach ($total_data as $result) {
 			$data['totals'][] = array(
 				'title' => $result['title'],
 				'text'  => $this->currency->format($result['value']),
 			);
 		}
-
+*/
 		$this->load->model('localisation/country');
 		$data['countries'] = $this->model_localisation_country->getCountries();
 		

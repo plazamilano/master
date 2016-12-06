@@ -22,7 +22,12 @@ class ControllerCommonSeoUrl extends Controller {
 			unset($this->session->data['shipping_method']);
 			unset($this->session->data['shipping_methods']);
 			
-			$redirect = $_SERVER['REDIRECT_URL'];
+			if(isset($_SERVER['REDIRECT_URL'])){
+				$redirect = $_SERVER['REDIRECT_URL'];
+			}else{
+				$redirect = '';
+			}
+			
 			if($redirect == '') $redirect = '/';
 			header('HTTP/1.1 301 Moved Permanently');
 			header("Location: ".$redirect ."");

@@ -50,7 +50,7 @@
         
         <div class="b-mini_cart-subtotal l-mini_cart-totals_subtotals">
           <span class="b-mini_cart-subtotal_label label"><?php echo $text_total; ?></span>
-          <span class="b-mini_cart-subtotal_value value"><?php echo $product['total']; ?></span>
+          <span class="b-mini_cart-subtotal_value value" id="b-mini_cart-subtotal_value value"><?php echo $summ; ?></span>
         </div>
         
         <div class="b-mini_cart-checkout_btn_wrapper l-mini_cart-totals_button">

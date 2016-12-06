@@ -59,7 +59,8 @@ class ControllerCommonCart extends Controller {
 		$this->load->model('tool/upload');
 
 		$data['products'] = array();
-
+		$data['summ'] = 0;
+		
 		foreach ($this->cart->getProducts() as $product) {
 			if ($product['image']) {
 				$image = $this->model_tool_image->resize($product['image'], $this->config->get('config_image_cart_width'), $this->config->get('config_image_cart_height'));
@@ -96,9 +97,11 @@ class ControllerCommonCart extends Controller {
 				$price = false;
 			}
 
+			
 			// Display prices
 			if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {
 				$total = $this->currency->format($this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity']);
+				$data['summ'] += $this->tax->calculate($product['price'], $product['tax_class_id'], $this->config->get('config_tax')) * $product['quantity'];
 			} else {
 				$total = false;
 			}
@@ -115,7 +118,11 @@ class ControllerCommonCart extends Controller {
 				'total'     => $total,
 				'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			);
+			
+			
 		}
+		
+		$data['summ'] = $this->currency->format($data['summ']);
 
 		// Gift Voucher
 		$data['vouchers'] = array();

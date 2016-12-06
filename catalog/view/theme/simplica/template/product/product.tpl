@@ -213,7 +213,7 @@ $email = 'mail@plazamilano.com';
                                                     <?php } ?>
 
                                                     <?php if ($option['type'] == 'radio') { ?>
-                                                    <label class="control-label"><?php echo $option['name']; ?></label>
+                                                    <label class="control-label"><?php //echo $option['name']; ?></label>
                                                     <ul class="b-swatches_size js-swatches" id="input-option<?php echo $option['product_option_id']; ?>">
                                                         <?php foreach ($option['product_option_value'] as $option_value) { ?>
                                                         <?php if($option_value['quantity'] <= 0) { ?>
@@ -842,8 +842,9 @@ $('#button-cart, .js-add_to_cart').on('click', function() {
                 /* вставил кусок из common.js (чтобы хоть как-то работало - потом падо будет этот ajax пересмотреть ) 
                 START */
                     setTimeout(function () {
-                        $('#cart .js-cart-total').html(json['total']);
-                        $('#b-mini_cart-subtotal_qty').html(json['int_total']);
+                         $('#cart .js-cart-total').html(json['total']);
+                        $('.b-mini_cart-subtotal_qty').html(json['int_total']);
+                        $('.b-mini_cart-subtotal_value').html(json['int_summ_curr']);
                         $('.js-minicart-quantity_value').html(json['int_total']);
                         $('.js-minicart-quantity_value').removeClass('h-hidden');
                     }, 100);

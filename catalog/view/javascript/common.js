@@ -187,6 +187,7 @@ var cart = {
 					setTimeout(function () {
 						$('#cart .js-cart-total').html(json['total']);
 						$('#b-mini_cart-subtotal_qty').html(json['int_total']);
+						$('.b-mini_cart-subtotal_qty').html(json['int_total']);
 						$('.js-minicart-quantity_value').html(json['int_total']);
 						$('.js-minicart-quantity_value').removeClass('h-hidden');
 					}, 100);
@@ -219,10 +220,14 @@ var cart = {
 				$('#cart .js-cart-total').button('reset');
 			},
 			success: function(json) {
+				
+				//console.log(json);
+				
 				// Need to set timeout otherwise it wont update the total
 				setTimeout(function () {
-					$('#cart .js-cart-total').html(json['total']);
-					$('.b-summary_list-value').html(json['total_summ']);
+					$('#summa').html(json['total']);
+					$('#delivery_summ').html(json['delivery_summ']);
+					$('#total').html(json['total_summ']);
 				}, 100);
 
 				//Тут посмотреть что прилетает
@@ -256,6 +261,7 @@ var cart = {
 				setTimeout(function () {
 					$('#cart .js-cart-total').html(json['total']);
 					$('#b-mini_cart-subtotal_qty').html(json['int_total']);
+					$('.b-mini_cart-subtotal_qty').html(json['int_total']);
 					$('.js-minicart-quantity_value').html(json['int_total']);
 					//debugger;
 					if ( json['int_total'] == 0 ) {
