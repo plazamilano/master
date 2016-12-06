@@ -371,7 +371,7 @@ $faq_array = array ();   // Сюда засунуть фак
                 <?php foreach($countries as $country) { ?>
                     <?php if($country_code == $country['iso_code_2']) { ?>
                     <input type="hidden" name="country" class="f-textinput country js-state-required" value="<?php echo $country['iso_code_2'];?>">
-                    <label class="f-label"><?php echo $country['name'];?></label>
+                    <label class="f-label country_lable"><?php echo $country['name'];?></label>
                     <?php } ?>
                 <?php } ?>
                   
@@ -436,9 +436,9 @@ $faq_array = array ();   // Сюда засунуть фак
       </div>
 
       <div class="b-checkout_payment js-step-3 h-hidden">
-        <h3 class="b-checkout_shipping_address-title"><?php $text_delivery_info; ?></h3>
+        <h3 class="b-checkout_shipping_address-title"><?php echo $text_delivery_info; ?></h3>
         <div class="b-checkout_shipping_address--summary js-checkout_shipping_address_summary"></div>
-        <span class="b-checkout_shipping_address--summary-edit js-prev-step"><?php $text_delivery_edit; ?></span>
+        <span class="b-checkout_shipping_address--summary-edit js-indication-step-2 js-prev-step"><?php echo $text_delivery_edit; ?></span>
       </div>
 
   <!-- Детали оплаты START -->
@@ -912,8 +912,9 @@ $('#step').on('change', function(){
         $('.js-indication-step-3').addClass('b-checkout_progress_indicator-step--active');
         $('.js-indication-step-2').removeClass('b-checkout_progress_indicator-step--active');
         var address_summary = '<p>' + $('#first_name').val() + ' ' + $('#last_name').val()  + '</p>' +
-                              '<p>' + $('#address1').val() + '</p>' +
-                              '<p>' + $('#city').val() + ' ' + $('#country').val() + '</p>';
+                              '<p>' + $('.country_lable').html() + '</p>' +
+                              '<p>' + $('#fields_zip').val() + ', ' + $('#city').val() + ', ' + $('#address1').val() + '</p>' + 
+                              '<?php echo $text_fields_phone;?> ' + $('#fields_phone').val() + '</p>';
         $('.js-checkout_shipping_address_summary').html(address_summary);
       } else {
         // НЕ переходим на следующий шаг:

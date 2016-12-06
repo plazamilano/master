@@ -8423,9 +8423,11 @@ html.ipad.html_fancybox_opened body {
     }
 }
 
+/*
 .l-main_checkout .b-checkout_shipping_address-title,.l-main_checkout .b-checkout_billing_address-title {
     margin-bottom: 50px;
 }
+*/
 
 .l-main_checkout .sales-tax .b-checkout_shipping_address-title,.l-main_checkout .sales-tax .b-checkout_billing_address-title {
     margin-bottom: 25px;

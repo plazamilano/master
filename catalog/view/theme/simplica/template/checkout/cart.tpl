@@ -18,7 +18,7 @@ $text_faq = 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ';
 $text_send_email = 'Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
 $text_size = 'Размер:';
 $text_color = 'Цвет:';
-
+$text_order_q = 'Вопрос%20по%20заказа';
 
 $column_name = 'Товар';       // есть переменная column_name = 'Название' - переименовать на 'Товар'
 
@@ -310,7 +310,7 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
                   <div class="b-checkout_content_block-title"><?php echo $text_write_to_us; ?></div>
                   <br>
                   <div class="b-checkout_content_block-icon_block">
-                    <a class="b-checkout_content_block-icon_mail" href="#">
+                    <a class="b-checkout_content_block-icon_mail" href="mailto:info@plazamilano.com?Subject=<?php echo $text_order_q; ?>">
                     </a>
                   </div>
                 </div>
