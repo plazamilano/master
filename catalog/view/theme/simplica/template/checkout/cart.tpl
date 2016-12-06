@@ -164,7 +164,7 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
                           maxlength="6"
                          value="<?php echo $product['quantity']; ?>"
                          class="js-item_qty b-cart_table-body_col_qty-item_quantity-qty">
-                  <span class="b-cart_table-body_col_qty-item_quantity-plus js-quantity-plus" data-key="<?php echo $product['cart_id']; ?>"></span>
+                  <span class="b-cart_table-body_col_qty-item_quantity-plus js-quantity-plus <?php if ($product['quantity'] == $product['in_stock']) echo 'h-disabled'; ?>" data-key="<?php echo $product['cart_id']; ?>"></span>
                 </div>
               </div>
 
@@ -460,6 +460,12 @@ function updateTotal(){
 
 $('.js-quantity-minus').on('click', function(){
   var v = parseInt($(this).siblings('input').val()) - 1;
+  var max = $(this).parent('div').children('input').data('maxqty');
+  if ( v >= max) {
+    $(this).parent('div').children('.js-quantity-plus').addClass('h-disabled');
+  } else {
+    $(this).parent('div').children('.js-quantity-plus').removeClass('h-disabled');
+  }
   var k = $(this).data('key');
   var str_price = $(this).closest('.b-cart_table-rows').find('.b-cart_table-body_col_price-item_price-value').html();
   str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
@@ -483,9 +489,17 @@ $('.js-quantity-minus').on('click', function(){
 $('.js-quantity-plus').on('click', function(){
   //debugger;
   var v = parseInt($(this).siblings('input').val()) + 1;
+  var max = $(this).parent('div').children('input').data('maxqty');
+  if ( v >= max) {
+    $(this).addClass('h-disabled');
+  } else {
+    $(this).removeClass('h-disabled');
+  }
+  if (v > max) {
+    return false;
+  }
   var k = $(this).data('key');
   var str_price = $(this).closest('.b-cart_table-rows').find('.b-cart_table-body_col_price-item_price-value').html();
-  var max = $(this).parent('div').children('input').data('maxqty');
  //debugger;
   str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
   str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');

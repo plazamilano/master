@@ -68,6 +68,7 @@ $text_what_is_cvn = 'Что такое проверочный код карты 
 $text_what_is_cvn_text = 'Для MasterCard и Visa введите последние три цифры на полосе с подписью.';
 $text_credit_card_name = 'Имя на карте';
 $text_credit_card_name_placeholder = 'Имя на карте';
+$text_agreement = 'Пожалуйста, имейте ввиду, что Ваши данные собираются и обрабатываются TLG. Это совершается в Ваших интиресах и необходимо для Вашей покупки. Вы можете быть уверены, что Ваши данные содержаться в полной конфиденциальности и безопасност. Для дополнительной информации, пожалуйста, ознакомтесь с политикой конфиденциальности.';
 
 $text_error_name = 'Пожалуйста, введите имя';
 $text_error_last_name = 'Пожалуйста, введите фамилию';
@@ -85,6 +86,7 @@ $text_error_month = 'Это поле обязательно';
 $text_error_year = 'Это поле обязательно';
 $text_error_credit_card_cvn = 'Пожалуйста, введите Ваш код безопасности';
 $text_error_credit_card_name = 'Пожалуйста, введите Ваше имя, как указано на карте';
+$text_error_agreement = 'Это обязательное для заполнения поле!';
 
 $text_order_q = 'Вопрос%20по%20заказа';
 
@@ -317,7 +319,7 @@ $faq_array = array ();   // Сюда засунуть фак
           </div-->
         <input id="address2"
                      name="address2"
-                     class="f-textinput f-state-required js-state-required"
+                     class="f-textinput js-state-required"
                      placeholder="<?php echo $text_address2_placeholder; ?>"
                      value=""
                      type="hidden"
@@ -421,7 +423,7 @@ $faq_array = array ();   // Сюда засунуть фак
 
 
 
-      <div class="b-checkout_shipping_address js-step-3 h-hidden">
+      <div class="b-checkout_shipping_address h-hidden">
         <p><?php echo $text_have_questions; ?></p>
         <div class="b-checkout_payment-title--center">
           <div class="b-checkout_content_block-icon_block">
@@ -435,7 +437,7 @@ $faq_array = array ();   // Сюда засунуть фак
         </div>
       </div>
 
-      <div class="b-checkout_payment js-step-3 h-hidden">
+      <div class="b-checkout_payment h-hidden">
         <h3 class="b-checkout_shipping_address-title"><?php echo $text_delivery_info; ?></h3>
         <div class="b-checkout_shipping_address--summary js-checkout_shipping_address_summary"></div>
         <span class="b-checkout_shipping_address--summary-edit js-indication-step-2 js-prev-step"><?php echo $text_delivery_edit; ?></span>
@@ -588,6 +590,22 @@ $faq_array = array ();   // Сюда засунуть фак
               </div>
             </div>
 
+            <div class=" f-field f-field-checkbox">
+              <div class="f-field-wrapper">
+                <input name="agreement"
+                       id="agreement"
+                       class="f-checkbox f-state-required js-state-required"
+                       value="true"
+                       type="checkbox">
+                <label class="f-label" for="agreement">
+                  <span class="f-label-value"><?php echo $text_agreement; ?></span>
+                </label>
+                <span class="f-error_message">
+                  <span class="f-error_message-block js-error_agreement"></span>
+                </span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -723,7 +741,7 @@ $('.js-faq-questions_block_tt, .js-checkout_contact_us_block_tt').on('click', fu
 
 <script>
   // Валидация формы. START
-$('input.js-state-required').on('blur', function(){
+$('input.js-state-required, select.js-state-required').on('blur', function(){
     var id = $(this).attr('id');
     var val = $(this).val();
     if (val == null) {
@@ -859,6 +877,13 @@ $('input.js-state-required').on('blur', function(){
                 setErrorMessage(id, '<?php echo $text_error_credit_card_name; ?>');
             }
         break;
+        case 'agreement':
+            if ( $(this).prop("checked") ) {
+                setErrorMessage(id, '');
+            } else {
+                setErrorMessage(id, '<?php echo $text_error_agreement; ?>');
+            }
+        break;
     }
 });
 // Валидация формы. END
@@ -905,7 +930,7 @@ $('#step').on('change', function(){
     case '3':
       $('.js-step-2 input.js-state-required, .js-step-2 select.js-state-required').blur();
        
-      if ( $('.js-step-2 .f-state-valid').length == ($('.js-step-2 input.f-state-required').length - 1) ) {
+      if ( $('.js-step-2 .f-state-valid').length == ($('.js-step-2 input.f-state-required').length) ) {
         // переходим на следующий шаг:
         $('.js-step-2').addClass('h-hidden');
         $('.js-step-3').removeClass('h-hidden');
@@ -924,7 +949,7 @@ $('#step').on('change', function(){
     break;
     case '4':
       $('.js-step-3 input.js-state-required, .js-step-3 select.js-state-required').blur();
-      if ($('.js-step-3 .f-state-valid').length == 5) {
+      if ($('.js-step-3 .f-state-valid').length == $('.js-step-3 .js-state-required').length) {
         // переходим на следующий шаг:
         //alert('Дописать отправку формы....');
         //$('#step').val(3);

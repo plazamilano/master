@@ -1279,6 +1279,9 @@ body.checkout-checkout {
 
 
 
+.h-disabled {
+    opacity: 0.4;
+}
 
 
 /* Авторизация/регистрация  START */
