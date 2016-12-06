@@ -572,6 +572,7 @@ class ControllerCatalogProduct extends Controller {
 
 		$data['entry_original_url'] = $this->language->get('entry_original_url');
 		$data['entry_original_code'] = $this->language->get('entry_original_code');
+		$data['entry_zakup'] = $this->language->get('entry_zakup');
 	
 		
 		$data['entry_name'] = $this->language->get('entry_name');
@@ -908,6 +909,14 @@ class ControllerCatalogProduct extends Controller {
 			$data['price'] = $product_info['price'];
 		} else {
 			$data['price'] = '';
+		}
+
+		if (isset($this->request->post['zakup'])) {
+			$data['zakup'] = $this->request->post['zakup'];
+		} elseif (!empty($product_info)) {
+			$data['zakup'] = $product_info['zakup'];
+		} else {
+			$data['zakup'] = '';
 		}
 
 		$this->load->model('catalog/recurring');

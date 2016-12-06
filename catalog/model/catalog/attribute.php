@@ -15,22 +15,24 @@ class ModelCatalogAttribute extends Model {
 			$attributes = (int)$attribute_id;
 		}
 		
-		$query = $this->db->query("SELECT
-										A.attribute_id,
-										A.attribute_group_id,
-										A.filter_name,
-										AD.name,
-										AGD.name AS group_name,
-										AGD.description
-										
-										FROM " . DB_PREFIX . "attribute A
-										LEFT JOIN " . DB_PREFIX . "attribute_description AD ON A.attribute_id = AD.attribute_id
-										LEFT JOIN " . DB_PREFIX . "attribute_group AG ON A.attribute_group_id = AG.attribute_group_id
-										LEFT JOIN " . DB_PREFIX . "attribute_group_description AGD ON A.attribute_group_id = AGD.attribute_group_id
-										
-										WHERE A.attribute_id IN ($attributes) AND A.enable='1'
-										GROUP BY A.attribute_id
-										ORDER BY A.sort_order, AD.name ;");
+		$sql = "SELECT
+						A.attribute_id,
+						A.attribute_group_id,
+						A.filter_name,
+						AD.name,
+						AGD.name AS group_name,
+						AGD.description
+						
+						FROM " . DB_PREFIX . "attribute A
+						LEFT JOIN " . DB_PREFIX . "attribute_description AD ON A.attribute_id = AD.attribute_id
+						LEFT JOIN " . DB_PREFIX . "attribute_group AG ON A.attribute_group_id = AG.attribute_group_id
+						LEFT JOIN " . DB_PREFIX . "attribute_group_description AGD ON A.attribute_group_id = AGD.attribute_group_id
+						
+						WHERE A.attribute_id IN ($attributes) AND A.enable='1'
+						GROUP BY A.attribute_id
+						ORDER BY A.sort_order, AD.name ;";
+		//echo $sql;
+		$query = $this->db->query($sql);
 
 		return $query->rows;
 	}

@@ -25,6 +25,8 @@ $_['column_status']          = 'Status';
 $_['column_action']          = 'Action';
 
 
+$_['entry_zakup']          = 'Цена закупа';
+
 $_['entry_size']          = 'Размер товара';
 $_['entry_alternative_size']          = 'Размер на сайт';
 $_['entry_shirina_plech']          = 'Ширина плеч';

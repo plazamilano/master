@@ -846,11 +846,11 @@ class ControllerProductCategory extends Controller {
 	
 			}
 	
-			
+				
 			if($attr_ids AND count($attr_ids)){
 	
 				$results = $this->model_catalog_attribute->getAttributesOnIds($attr_ids);
-		
+	
 				if($results){
 					
 					foreach($results as $result){
@@ -927,19 +927,21 @@ class ControllerProductCategory extends Controller {
 			
 
 			$data['selected_attributes_alias'] = $selected_attributes_alias;
+	
 			
 			//Вынесем атрибут цвета в отдельный массив
 			$data['product_attribute_colors'] = array();
 			if(isset($product_attributes[15])){
 				$data['product_attribute_colors'] = $product_attributes[15];
 				unset($product_attributes[15]);
+				unset($data['product_attributes'][15]);
 			}
-			
-			
+		
 			$url = '';
 
 			$data['subcategories'] = $this->model_catalog_category->getCategoriesTree($category_id, true);
-			
+			$data['categories_is_filter'] = $this->model_catalog_category->getCategoriesIsFilter($category_id, true);
+		
 			
 			if (isset($this->request->get['filter'])) {
 				$url .= '&filter=' . $this->request->get['filter'];

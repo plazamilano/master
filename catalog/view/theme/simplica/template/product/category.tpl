@@ -70,6 +70,32 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
 
     return;
 }
+
+function print_children_filter_list ( $list, $selected_attributes_alias, $category_alias) {
+    echo '<ul class="b-refinement-list">';
+
+    foreach ( $list as $item ) {
+        echo '<li class="b-refinement-item">';
+        //echo '<a class="b-refinement-link " href="'.$item['keyword'].'">'.$item['name'].'</a>';
+        
+        //$item['keyword'] = str_replace('-','@',$item['keyword']); 
+        if ( strpos($selected_attributes_alias, $item['keyword']) !== false) { 
+            echo '<a class="b-refinement-link b-refinement-link--active" href="/'.$item['keyword'].'">'.$item['name'].'</a>';
+        } else { 
+            echo '<a class="b-refinement-link " href="/'.$item['keyword'].'">'.$item['name'].'</a>';
+        } 
+        
+        if ( isset($item['children']) && count($item['children']) != 0 ) {
+            print_children_list( $item['children'] , $selected_attributes_alias, $category_alias);
+        }
+
+        echo '</li>';
+    }
+
+    echo '</ul>';
+
+    return;
+}
 ?>
 
                                             <?php if ( isset($subcategories) && count($subcategories) > 0 ) { ?>
@@ -78,6 +104,18 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
                                                 <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <?php if ( isset($subcategories) AND count($subcategories) > 0) {
                                                         print_children_list($subcategories, $selected_attributes_alias, $category_alias);
+                                                    } ?>
+                                                </div>
+                                            </div>
+                                            <?php } ?>
+
+                                            <?php if ( isset($categories_is_filter) && count($categories_is_filter) > 0 ) { ?>
+                                            <?php $list = current($categories_is_filter); ?>
+                                            <div class="b-refinement">
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $list['name']; ?></div>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
+                                                    <?php if ( isset($list['children']) AND count($list['children']) > 0) {
+                                                        print_children_filter_list($list['children'], $selected_attributes_alias, $category_alias);
                                                     } ?>
                                                 </div>
                                             </div>
@@ -117,14 +155,14 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
                                             <?php if ( isset($product_attribute_colors) && count($product_attribute_colors) > 0 ) { ?>
                                             <div class="b-refinement">
                                                 <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_color; ?></div>
-                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden>
+                                                <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <ul class="b-refinement-list">
                                                     <?php foreach ($product_attribute_colors['attributes'] as $attribut) { ?>
                                                         <li class="b-refinement-item">
                                                             <?php if ( strpos($selected_attributes_alias, $attribut['filter_name']) !== false) { ?>
-                                                                <a class="b-refinement-link b-refinement-link--active" href="<?php echo str_replace($attribut['filter_name'].'-','',$selected_attributes_alias).$category_alias; ?>"><?php echo $attribut['name']; ?></a>
+                                                                <a class="b-refinement-link b-refinement-link--active" href="/<?php echo str_replace($attribut['filter_name'].'-','',$selected_attributes_alias).$category_alias; ?>"><?php echo $attribut['name']; ?></a>
                                                             <?php } else { ?>
-                                                                <a class="b-refinement-link" href="<?php echo $attribut['filter_name'].'-'.$selected_attributes_alias.$category_alias; ?>"><?php echo $attribut['name']; ?></a>
+                                                                <a class="b-refinement-link" href="/<?php echo $attribut['filter_name'].'-'.$selected_attributes_alias.$category_alias; ?>"><?php echo $attribut['name']; ?></a>
                                                             <?php } ?>
 
                                                         </li>

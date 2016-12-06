@@ -189,7 +189,13 @@
                 <!--/div>
               </div-->
               <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-price"><?php echo $entry_price; ?> (Забивается в закладке РАЗМЕРЫ)</label>
+                <label class="col-sm-2 control-label" for="input-zakup"><?php echo $entry_zakup; ?></label>
+                <div class="col-sm-10">
+                  <input type="text" name="zakup" value="<?php echo $zakup; ?>" placeholder=0.00" id="input-zakup" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-price"><?php echo $entry_price; ?></label>
                 <div class="col-sm-10">
                   <input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />
                 </div>

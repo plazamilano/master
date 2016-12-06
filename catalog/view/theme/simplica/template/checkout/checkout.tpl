@@ -86,7 +86,7 @@ $text_error_year = 'Это поле обязательно';
 $text_error_credit_card_cvn = 'Пожалуйста, введите Ваш код безопасности';
 $text_error_credit_card_name = 'Пожалуйста, введите Ваше имя, как указано на карте';
 
-
+$text_order_q = 'Вопрос%20по%20заказа';
 
 $faq_array = array ();   // Сюда засунуть фак
 //$faq_array['href'];
@@ -426,11 +426,11 @@ $faq_array = array ();   // Сюда засунуть фак
         <div class="b-checkout_payment-title--center">
           <div class="b-checkout_content_block-icon_block">
             <div class="b-checkout_content_block-icon_block-title"><?php echo $text_live_chat; ?></div>
-            <a class="b-checkout_content_block-icon_mail" href="#"></a>
+            <a class="b-checkout_content_block-icon_mail" href="mailto:info@plazamilano.com?Subject=<?php echo $text_order_q; ?>"></a>
           </div>
           <div class="b-checkout_content_block-icon_block">
             <div class="b-checkout_content_block-icon_block-title"><?php echo $text_email_us; ?></div>
-            <a class="b-checkout_content_block-icon_mail" href="#"></a>
+            <a class="b-checkout_content_block-icon_mail" href="mailto:info@plazamilano.com?Subject=<?php echo $text_order_q; ?>"></a>
           </div>
         </div>
       </div>
@@ -643,7 +643,7 @@ $faq_array = array ();   // Сюда засунуть фак
                   <div class="b-checkout_content_block-title"><?php echo $text_write_to_us; ?></div>
                   <br>
                   <div class="b-checkout_content_block-icon_block">
-                    <a class="b-checkout_content_block-icon_mail" href="#">
+                    <a class="b-checkout_content_block-icon_mail" href="mailto:info@plazamilano.com?Subject=<?php echo $text_order_q; ?>">
                     </a>
                   </div>
                 </div>

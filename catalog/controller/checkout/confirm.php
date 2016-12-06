@@ -417,6 +417,7 @@ class ControllerCheckoutConfirm extends Controller {
 			$data['column_price'] = $this->language->get('column_price');
 			$data['column_total'] = $this->language->get('column_total');
 
+			$data['text_delivery'] = $this->language->get('text_delivery');
 			$this->load->model('tool/upload');
 
 			$data['products'] = array();
@@ -493,13 +494,55 @@ class ControllerCheckoutConfirm extends Controller {
 			}
 
 			$data['totals'] = array();
-
+/*
 			foreach ($order_data['totals'] as $total) {
 				$data['totals'][] = array(
 					'title' => $total['title'],
 					'text'  => $this->currency->format($total['value']),
 				);
 			}
+*/
+			if (isset($this->session->data['country_id'])) {
+				$country_id = (int)$this->session->data['country_id'];
+			}else {
+				$country_id = 176;
+			}
+	
+			$this->load->model('checkout/delivery');
+	
+			if(is_numeric($country_id)){
+				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
+			}else{
+				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryCode($country_id);	
+			}
+			
+			if(!$delivery_info){
+				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId(176);
+			}
+		
+			foreach($delivery_info as $index => $row){
+				
+				$data['delivery']['realprice'] = number_format($row['price'],2,'.',' ');
+				$data['delivery']['real_simbol_left'] = $this->currency->getSymbolLeft($this->session->data['currency']);
+				$data['delivery']['real_simbol_right'] = $this->currency->getSymbolRight($this->session->data['currency']);
+				
+			}
+
+			$total_data = $order_data['totals'];
+			
+			$data['totals'][] = array(
+				'title' => $total_data[0]['title'],
+				'text'  => $this->currency->format($total_data[0]['value']),
+			);
+			$data['totals'][] = array(
+				'title' => $data['text_delivery'],
+				'text'  => $data['delivery']['real_simbol_left'].$data['delivery']['realprice'].$data['delivery']['real_simbol_right'],
+			);
+			$data['totals'][] = array(
+				'title' => $total_data[1]['title'],
+				'text'  => $this->currency->format($data['delivery']['realprice'] + $total_data[0]['value']),
+			);
+	
 
 			$data['payment'] = '';//$this->load->controller('payment/' . $this->session->data['payment_method']['code']);
 			$this->db->query("DELETE FROM " . DB_PREFIX . "cart WHERE session_id = '" . $this->db->escape($this->session->getId()) . "'");

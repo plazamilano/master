@@ -23,6 +23,7 @@ $_['entry_name_rod']         = '@block_name_rod@ (белую блузку)';
 $_['entry_name_several']     = '@block_name_several@ (белые блузки)';
 $_['entry_description']      = 'Описание';
 $_['entry_is_menu'] 	     = 'Показывать в выпадающем меню';
+$_['entry_is_filter'] 	     = 'Эту ветку в фильтр';
 $_['entry_title_h1'] 	     = 'Title H1';
 $_['entry_meta_title'] 	     = 'Мета-тег Title';
 $_['entry_meta_keyword'] 	 = 'Мета-тег Keywords';

@@ -125,6 +125,45 @@ class ModelCatalogCategory extends Model {
 		return $array0;
 	}
 	
+	public function getCategoriesIsFilter($category_id = 0, $tree = false) {
+		
+		//Получим все фильтры
+		$sql = "SELECT category_id FROM " . DB_PREFIX . "category WHERE is_filter = 1;";
+		$r = $this->db->query($sql);
+		
+		if($r->num_rows == 0) return false;
+		
+		//Получим путь нашей категории
+		$sql = 'SELECT path_id FROM '. DB_PREFIX .'category_path WHERE category_id = "'.$category_id.'" ORDER BY level;';
+		$r_main = $this->db->query($sql);
+		
+		$main_path = array();
+		foreach($r_main->rows as $row){
+			$main_path[] = $row['path_id'];
+		}
+
+		//Найдем какой из них сосед нашей категории
+		$filter_id = 0;
+		foreach($r->rows as $row){
+			
+			$sql = 'SELECT path_id FROM '. DB_PREFIX .'category_path WHERE category_id = "'.$row['category_id'].'" ORDER BY level;';
+			$r_filter = $this->db->query($sql);
+			
+			foreach($r_filter->rows as $row_filter){
+			
+				if(in_array($row_filter['path_id'],$main_path )){
+					$filter_id = $row['category_id'];
+					break;
+				}
+			}
+			if($filter_id > 0) break;
+		}
+		
+		if($filter_id > 0)	return $this->getCategoriesTree($filter_id, true);
+		
+		return false;
+	}
+	
 	private function _makeTree($rows, $parent_id){
 		//unset($rows[$parent_id]);
 		

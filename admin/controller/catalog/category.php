@@ -28,12 +28,18 @@ class ControllerCatalogCategory extends Controller {
 				$this->request->post['is_menu'] = 0;
 			}
 		
+			if(isset($this->request->post['is_filter'])){
+				$this->request->post['is_filter'] = 1;
+			}else{
+				$this->request->post['is_filter'] = 0;
+			}
+		
 			
-			$this->model_catalog_category->addCategory($this->request->post);
+			$category_id = $this->model_catalog_category->addCategory($this->request->post);
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$url = '';
+			$url = '&category_id='.$category_id;
 
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
@@ -47,7 +53,7 @@ class ControllerCatalogCategory extends Controller {
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/category', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->response->redirect($this->url->link('catalog/category/edit', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
 		$this->getForm();
@@ -161,6 +167,12 @@ die('Сюда не нажимай! Это для програмиста!');
 				$this->request->post['is_menu'] = 0;
 			}
 			
+			if(isset($this->request->post['is_filter'])){
+				$this->request->post['is_filter'] = 1;
+			}else{
+				$this->request->post['is_filter'] = 0;
+			}
+			
 			if(isset($this->request->post['domain_is_menu'])){
 				$this->request->post['domain_is_menu'] = 1;
 			}else{
@@ -171,7 +183,7 @@ die('Сюда не нажимай! Это для програмиста!');
 
 			$this->session->data['success'] = $this->language->get('text_success');
 
-			$url = '';
+			$url = '&category_id='.(int)$this->request->get['category_id'];
 
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
@@ -185,7 +197,7 @@ die('Сюда не нажимай! Это для програмиста!');
 				$url .= '&page=' . $this->request->get['page'];
 			}
 
-			$this->response->redirect($this->url->link('catalog/category', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->response->redirect($this->url->link('catalog/category/edit', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 
 		$this->getForm();
@@ -430,6 +442,7 @@ die('Сюда не нажимай! Это для програмиста!');
 		$data['entry_sort_order'] = $this->language->get('entry_sort_order');
 		$data['entry_status'] = $this->language->get('entry_status');
 		$data['entry_layout'] = $this->language->get('entry_layout');
+		$data['entry_is_filter'] = $this->language->get('entry_is_filter');
 
 		$data['help_filter'] = $this->language->get('help_filter');
 		$data['help_keyword'] = $this->language->get('help_keyword');
@@ -542,6 +555,14 @@ die('Сюда не нажимай! Это для програмиста!');
 			$data['is_menu'] = $category_info['is_menu'];
 		} else {
 			$data['is_menu'] = 0;
+		}
+
+		if (isset($this->request->post['is_filter'])) {
+			$data['is_filter'] = 1;
+		} elseif (!empty($category_info)) {
+			$data['is_filter'] = $category_info['is_filter'];
+		} else {
+			$data['is_filter'] = 0;
 		}
 
 		if (isset($this->request->post['domain_is_menu'])) {

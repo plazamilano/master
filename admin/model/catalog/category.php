@@ -18,8 +18,9 @@ class ModelCatalogCategory extends Model {
 						 parent_id = '" . (int)$data['parent_id'] . "',
 						 code = '" . $data['code'] . "',
 						 `top` = '" . (isset($data['top']) ? (int)$data['top'] : 0) . "',
-						 `column` = '" . (int)$data['column'] . "', i
-						 s_menu = '" . (int)$data['is_menu'] . "',
+						 `column` = '" . (int)$data['column'] . "', 
+						 is_menu = '" . (int)$data['is_menu'] . "',
+						 is_filter = '" . (int)$data['is_filter'] . "',
 						 sort_order = '" . (int)$data['sort_order'] . "',
 						 status = '" . (int)$data['status'] . "',
 						 date_modified = NOW(), date_added = NOW()");
@@ -144,6 +145,7 @@ class ModelCatalogCategory extends Model {
 		
 		$data['code'] = $data['keyword'];
 		if(!isset($data['is_menu'])) $data['is_menu'] = '0';
+		if(!isset($data['is_filter'])) $data['is_filter'] = '0';
 		
 		$this->db->query("UPDATE " . DB_PREFIX . "category SET
 									parent_id = '" . (int)$data['parent_id'] . "',
@@ -151,6 +153,7 @@ class ModelCatalogCategory extends Model {
 									`column` = '" . (int)$data['column'] . "',
 									`code` = '" . $data['code'] . "',
 									is_menu = '" . (int)$data['is_menu'] . "',
+									is_filter = '" . (int)$data['is_filter'] . "',
 									sort_order = '" . (int)$data['sort_order'] . "',
 									status = '" . (int)$data['status'] . "',
 									date_modified = NOW() WHERE category_id = '" . (int)$category_id . "'");
@@ -451,7 +454,8 @@ class ModelCatalogCategory extends Model {
 				GROUP_CONCAT(cd1.name ORDER BY cp.level SEPARATOR '&nbsp;&nbsp;&gt;&nbsp;&nbsp;') AS name,
 				c1.parent_id,
 				c1.sort_order,
-				c1.is_menu
+				c1.is_menu,
+				c1.is_filter
 				FROM " . DB_PREFIX . "category_path cp
 				LEFT JOIN " . DB_PREFIX . "category c1 ON (cp.category_id = c1.category_id)
 				LEFT JOIN " . DB_PREFIX . "category c2 ON (cp.path_id = c2.category_id)
