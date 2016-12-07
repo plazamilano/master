@@ -109,7 +109,7 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                             </div>
                                             <?php } ?>
 
-                                            <?php if ( isset($categories_is_filter) && count($categories_is_filter) > 0 ) { ?>
+                                            <?php if ( isset($categories_is_filter) && count($categories_is_filter) > 0 AND $categories_is_filter) { ?>
                                             <?php $list = current($categories_is_filter); ?>
                                             <div class="b-refinement">
                                                 <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $list['name']; ?></div>
