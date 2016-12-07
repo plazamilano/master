@@ -962,16 +962,23 @@ class ModelCatalogProduct extends Model {
 						$product_option_value_data[$product_option_value['alternative_size']]['quantity'] = $product_option_value['quantity'];
 					}
 				}
+				
+				//Удалим размеры пустышки
+				foreach ($product_option_value_data as $index => $row) {
+					if($row['quantity'] < 1) unset($product_option_value_data[$index]);
+				}
 	
-				$product_option_data[] = array(
-					'product_option_id'    => $product_option['product_option_id'],
-					'option_id'            => $product_option['option_id'],
-					'name'                 => $product_option['name'],
-					'type'                 => $product_option['type'],
-					'value'                => $product_option['value'],
-					'required'             => $product_option['required'],
-					'product_option_value' => $product_option_value_data
-				);
+				if(isset($product_option_value_data) AND count($product_option_value_data) > 0){
+					$product_option_data[] = array(
+						'product_option_id'    => $product_option['product_option_id'],
+						'option_id'            => $product_option['option_id'],
+						'name'                 => $product_option['name'],
+						'type'                 => $product_option['type'],
+						'value'                => $product_option['value'],
+						'required'             => $product_option['required'],
+						'product_option_value' => $product_option_value_data
+					);
+				}
 			}
 		}
 		return $product_option_data;
