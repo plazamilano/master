@@ -55,7 +55,6 @@ class ModelCheckoutOrder extends Model {
 			if($row['firstname'] == $this->db->escape($data['shipping_firstname']) AND
 				$row['lastname'] == $this->db->escape($data['shipping_lastname']) AND
 				$row['address_1'] == $this->db->escape($data['shipping_address_1']) AND
-				$row['address_2'] == $this->db->escape($data['shipping_address_2']) AND
 				$row['postcode'] == $this->db->escape($data['shipping_postcode']) AND
 				$row['city'] == $this->db->escape($data['shipping_city']) AND
 				$row['country_id'] == $this->db->escape($data['shipping_country_id'])){
@@ -77,7 +76,6 @@ class ModelCheckoutOrder extends Model {
 						'lastname' => $this->db->escape($data['shipping_lastname']),
 						'company' => '',
 						'address_1' => $this->db->escape($data['shipping_address_1']),
-						'address_2' => $this->db->escape($data['shipping_address_2']),
 						'postcode' => $this->db->escape($data['shipping_postcode']),
 						'city' => $this->db->escape($data['shipping_city']),
 						'zone_id' => (int)$data['shipping_zone_id'],
@@ -99,6 +97,10 @@ class ModelCheckoutOrder extends Model {
 
 				foreach ($product['option'] as $option) {
 					$this->db->query("INSERT INTO " . DB_PREFIX . "order_option SET order_id = '" . (int)$order_id . "', order_product_id = '" . (int)$order_product_id . "', product_option_id = '" . (int)$option['product_option_id'] . "', product_option_value_id = '" . (int)$option['product_option_value_id'] . "', name = '" . $this->db->escape($option['name']) . "', `value` = '" . $this->db->escape($option['value']) . "', `type` = '" . $this->db->escape($option['type']) . "'");
+					
+					$this->db->query("UPDATE " . DB_PREFIX . "product_option_value SET
+									 quantity = quantity - ".(int)$product['quantity']."
+									 WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'");
 				}
 			}
 		}
@@ -180,7 +182,12 @@ class ModelCheckoutOrder extends Model {
 
 		if (isset($data['totals'])) {
 			foreach ($data['totals'] as $total) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int)$order_id . "', code = '" . $this->db->escape($total['code']) . "', title = '" . $this->db->escape($total['title']) . "', `value` = '" . (float)$total['value'] . "', sort_order = '" . (int)$total['sort_order'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET
+								 order_id = '" . (int)$order_id . "',
+								 code = '" . $this->db->escape($total['code']) . "',
+								 title = '" . $this->db->escape($total['title']) . "',
+								 `value` = '" . (float)$total['value'] . "',
+								 sort_order = '" . (int)$total['sort_order'] . "'");
 			}
 		}
 

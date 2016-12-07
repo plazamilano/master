@@ -384,7 +384,7 @@ class ControllerProductManufacturer extends Controller {
 					'original_url'      => $result['original_url'],
 					'name'        		=> $result['name'],
 					'loved'        		=> $result['loved'],
-					'size'        		=> $result['size'],
+					/*'size'        		=> $result['size'],*/
 					'shop_id'        	=> $result['shop_id'],
 					'shop_name'        	=> $result['shop_name'],
 					'shop_href'        	=> $result['shop_href'],

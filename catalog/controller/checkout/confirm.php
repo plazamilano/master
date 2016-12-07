@@ -402,9 +402,77 @@ class ControllerCheckoutConfirm extends Controller {
 				$order_data['accept_language'] = '';
 			}
 
-			$this->load->model('checkout/order');
-
+						$data['totals'] = array();
+/*
+			foreach ($order_data['totals'] as $total) {
+				$data['totals'][] = array(
+					'title' => $total['title'],
+					'text'  => $this->currency->format($total['value']),
+				);
+			}
+*/
+			if (isset($this->session->data['country_id'])) {
+				$country_id = (int)$this->session->data['country_id'];
+			}else {
+				$country_id = 176;
+			}
+	
+			$this->load->model('checkout/delivery');
+	
+			if(is_numeric($country_id)){
+				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
+			}else{
+				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryCode($country_id);	
+			}
 			
+			if(!$delivery_info){
+				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId(176);
+			}
+		
+			foreach($delivery_info as $index => $row){
+				
+				$data['delivery']['realprice'] = number_format($row['price'],2,'.',' ');
+				$data['delivery']['real_simbol_left'] = $this->currency->getSymbolLeft($this->session->data['currency']);
+				$data['delivery']['real_simbol_right'] = $this->currency->getSymbolRight($this->session->data['currency']);
+				
+			}
+
+			$total_data = $order_data['totals'];
+			
+			//Сумма
+			$data['totals'][] = array(
+				'title' => $total_data[0]['title'],
+				'text'  => $this->currency->format($total_data[0]['value']),
+			);
+			
+			//Доставка
+			$data['totals'][] = array(
+				'title' => $data['text_delivery'],
+				'text'  => $data['delivery']['real_simbol_left'].$data['delivery']['realprice'].$data['delivery']['real_simbol_right'],
+			);
+			$order_data['totals'][1] = array(
+										'code' => 'delivery',
+										'title' => 'delivery',
+										'value' => $data['delivery']['realprice'],
+										'sort_order' => 2
+								);
+			
+			//Итого
+			$data['totals'][] = array(
+				'title' => $total_data[1]['title'],
+				'text'  => $this->currency->format($data['delivery']['realprice'] + $total_data[0]['value']),
+			);
+			$order_data['totals'][2] = array(
+									'code' => 'total',
+									'title' => 'Итого',
+									'value' => $order_data['totals'][0][value] + $data['delivery']['realprice'],
+									'sort_order' => 9
+							);
+			$order_data['total'] = $order_data['totals'][0][value] + $data['delivery']['realprice'];
+			
+			
+			
+			$this->load->model('checkout/order');
 			$data['order_id'] = $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 
 			
@@ -493,55 +561,7 @@ class ControllerCheckoutConfirm extends Controller {
 				}
 			}
 
-			$data['totals'] = array();
-/*
-			foreach ($order_data['totals'] as $total) {
-				$data['totals'][] = array(
-					'title' => $total['title'],
-					'text'  => $this->currency->format($total['value']),
-				);
-			}
-*/
-			if (isset($this->session->data['country_id'])) {
-				$country_id = (int)$this->session->data['country_id'];
-			}else {
-				$country_id = 176;
-			}
-	
-			$this->load->model('checkout/delivery');
-	
-			if(is_numeric($country_id)){
-				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
-			}else{
-				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryCode($country_id);	
-			}
-			
-			if(!$delivery_info){
-				$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId(176);
-			}
-		
-			foreach($delivery_info as $index => $row){
-				
-				$data['delivery']['realprice'] = number_format($row['price'],2,'.',' ');
-				$data['delivery']['real_simbol_left'] = $this->currency->getSymbolLeft($this->session->data['currency']);
-				$data['delivery']['real_simbol_right'] = $this->currency->getSymbolRight($this->session->data['currency']);
-				
-			}
 
-			$total_data = $order_data['totals'];
-			
-			$data['totals'][] = array(
-				'title' => $total_data[0]['title'],
-				'text'  => $this->currency->format($total_data[0]['value']),
-			);
-			$data['totals'][] = array(
-				'title' => $data['text_delivery'],
-				'text'  => $data['delivery']['real_simbol_left'].$data['delivery']['realprice'].$data['delivery']['real_simbol_right'],
-			);
-			$data['totals'][] = array(
-				'title' => $total_data[1]['title'],
-				'text'  => $this->currency->format($data['delivery']['realprice'] + $total_data[0]['value']),
-			);
 	
 
 			$data['payment'] = '';//$this->load->controller('payment/' . $this->session->data['payment_method']['code']);

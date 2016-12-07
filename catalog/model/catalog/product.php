@@ -969,18 +969,26 @@ class ModelCatalogProduct extends Model {
 				}
 	
 				if(isset($product_option_value_data) AND count($product_option_value_data) > 0){
-					$product_option_data[] = array(
-						'product_option_id'    => $product_option['product_option_id'],
-						'option_id'            => $product_option['option_id'],
-						'name'                 => $product_option['name'],
-						'type'                 => $product_option['type'],
-						'value'                => $product_option['value'],
-						'required'             => $product_option['required'],
-						'product_option_value' => $product_option_value_data
-					);
+					if(isset($product_option_data[$product_option['option_id']])){
+						foreach($product_option_value_data as $index => $row){
+							$product_option_data[$product_option['option_id']]['product_option_value'][$index] = $row;
+						}
+					}else{
+						$product_option_data[$product_option['option_id']] = array(
+							'product_option_id'    => $product_option['product_option_id'],
+							'option_id'            => $product_option['option_id'],
+							'name'                 => $product_option['name'],
+							'type'                 => $product_option['type'],
+							'value'                => $product_option['value'],
+							'required'             => $product_option['required'],
+							'product_option_value' => $product_option_value_data
+						);
+					}
 				}
 			}
 		}
+		
+		
 		return $product_option_data;
 	}
 
