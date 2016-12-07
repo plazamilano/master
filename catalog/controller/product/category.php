@@ -624,8 +624,8 @@ class ControllerProductCategory extends Controller {
 			//end Если есть выбранные размеры - нам нужно получить ИД продуктов без фильтрации по размерам
 			
 			//Соберем размеры
-			$data['size'] = $this->model_catalog_attribute->getSisezOnProduct($product_ids_no_size_filter);
-			$data['sizes'] = $this->model_catalog_attribute->getSisezOnProductNoGroup($product_ids_no_size_filter);
+			$data['sizes'] = $this->model_catalog_product->getProductsOptions($product_ids_no_size_filter);
+			//$data['sizes'] = $this->model_catalog_attribute->getSisezOnProductNoGroup($product_ids_no_size_filter);
 		
 			
 			$this->load->model('catalog/manufacturer');

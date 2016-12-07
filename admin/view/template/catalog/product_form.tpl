@@ -629,10 +629,10 @@
                               <?php $product_option_value_id = $product_option_value['product_option_value_id']; ?>
                               
                               <td class="text-left" style="width: 100px;">
-                                <select style="width: 100px;" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][alternative_size]" class="form-control">
+                                  <select style="width: 100px;" name="product_option[<?php echo $option_row; ?>][product_option_value][<?php echo $option_value_row; ?>][alternative_size]" class="form-control">
                                   <?php if (isset($option_values[$product_option['option_id']])) { ?>
                                   <?php foreach ($option_values[$product_option['option_id']] as $option_value) { ?>
-                                  <?php if ($option_value['option_value_id'] == $product_option_value['option_value_id']) { ?>
+                                  <?php if ($option_value['option_value_id'] == $product_option_value['alternative_size']) { ?>
                                   <option value="<?php echo $option_value['option_value_id']; ?>" selected="selected"><?php echo $option_value['name']; ?></option>
                                   <?php } else { ?>
                                   <option value="<?php echo $option_value['option_value_id']; ?>"><?php echo $option_value['name']; ?></option>

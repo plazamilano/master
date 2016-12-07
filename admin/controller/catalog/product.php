@@ -1218,6 +1218,7 @@ class ControllerCatalogProduct extends Controller {
 						'params' => 				$this->model_catalog_option->getOptionValueParams($product_option_value['product_option_value_id']),
 						'option_value_id'         => $product_option_value['option_value_id'],
 						'quantity'                => $product_option_value['quantity'],
+						'alternative_size'                => $product_option_value['alternative_size'],
 						'subtract'                => $product_option_value['subtract'],
 						'price'                   => $product_option_value['price'],
 						'price_prefix'            => $product_option_value['price_prefix'],

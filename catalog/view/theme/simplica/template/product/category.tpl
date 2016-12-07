@@ -195,22 +195,24 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
 
                                             <?php if ( isset($sizes) && count($sizes) > 0 ) { ?>
                                             <div class="b-refinement b-refinement--clothingsize">
-                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $text_size; ?></div>
+                                                <?php foreach ($sizes as $size_g) { ?>
+                                                <div class="b-refinement-sub_title js-mob-filter-popup-link"><?php echo $size_g['name']; ?></div>
                                                 <div class="js-scrollbar scrollbar-light b-refinement-ul js-mob-filter-popup h-mob-hidden">
                                                     <ul class="b-refinement-list">
-                                                    <?php foreach ($sizes as $size) { ?>
+                                                    <?php foreach ($size_g['product_option_value'] as $size) { ?>
                                                         <li class="b-refinement-item">
 
-                                                            <?php if ( strpos($selected_attributes_alias, $size['size_name']) !== false) { ?>
-                                                                <a class="b-refinement-link b-refinement-link--active" href="<?php echo str_replace('sz_'.$size['size_name'].'-','',$selected_attributes_alias.$category_alias); ?>"><?php echo $size['size_name']; ?></a>
+                                                            <?php if ( strpos($selected_attributes_alias, $size['name']) !== false) { ?>
+                                                                <a class="b-refinement-link b-refinement-link--active" href="<?php echo str_replace('sz_'.$size['name'].'-','',$selected_attributes_alias.$category_alias); ?>"><?php echo $size['name']; ?></a>
                                                             <?php } else { ?>
-                                                                <a class="b-refinement-link" href="<?php echo 'sz_'.$size['size_name'].'-'.$selected_attributes_alias.$category_alias; ?>"><?php echo $size['size_name']; ?></a>
+                                                                <a class="b-refinement-link" href="<?php echo 'sz_'.$size['name'].'-'.$selected_attributes_alias.$category_alias; ?>"><?php echo $size['name']; ?></a>
                                                             <?php } ?>
 
                                                         </li>
                                                     <?php } ?>
                                                     </ul>
                                                 </div>
+                                                <?php } ?>
                                             </div>
                                             <?php } ?>
 
