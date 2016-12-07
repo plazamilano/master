@@ -342,27 +342,7 @@ class ModelCatalogProduct extends Model {
 	
 		$query = $this->db->query($sql);
 
-		//Получим размеры
-		$sql = "SELECT	S.size_id,
-						S.name AS size_name,
-						SG.name AS group_name,
-						SG.filter_name AS filter_group_name,
-						SG.id AS group_id
-					FROM " . DB_PREFIX . "product_to_size P2S
-					LEFT JOIN " . DB_PREFIX . "size S ON P2S.size_id = S.size_id
-					LEFT JOIN " . DB_PREFIX . "size_group SG ON SG.id = S.group_id
-						
-					WHERE P2S.product_id='".(int)$product_id."'
-					ORDER BY S.sort ASC
-						;";
-		//echo '<br>'.$sql;
-		$r_s = $this->db->query($sql);
-		$size = array();
-		if($r_s->num_rows > 0){
-			foreach($r_s->rows as $row){
-				$size[$row['size_id']] = $row;
-			}
-		}
+	
 	
 		if ($query->num_rows) {
 			
@@ -389,7 +369,6 @@ class ModelCatalogProduct extends Model {
 				'money_limit'     => ($query->row['money_limit'] > 0) ? $query->row['money_limit'] : 0,
 				'money_click'     => ($query->row['money_click'] > 0) ? $query->row['money_click'] : 0,
 				'tag'              => $query->row['tag'],
-				'size'              => $size,
 				'model'            => $query->row['model'],
 				'sku'              => $query->row['sku'],
 				'upc'              => $query->row['upc'],
@@ -517,7 +496,7 @@ class ModelCatalogProduct extends Model {
 	
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id)";
 		}
 		
 		//Фильтр по атрибутам
@@ -548,7 +527,7 @@ class ModelCatalogProduct extends Model {
 		
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " AND p2size.size_id IN (" . $this->db->escape($data['filter_sizes']) . ")";
+			$sql .= " AND (pov.option_value_id IN (" . $this->db->escape($data['filter_sizes']) . ") OR pov.alternative_size IN (" . $this->db->escape($data['filter_sizes']) . "))";
 		}
 		//end Фильтр по размерам
 
@@ -939,58 +918,62 @@ class ModelCatalogProduct extends Model {
 	}
 
 	public function getProductsOptions($products_ids = array()) {
+		
+		if(!count($products_ids)) return array();
+		
 		$product_option_data = array();
-
+		
 		$sql = "SELECT * FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_id IN (" . implode(',',$products_ids) . ") AND od.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY o.sort_order";
 		$product_option_query = $this->db->query($sql);
 
-		foreach ($product_option_query->rows as $product_option) {
-			$product_option_value_data = array();
-
-			$sql = "SELECT *,
-					(SELECT distinct ovd2.name FROM " . DB_PREFIX . "option_value_description ovd2 WHERE pov.alternative_size = ovd2.option_value_id) as alternative_name
-					FROM " . DB_PREFIX . "product_option_value pov
-					LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id)
-					LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id)
-					WHERE pov.product_id IN (" . implode(',',$products_ids) . ")
-						AND pov.product_option_id = '" . (int)$product_option['product_option_id'] . "'
-						AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'
-						ORDER BY ov.sort_order";
-			$product_option_value_query = $this->db->query($sql);
-
-			//Группируем размеры по Альтернативу
-			foreach ($product_option_value_query->rows as $product_option_value) {
-				$product_option_value_data[$product_option_value['alternative_size']] = array(
-					'product_option_value_id' => $product_option_value['product_option_value_id'],
-					'option_value_id'         => $product_option_value['alternative_size'],
-					'name'         => $product_option_value['alternative_name'],
-					'name_orig'                    => $product_option_value['name'],
-					'subtract'                => $product_option_value['subtract'],
-					'price'                   => $product_option_value['price'],
-					'price_prefix'            => $product_option_value['price_prefix'],
-					'weight'                  => $product_option_value['weight'],
-					'weight_prefix'           => $product_option_value['weight_prefix']
-				);
-				
-				//Сумируем все количество этого размера по всем товарам
-				if(isset($product_option_value_data[$product_option_value['alternative_size']]['quantity'])){
-					$product_option_value_data[$product_option_value['alternative_size']]['quantity'] += $product_option_value['quantity'];
-				}else{
-					$product_option_value_data[$product_option_value['alternative_size']]['quantity'] = $product_option_value['quantity'];
+		if($product_option_query->num_rows){
+			foreach ($product_option_query->rows as $product_option) {
+				$product_option_value_data = array();
+	
+				$sql = "SELECT *,
+						(SELECT distinct ovd2.name FROM " . DB_PREFIX . "option_value_description ovd2 WHERE pov.alternative_size = ovd2.option_value_id) as alternative_name
+						FROM " . DB_PREFIX . "product_option_value pov
+						LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id)
+						LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id)
+						WHERE pov.product_id IN (" . implode(',',$products_ids) . ")
+							AND pov.product_option_id = '" . (int)$product_option['product_option_id'] . "'
+							AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'
+							ORDER BY ov.sort_order";
+				$product_option_value_query = $this->db->query($sql);
+	
+				//Группируем размеры по Альтернативу
+				foreach ($product_option_value_query->rows as $product_option_value) {
+					$product_option_value_data[$product_option_value['alternative_size']] = array(
+						'product_option_value_id' => $product_option_value['product_option_value_id'],
+						'option_value_id'         => $product_option_value['alternative_size'],
+						'name'         => $product_option_value['alternative_name'],
+						'name_orig'                    => $product_option_value['name'],
+						'subtract'                => $product_option_value['subtract'],
+						'price'                   => $product_option_value['price'],
+						'price_prefix'            => $product_option_value['price_prefix'],
+						'weight'                  => $product_option_value['weight'],
+						'weight_prefix'           => $product_option_value['weight_prefix']
+					);
+					
+					//Сумируем все количество этого размера по всем товарам
+					if(isset($product_option_value_data[$product_option_value['alternative_size']]['quantity'])){
+						$product_option_value_data[$product_option_value['alternative_size']]['quantity'] += $product_option_value['quantity'];
+					}else{
+						$product_option_value_data[$product_option_value['alternative_size']]['quantity'] = $product_option_value['quantity'];
+					}
 				}
+	
+				$product_option_data[] = array(
+					'product_option_id'    => $product_option['product_option_id'],
+					'option_id'            => $product_option['option_id'],
+					'name'                 => $product_option['name'],
+					'type'                 => $product_option['type'],
+					'value'                => $product_option['value'],
+					'required'             => $product_option['required'],
+					'product_option_value' => $product_option_value_data
+				);
 			}
-
-			$product_option_data[] = array(
-				'product_option_id'    => $product_option['product_option_id'],
-				'option_id'            => $product_option['option_id'],
-				'name'                 => $product_option['name'],
-				'type'                 => $product_option['type'],
-				'value'                => $product_option['value'],
-				'required'             => $product_option['required'],
-				'product_option_value' => $product_option_value_data
-			);
 		}
-
 		return $product_option_data;
 	}
 
@@ -1498,7 +1481,7 @@ class ModelCatalogProduct extends Model {
 
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id)";
 		}
 			
 		//Фильтр по атрибутам
@@ -1530,7 +1513,7 @@ class ModelCatalogProduct extends Model {
 
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " AND p2size.size_id IN (" . $this->db->escape($data['filter_sizes']) . ")";
+			$sql .= " AND (pov.option_value_id IN (" . $this->db->escape($data['filter_sizes']) . ") OR pov.alternative_size IN (" . $this->db->escape($data['filter_sizes']) . "))";
 		}
 
 		//Фильтр по атрибутам

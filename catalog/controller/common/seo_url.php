@@ -546,13 +546,11 @@ class ControllerCommonSeoUrl extends Controller {
 									$size = explode('_',$alias);
 									
 									//Это размер
-										$sql = "SELECT size_id FROM " . DB_PREFIX . "size
-														WHERE name LIKE '" . $this->db->escape($size[1]) . "' AND
-															group_id = (SELECT id FROM " . DB_PREFIX . "size_group WHERE filter_name LIKE '" . $this->db->escape($size[0]) . "')
-														LIMIT 0,1;";
+										$sql = "SELECT distinct option_value_id FROM " . DB_PREFIX . "option_value_description
+														WHERE name LIKE '" . $this->db->escape($size[1]) . "';";
 										$query_A = $this->db->query($sql);
 										if($query_A->num_rows){
-											$sizes[] = $query_A->row['size_id'];
+											$sizes[] = $query_A->row['option_value_id'];
 											$categ = str_replace($alias.'-', '', $categ);
 										}
 										

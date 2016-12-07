@@ -90,7 +90,6 @@ class ControllerProductCategory extends Controller {
 			$sizes = '';
 		}
 
-		
 		if (isset($this->request->get['sort']) AND $this->request->get['sort'] != '') {
 			if($this->request->get['sort'] == 'viewed'){
 				$sort = 'p.viewed';
@@ -273,8 +272,6 @@ class ControllerProductCategory extends Controller {
 					$categorize = $this->model_catalog_category->getCategorize($this->request->get['_route_']);
 				}
 			}
-//header("Content-Type: text/html; charset=UTF-8");
-//echo "<pre>";  print_r(var_dump( $categorize )); echo "</pre>";
 
 			if(isset($categorize) AND $categorize){
 
@@ -743,7 +740,7 @@ class ControllerProductCategory extends Controller {
 					'options'        	=> $options,
 					'name'        		=> $result['name'],
 					'loved'        		=> $result['loved'],
-					'size'        		=> $result['size'],
+					/*'size'        		=> $result['size'],*/
 					'shop_id'        	=> $result['shop_id'],
 					'shop_name'        	=> $result['shop_name'],
 					'shop_href'        	=> $result['shop_href'],
@@ -917,6 +914,7 @@ class ControllerProductCategory extends Controller {
 			if(isset($data['selected_sizes']) AND is_array($data['selected_sizes']) ){
 				
 				$this->load->model('catalog/size');
+				
 				$data['selected_sizes'] = $sizes = $this->model_catalog_size->getSizes($data['selected_sizes']);
 				
 				foreach($sizes as $size){
@@ -927,7 +925,6 @@ class ControllerProductCategory extends Controller {
 			
 
 			$data['selected_attributes_alias'] = $selected_attributes_alias;
-	
 			
 			//Вынесем атрибут цвета в отдельный массив
 			$data['product_attribute_colors'] = array();
