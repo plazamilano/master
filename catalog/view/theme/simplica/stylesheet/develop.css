@@ -1716,3 +1716,15 @@ body.checkout-checkout {
 }
 /* footer. END */
 
+
+
+
+
+
+.l-search_result-wrapper .b-refinement--clothingsize, .l-search_result-wrapper .b-refinement--shoesize {
+    height: 100%;
+    overflow: auto;
+}
+.b-refinement--clothingsize .b-refinement-ul {
+    height: auto;
+}

@@ -423,7 +423,7 @@ $faq_array = array ();   // Сюда засунуть фак
 
 
 
-      <div class="b-checkout_shipping_address h-hidden">
+      <div class="b-checkout_shipping_address js-step-3 h-hidden">
         <p><?php echo $text_have_questions; ?></p>
         <div class="b-checkout_payment-title--center">
           <div class="b-checkout_content_block-icon_block">
@@ -437,7 +437,7 @@ $faq_array = array ();   // Сюда засунуть фак
         </div>
       </div>
 
-      <div class="b-checkout_payment h-hidden">
+      <div class="b-checkout_payment js-step-3 h-hidden">
         <h3 class="b-checkout_shipping_address-title"><?php echo $text_delivery_info; ?></h3>
         <div class="b-checkout_shipping_address--summary js-checkout_shipping_address_summary"></div>
         <span class="b-checkout_shipping_address--summary-edit js-indication-step-2 js-prev-step"><?php echo $text_delivery_edit; ?></span>
