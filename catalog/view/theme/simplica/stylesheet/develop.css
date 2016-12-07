@@ -1728,3 +1728,6 @@ body.checkout-checkout {
 .b-refinement--clothingsize .b-refinement-ul {
     height: auto;
 }
+.l-search_result-wrapper .b-refinement--clothingsize .b-refinement-list, .l-search_result-wrapper .b-refinement--shoesize .b-refinement-list {
+    height: auto;
+}
