@@ -1,5 +1,8 @@
 <?php echo $header; ?>
 <?php
+
+$text_clear_all = 'Очистить все';
+    
 //header("Content-Type: text/html; charset=UTF-8");
 //echo "<pre>";  print_r(var_dump( get_defined_vars() )); echo "</pre>";
 ?>
@@ -51,12 +54,15 @@ function print_children_list ( $list, $selected_attributes_alias, $category_alia
     foreach ( $list as $item ) {
         echo '<li class="b-refinement-item">';
         //echo '<a class="b-refinement-link " href="'.$item['keyword'].'">'.$item['name'].'</a>';
-        
         $item['keyword'] = str_replace('-','@',$item['keyword']); 
-        if ( strpos($selected_attributes_alias, $item['keyword']) !== false) { 
+        if ( strlen($selected_attributes_alias) > 0 AND strlen($item['keyword']) > 0 AND strpos($selected_attributes_alias, $item['keyword']) !== false) { 
             echo '<a class="b-refinement-link b-refinement-link--active" href="'.str_replace($item['keyword'].'-','',$selected_attributes_alias).$category_alias.'">'.$item['name'].'</a>';
-        } else { 
-            echo '<a class="b-refinement-link " href="'.$item['keyword'].'-'.$selected_attributes_alias.$category_alias.'">'.$item['name'].'</a>';
+        } else {
+            if(isset($manufacturer_main_category)){ 
+                echo '<a class="b-refinement-link " href="'.$item['keyword'].'-'.$selected_attributes_alias.$category_alias.'">'.$item['name'].'</a>';
+            }else{
+                echo '<a class="b-refinement-link " href="'.$selected_attributes_alias.'-'.$item['keyword'].'">'.$item['name'].'</a>';
+            }
         } 
         
         if ( isset($item['children']) && count($item['children']) != 0 ) {
@@ -92,7 +98,7 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
         echo '</li>';
     }
 
-    echo '</ul>';
+    echo '</ul>';   
 
     return;
 }
@@ -137,7 +143,11 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                                                 <?php if ( strpos($selected_attributes_alias, $attr['filter_name']) !== false) { ?>
                                                                     <a class="b-refinement-link b-refinement-link--active" href="<?php echo str_replace($attr['filter_name'].'-','',$selected_attributes_alias).$category_alias; ?>"><?php echo $attr['name']; ?></a>
                                                                 <?php } else { ?>
-                                                                    <a class="b-refinement-link" href="<?php echo $attr['filter_name'].'-'.$selected_attributes_alias.$category_alias; ?>"><?php echo $attr['name']; ?></a>
+                                                                    <?php if(isset($manufacturer_main_category)){ ?>
+                                                                        <a class="b-refinement-link" href="<?php echo $selected_attributes_alias.'-'.$attr['filter_name']; ?>"><?php echo $attr['name']; ?></a>
+                                                                    <?php }else{ ?>
+                                                                        <a class="b-refinement-link" href="<?php echo $attr['filter_name'].'-'.$selected_attributes_alias.$category_alias; ?>"><?php echo $attr['name']; ?></a>
+                                                                    <?php } ?>
                                                                 <?php } ?>
 
                                                                 </li>
@@ -272,15 +282,27 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                         <div class="l-breadcrumb-refinement_container">
                             <div class="js-breadcrumb-refinement_container b-breadcrumb-refinement_container">
 
-                                <?php if ( isset($selected_categories) && isset($selected_attributes_alias) && strlen($selected_attributes_alias) > 0 && isset($selected_sizes)) { ?>
-                                
-                                 
+                                <?php if ( (isset($selected_categories)) OR (isset($selected_attributes_alias) && strlen($selected_attributes_alias) > 0) OR (isset($selected_sizes) AND count($selected_sizes))) { ?>
+                                    
+                                    <?php if(isset($selected_categories)){ ?>
                                     <?php foreach ($selected_categories as $attr) { ?>
                               
                                         <span class="b-breadcrumb-refinement_value js-breadcrumb-refinement_selected">
                                             <?php echo '['.$attr['name'].']'; ?>
                                             <a class="b-breadcrumb-relax_image js-breadcrumb_refinement-link" href="<?php echo str_replace(str_replace('-','@',$attr['keyword']).'-','',$selected_attributes_alias).$category_alias; ?>"></a>
                                         </span>
+                                    <?php } ?>
+                                    <?php } ?>
+                                    
+                                    <?php if ( isset($manufacturers) AND count($manufacturers) > 0 AND is_array($manufacturers)) { ?>
+                                        <?php foreach ($manufacturers as $attr) { ?>
+                                            <?php if ( strpos($selected_attributes_alias, $attr['code']) !== false) { ?>
+                                                <span class="b-breadcrumb-refinement_value js-breadcrumb-refinement_selected">
+                                                    <?php echo $attr['name']; ?>
+                                                    <a class="b-breadcrumb-relax_image js-breadcrumb_refinement-link" href="<?php echo str_replace($attr['name'].'-','',$selected_attributes_alias).$category_alias; ?>"></a>
+                                                </span>
+                                            <?php } ?>
+                                        <?php } ?>
                                     <?php } ?>
                                 
                                     <?php foreach ($selected_sizes as $attr) { ?>
@@ -289,7 +311,7 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                             <a class="b-breadcrumb-relax_image js-breadcrumb_refinement-link" href="<?php echo str_replace('sz_'.$attr['name'].'-','',$selected_attributes_alias).$category_alias; ?>"></a>
                                         </span>
                                     <?php } ?>
-                                
+                                    
                                     <?php foreach ($product_attributes as $attribut) { ?>
                                         <?php foreach ($attribut['attributes'] as $attr) { ?>
                                             <?php if ( strpos($selected_attributes_alias, $attr['filter_name']) !== false) { ?>
@@ -301,9 +323,21 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                         <?php } ?>
                                     <?php } ?>
 
+                                    <?php if ( isset($product_attribute_colors) && count($product_attribute_colors) > 0 ) { ?>
+                                        <?php foreach ($product_attribute_colors['attributes'] as $attr) { ?>
+                                            <?php if ( strpos($selected_attributes_alias, $attr['filter_name']) !== false) { ?>
+                                                
+                                                <span class="b-breadcrumb-refinement_value js-breadcrumb-refinement_selected">
+                                                    <?php echo $attr['name']; ?>
+                                                    <a class="b-breadcrumb-relax_image js-breadcrumb_refinement-link" href="<?php echo str_replace($attr['filter_name'].'-','',$selected_attributes_alias).$category_alias; ?>"></a>
+                                                </span>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    <?php } ?>
+
 
                                 <span class="b-breadcrumb-refinement_value js-clear_search_filters">
-                                    Очистить все
+                                    <?php echo $text_clear_all; ?>
                                     <a class="b-breadcrumb-relax_image" href=""></a>
                                 </span>
 

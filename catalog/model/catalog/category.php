@@ -117,8 +117,8 @@ class ModelCatalogCategory extends Model {
 			}
 		}
 		
-		$array0[(int)$parent_id]['name'] = $rows[(int)$parent_id]['name'];
-		$array0[(int)$parent_id]['keyword'] = $rows[(int)$parent_id]['keyword'];
+		$array0[(int)$parent_id]['name'] = isset($rows[(int)$parent_id]['name']) ? $rows[(int)$parent_id]['name'] : '';
+		$array0[(int)$parent_id]['keyword'] = isset($rows[(int)$parent_id]['keyword']) ? $rows[(int)$parent_id]['keyword'] : '';
 		$array0[(int)$parent_id]['children'] = $array;
 	
 		
@@ -276,15 +276,15 @@ class ModelCatalogCategory extends Model {
 			
 			foreach($r1->rows as $row){
 				
-				if($row['target'] == 'title' AND $return['title'] == ''){
+				if($row['target'] == 'title' AND (!isset($return['title']) OR $return['title'] == '')){
 					
 					$return['title'] = $row['value'];
 				
-				}elseif($row['target'] == 'title_h1' AND $return['title_h1'] == ''){
+				}elseif($row['target'] == 'title_h1' AND (!isset($return['title_h1']) OR $return['title_h1'] == '')){
 				
 					$return['title_h1'] = $row['value'];
 				
-				}elseif($row['target'] == 'meta_description' AND $return['text1'] == ''){
+				}elseif($row['target'] == 'meta_description' AND (!isset($return['text1']) OR $return['text1'] == '')){
 				
 					$return['text1'] = $row['value'];
 				

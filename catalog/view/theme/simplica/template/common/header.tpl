@@ -424,9 +424,10 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
                                     </div>
                                 </li>
                             <?php } ?>
+                            
                                 <?php if(isset($text_sale)){ ?>
                                 <li class="b-menu_category-item">
-                                    <a href="/sale"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                    <a href="/sale-<?php echo substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI'])); ?>"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
                                 </li>
                                 <?php } ?>
                                 <li class="b-menu_category-item">

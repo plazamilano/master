@@ -491,10 +491,11 @@ class ControllerCommonSeoUrl extends Controller {
 					
 					$sql = "SELECT * FROM " . DB_PREFIX . "url_alias WHERE keyword = '" . $this->db->escape($url) . "' AND `query` LIKE 'product_id=%' LIMIT 0,1;";
 					$query = $this->db->query($sql);
-				//}else{
-				//	$sql = "SELECT * FROM " . DB_PREFIX . "url_alias WHERE keyword = '" . $this->db->escape($part) . "' AND `query` NOT LIKE 'product_id=%' LIMIT 0,1;";
-				//	$query = $this->db->query($sql);
-				//}
+				
+					if($query->num_rows == 0){
+						$sql = "SELECT * FROM " . DB_PREFIX . "url_alias WHERE keyword = '" . $this->db->escape($part) . "' AND `query` NOT LIKE 'product_id=%' LIMIT 0,1;";
+						$query = $this->db->query($sql);
+					}
 				//echo $query->num_rows; die($sql);
 				
 				if ($query->num_rows) {
@@ -514,7 +515,12 @@ class ControllerCommonSeoUrl extends Controller {
 					}
 ;
 					if ($url[0] == 'manufacturer_id') {
+						
 						$this->request->get['manufacturer_id'] = $url[1];
+						$this->request->get['filter_manufacturer_id'][$url[1]] = $url[1];
+						$this->request->get['manufacturer_main_category'] = true;
+						$this->request->get['path'] = true;
+						
 					}
 
 					if ($url[0] == 'information_id') {
@@ -541,8 +547,14 @@ class ControllerCommonSeoUrl extends Controller {
 							
 							foreach($aliases as $alias){
 							
+								//Если разпродажа
+								if($alias == 'sale'){
+								
+									$this->request->get['sale'] = true;
+									$categ = str_replace($alias.'-', '', $categ);
+									continue;
 								//Если есть подчеркивание - Это размер
-								if(strpos($alias,'_') !== false){
+								}elseif(strpos($alias,'_') !== false){
 									$size = explode('_',$alias);
 									
 									//Это размер
@@ -594,7 +606,7 @@ class ControllerCommonSeoUrl extends Controller {
 										//Если это подкатегория
 										
 										$alias = str_replace('@','-',$alias);
-										$sql = "SELECT query FROM " . DB_PREFIX . "url_alias WHERE keyword LIKE '" . $this->db->escape($alias) . "' AND `query` LIKE 'category_id=%' LIMIT 0,1;";
+										$sql = "SELECT query FROM " . DB_PREFIX . "url_alias WHERE keyword LIKE '" . $this->db->escape($alias) . "' AND (`query` LIKE 'category_id=%' OR `query` LIKE 'manufacturer_id=%') LIMIT 0,1;";
 										$query_B = $this->db->query($sql);
 										$alias = str_replace('-','@',$alias);
 										
@@ -605,36 +617,69 @@ class ControllerCommonSeoUrl extends Controller {
 										if($query_B->num_rows AND !$query_C->num_rows){
 											
 											$url = explode('=', $query_B->row['query']);
-											$filtered_category[] = $url[1];
-											$filtered_category_keyword[] = $alias;
+										
+											if($url[0] == 'manufacturer_id'){
+												$this->request->get['filter_manufacturer_id'][$url[1]] = $url[1];
+												//continue;
+											}else{
+												$filtered_category[] = $url[1];
+												
+											}
+											
 											$attributes_name[] = $alias;
+											$filtered_category_keyword[] = $alias;
+											
 										}
 									}
 									//echo '<br>'.$sql;
 									
 									
-									$sql = "SELECT query FROM " . DB_PREFIX . "url_alias WHERE keyword LIKE '" . $this->db->escape($categ) . "' AND `query` LIKE 'category_id=%' LIMIT 0,1;";
+									$sql = "SELECT query FROM " . DB_PREFIX . "url_alias WHERE keyword LIKE '" . $this->db->escape($categ) . "' AND (`query` LIKE 'category_id=%' OR `query` LIKE 'manufacturer_id=%') LIMIT 0,1;";
 									$query = $this->db->query($sql);
 									
 									if($query->num_rows){
 										
 										$url = explode('=', $query->row['query']);
-										$this->request->get['sizes'] = implode(',',$sizes);
-										$this->request->get['attributes'] = implode(',',$attributes);
-										$this->request->get['attributes_name'] = implode(',',$attributes_name);
-										$this->request->get['category_id'] = $url[1];
-										$this->request->get['path'] = true;
 										
-										if(isset($filtered_category)){
-											$this->request->get['filtered_category']  = implode(',',$filtered_category);
-										}
-										
-										if(isset($filtered_category_keyword)){
-											$this->request->get['filtered_category_keyword']  = implode(',',$filtered_category_keyword);
-										}
-										
-										break;
+										//Если крайний якорь - категория
+										if($url[0] == 'category_id'){
+											$this->request->get['sizes'] = implode(',',$sizes);
+											$this->request->get['attributes'] = implode(',',$attributes);
+											$this->request->get['attributes_name'] = implode(',',$attributes_name);
+											$this->request->get['category_id'] = $url[1];
+											$this->request->get['path'] = true;
+											
+											if(isset($filtered_category)){
+												$this->request->get['filtered_category']  = implode(',',$filtered_category);
+											}
+											
+											if(isset($filtered_category_keyword)){
+												$this->request->get['filtered_category_keyword']  = implode(',',$filtered_category_keyword);
+											}
+											
+											break;
+										}else{
+											//Если крайний якорь - бренд
+											$this->request->get['manufacturer_id'] = $url[1];
+											$this->request->get['filter_manufacturer_id'][$url[1]] = $url[1];
+											$this->request->get['manufacturer_main_category'] = true;
+											$this->request->get['path'] = true;
+				
+											$this->request->get['sizes'] = implode(',',$sizes);
+											$this->request->get['attributes'] = implode(',',$attributes);
+											$this->request->get['attributes_name'] = implode(',',$attributes_name);
+											
+											if(isset($filtered_category)){
+												$this->request->get['filtered_category']  = implode(',',$filtered_category);
+											}
+											
+											if(isset($filtered_category_keyword)){
+												$this->request->get['filtered_category_keyword']  = implode(',',$filtered_category_keyword);
+											}
+											
+											break;
 											  
+										}
 									}elseif($categ == 'lovedproducts'  OR
 												$categ == 'lastviewed'){
 
@@ -683,7 +728,7 @@ class ControllerCommonSeoUrl extends Controller {
 				} elseif (isset($this->request->get['path'])) {
 					$this->request->get['route'] = 'product/category';
 				} elseif (isset($this->request->get['manufacturer_id'])) {
-					$this->request->get['route'] = 'product/manufacturer/info';
+					$this->request->get['route'] = 'product/category';//'product/manufacturer/info';
 				} elseif (isset($this->request->get['information_id'])) {
 					$this->request->get['route'] = 'information/information';
 				} 

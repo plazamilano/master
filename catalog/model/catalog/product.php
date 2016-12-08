@@ -459,8 +459,15 @@ class ModelCatalogProduct extends Model {
 				(SELECT price FROM " . DB_PREFIX . "product_discount pd2 WHERE pd2.product_id = p.product_id  AND pd2.quantity = '1' AND ((pd2.date_start = '0000-00-00' OR pd2.date_start < NOW()) AND (pd2.date_end = '0000-00-00' OR pd2.date_end > NOW())) ORDER BY pd2.priority ASC, pd2.price ASC LIMIT 1) AS discount,
 				(SELECT price FROM " . DB_PREFIX . "product_special ps WHERE ps.product_id = p.product_id AND ((ps.date_start = '0000-00-00' OR ps.date_start < NOW()) AND (ps.date_end = '0000-00-00' OR ps.date_end > NOW())) ORDER BY ps.priority ASC, ps.price ASC LIMIT 1) AS special";
 
+				
+		if (isset($data['filter_sale']) AND $data['filter_sale']) {
+			$sql .= " FROM " . DB_PREFIX . "product_special ps 
+						LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id)
+						LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)
+						LEFT JOIN " . DB_PREFIX . "category_path cp ON (cp.category_id = p2c.category_id)";
+
 		//Если это последние просмотренные
-		if (isset($data['lastviewed'])){
+		}elseif (isset($data['lastviewed'])){
 		
 			$sql .= " FROM " . DB_PREFIX . "product_views pv ";
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (pv.product_id = p.product_id)";
@@ -480,6 +487,7 @@ class ModelCatalogProduct extends Model {
 			} else {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
 			}
+			//Фильтр по акции
 		} else {
 			$sql .= " FROM " . DB_PREFIX . "product p
 					LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)";
@@ -508,6 +516,7 @@ class ModelCatalogProduct extends Model {
 		if (isset($data['filter_shop_id']) AND (int)($data['filter_shop_id']) > 0) {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_shop p2sh ON (p.product_id = p2sh.product_id)";
 		}
+		
 		
 		
 		
@@ -645,7 +654,11 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (!empty($data['filter_manufacturer_id'])) {
-			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			if (is_array($data['filter_manufacturer_id'])) {
+				$sql .= " AND p.manufacturer_id IN (" . implode(',', $data['filter_manufacturer_id']) . ")";
+			}else{
+				$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			}
 		}
 
 		$sql .= " GROUP BY p.product_id";
@@ -1157,7 +1170,13 @@ class ModelCatalogProduct extends Model {
 		
 		$sql = "SELECT COUNT(DISTINCT p.product_id) AS total ";
 
-		if (!empty($data['filter_category_id'])) {
+		if (!empty($data['filter_sale']) AND $data['filter_sale']) {
+			$sql .= " FROM " . DB_PREFIX . "product_special ps 
+						LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id)
+						LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)
+						LEFT JOIN " . DB_PREFIX . "category_path cp ON (cp.category_id = p2c.category_id)";
+
+		}elseif (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
 				$sql .= " FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (cp.category_id = p2c.category_id)";
 			} else {
@@ -1169,13 +1188,14 @@ class ModelCatalogProduct extends Model {
 			} else {
 				$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
 			}
+				//Фильтр по акции
 		} else {
 			$sql .= " FROM " . DB_PREFIX . "product p";
 		}
 		
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
+			//$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
 		}
 	
 		//Фильтр по атрибутам
@@ -1220,7 +1240,7 @@ class ModelCatalogProduct extends Model {
 
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " AND p2size.size_id IN (" . $this->db->escape($data['filter_sizes']) . ")";
+			//$sql .= " AND p2size.size_id IN (" . $this->db->escape($data['filter_sizes']) . ")";
 		}
 	
 		//Фильтр по магазину
@@ -1304,7 +1324,11 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (!empty($data['filter_manufacturer_id'])) {
-			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			if (is_array($data['filter_manufacturer_id'])) {
+				$sql .= " AND p.manufacturer_id IN (" . implode(',',$data['filter_manufacturer_id']) . ")";
+			}else{
+				$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			}
 		}
 
 		$query = $this->db->query($sql);
@@ -1342,7 +1366,7 @@ class ModelCatalogProduct extends Model {
 
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
+			//$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
 		}
 			
 		//Фильтр по атрибутам
@@ -1380,7 +1404,7 @@ class ModelCatalogProduct extends Model {
 		
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			$sql .= " AND p2size.size_id IN (" . $this->db->escape($data['filter_sizes']) . ")";
+			//$sql .= " AND p2size.size_id IN (" . $this->db->escape($data['filter_sizes']) . ")";
 		}
 
 		//Фильтр по атрибутам
@@ -1457,11 +1481,15 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (!empty($data['filter_manufacturer_id'])) {
-			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			if (is_array($data['filter_manufacturer_id'])) {
+				$sql .= " AND p.manufacturer_id = (" . implode(',',$data['filter_manufacturer_id']) . ")";
+			}else{
+				$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			}
 		}
 
 		$query = $this->db->query($sql);
-//echo $sql;
+//echo '<hr>'.$sql;
 	
 		return $query->rows;
 	}

@@ -19,6 +19,8 @@ class ControllerProductCategory extends Controller {
 		$this->load->model('catalog/attribute');
 
 		$this->load->model('tool/image');
+		
+		$this->load->model('catalog/manufacturer');
 
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
@@ -162,7 +164,10 @@ class ControllerProductCategory extends Controller {
 			//Если это страница списков товаров (Поиск, вы смотрели и тд - без определенной категории)			
 			if (isset($this->request->get['search'])) {
 				$url .= '&search=' . $this->request->get['search'];
-				$this->request->get['category_id'] = 0;
+				$category_id = $this->request->get['category_id'] = 0;
+				$parts = array();
+			}elseif (isset($this->request->get['manufacturer_main_category'])) {
+				$category_id = $this->request->get['category_id'] = 0;
 				$parts = array();
 			}elseif (isset($this->request->get['_route_']) AND $this->request->get['_route_']== 'lovedproducts') {
 				$this->request->get['category_id'] = 0;
@@ -175,8 +180,8 @@ class ControllerProductCategory extends Controller {
 				$parent_id = 0;
 				$category_id = (int)array_pop($parts);
 			}
-			
-
+	
+	
 			$count = 0;
 			foreach ($parts as $path_id) {
 				if (!$path) {
@@ -213,11 +218,25 @@ class ControllerProductCategory extends Controller {
 			$category_info = $this->model_catalog_information->getInformation(7); // id 7 = search
 			$like_info = 'search';
 			$search = $this->request->get['search'];
+			$category_info['name'] = $category_info['title'];
 			
 			foreach($category_info as $index => $name){
 				$category_info[$index] = str_replace('@search@', $this->request->get['search'], $name);
 			}
 		
+		//Если это полная выборка по бренуд - подставим массив категории
+		}elseif (isset($this->request->get['manufacturer_main_category'])) {
+			$category_id = 0;
+			$data['manufacturer_main_category'] = true;
+			$this->load->model('catalog/information'); 
+			$category_info = $this->model_catalog_information->getInformation(23); // id 23 = страница для бренда
+			$category_info['name'] = $category_info['title'];
+			$category_info['category_id'] = $category_id;
+			$category_info['image'] = array();
+			
+			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer((int)$this->request->get['manufacturer_id']);
+			$selected_attributes_alias = $manufacturer_info['keyword'];
+	
 		}elseif (isset($this->request->get['_route_']) AND $this->request->get['_route_']== 'lovedproducts') {
 			
 			$this->load->model('catalog/information'); 
@@ -251,7 +270,7 @@ class ControllerProductCategory extends Controller {
 		}
 		
 		$short_tags = array();
-	
+		
 		if ($category_info) {
 			
 			$short_tags['@block_name@'] 			= '';
@@ -329,7 +348,7 @@ class ControllerProductCategory extends Controller {
 				
 			}
 
-			
+		
 			$data['text_refine'] = $this->language->get('text_refine');
 			$data['text_empty'] = $this->language->get('text_empty');
 			$data['text_quantity'] = $this->language->get('text_quantity');
@@ -458,13 +477,20 @@ class ControllerProductCategory extends Controller {
 				$filter_category_id = $category_id;
 			}
 			
+			$filter_manufacturer_id = '';
+			if(isset($this->request->get['filter_manufacturer_id'])) $filter_manufacturer_id = $this->request->get['filter_manufacturer_id'];
+			
+			$filter_sale = '';
+			if(isset($this->request->get['sale'])) $filter_sale = $this->request->get['sale'];
 			
 			$filter_data = array(
 				'filter_category_id' 	=> $category_id,
 				'filter_sub_category' 	=> true,
 				'filter_sizes'      	=> $sizes,
 				'filter_name'      		=> $search,
+				'filter_manufacturer_id'=> $filter_manufacturer_id,
 				'filter_price'      	=> $price,
+				'filter_sale'      		=> $filter_sale,
 				'filter_filter'      	=> $filter,
 				'filter_attributes' 	=> $attributes,
 				'sort'               	=> $sort,
@@ -604,7 +630,8 @@ class ControllerProductCategory extends Controller {
 				}
 			}
 			//end Соберем все атрибуты
-			
+	
+	
 			//Если есть выбранные размеры - нам нужно получить ИД продуктов без фильтрации по размерам
 			if(count($sizes) > 0){
 				$filter_data_tmp = $filter_data;
@@ -623,9 +650,9 @@ class ControllerProductCategory extends Controller {
 			//Соберем размеры
 			$data['sizes'] = $this->model_catalog_product->getProductsOptions($product_ids_no_size_filter);
 			//$data['sizes'] = $this->model_catalog_attribute->getSisezOnProductNoGroup($product_ids_no_size_filter);
-		
-			
-			$this->load->model('catalog/manufacturer');
+
+				
+			//$this->load->model('catalog/manufacturer');
 			$data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturersByCategoryId($category_id);
 		
 			unset($product_ids_no_size_filter);
@@ -758,7 +785,6 @@ class ControllerProductCategory extends Controller {
 					'href'        => $this->model_catalog_product->getProductAlias($result['product_id'])
 				);
 			}
-
 			
 			//Флаг на распродажу
 			$this->document->setSale(true);
@@ -833,7 +859,9 @@ class ControllerProductCategory extends Controller {
 			$product_attributes[22]['description'] = 'Цена';
 			*/
 			//Подчистим атрибуты по тем что назначены
-			if($attr_ids AND count($attr_ids)){
+			//Тут идет отсечение не активных у категории атрибутов
+			// Если это категория бренда - открываем все фильтры
+			if($attr_ids AND count($attr_ids)  AND !isset($data['manufacturer_main_category'])){
 				
 				$category_attr = $this->model_catalog_category->getCategoryAttribute($category_id);
 				
@@ -842,9 +870,9 @@ class ControllerProductCategory extends Controller {
 				}
 	
 			}
-	
-				
-			if($attr_ids AND count($attr_ids)){
+		
+			
+			if($attr_ids AND count($attr_ids) ){
 	
 				$results = $this->model_catalog_attribute->getAttributesOnIds($attr_ids);
 	
@@ -872,20 +900,23 @@ class ControllerProductCategory extends Controller {
 					$selected_categories = array();
 					
 					foreach($filter as $categ_id){
-						$selected_categories[] = $this->model_catalog_category->getCategoryNameKeyword($categ_id);	
+						$selected_categories[] = $this->model_catalog_category->getCategoryNameKeyword($categ_id);
 					}
 					
 					$data['selected_categories'] = $selected_categories;
 				}
 					
-				
 			}
-			
+		
+		
+		
 			$data['product_attributes'] = $product_attributes;
 		
-			$selected_attributes_alias = str_replace(',','-',$this->request->get['attributes_name']).'-';
+			if(isset($this->request->get['attributes_name'])){
+				$selected_attributes_alias = str_replace(',','-',$this->request->get['attributes_name']).'-';
+			}
 			
-			if($selected_attributes_alias == '-') $selected_attributes_alias = '';
+			if(isset($selected_attributes_alias) AND $selected_attributes_alias == '-') $selected_attributes_alias = '';
 			
 			//Выбранные фильтры
 			/*
@@ -922,9 +953,8 @@ class ControllerProductCategory extends Controller {
 				}
 
 			}
-			
 
-			$data['selected_attributes_alias'] = $selected_attributes_alias;
+			$data['selected_attributes_alias'] = isset($selected_attributes_alias) ? $selected_attributes_alias : '';
 			
 			//Вынесем атрибут цвета в отдельный массив
 			$data['product_attribute_colors'] = array();
