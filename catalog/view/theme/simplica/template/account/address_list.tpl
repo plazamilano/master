@@ -1,13 +1,3 @@
-<?php
-$text_address_delivery = 'Адреса доставки';
-$text_address = 'Адрес';
-$text_country = 'Страна';
-$text_city = 'Город';
-$text_postcode = 'Индекс';
-$text_address_1 = 'Адрес';
-
-?>
-
 
       <?php if ($success) { ?>
       <div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?></div>

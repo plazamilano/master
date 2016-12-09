@@ -25,6 +25,13 @@
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-attribute" class="form-horizontal">
+          
+          <div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-filter-name">Код для ЧПУ</label>
+            <div class="col-sm-10">
+              <input type="text" name="filter_name" value="<?php echo $filter_name; ?>" placeholder="Код для ЧПУ" id="input-filter-name" class="form-control" />
+            </div>
+          </div>
           <div class="form-group required">
             <label class="col-sm-2 control-label"><?php echo $entry_name; ?></label>
             <div class="col-sm-10">

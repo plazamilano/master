@@ -198,14 +198,14 @@ class ControllerProductCategory extends Controller {
 						'href' => TMP_URL.$this->model_catalog_category->getCategoryAlias((int)$path_id)//.$url
 					);
 				}
-				
-				if($count == 1){
-					$parent_id = (int)$path_id;
-					$parent_name = $category_info['name'];
+		
+				if((int)$path_id > 0){
+					if($count == 1){
+						$parent_id = (int)$path_id;
+						$parent_name = $category_info['name'];
+					}
+					$count++;
 				}
-				$count++;
-
-				
 			}
 		} else {
 			$category_id = 0;

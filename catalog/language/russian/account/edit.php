@@ -40,3 +40,11 @@ $_['text_transaction']   = 'История транзакций';
 $_['text_newsletter']    = 'Подписаться или отказаться от рассылки новостей';
 $_['text_recurring']     = 'Периодические платежи';
 $_['text_transactions']  = 'Транзакции';
+
+$_['text_change_password'] = 'Заменить пароль?';
+$_['entry_firstname'] = 'Имя';
+$_['entry_patronymic'] = 'Отчество';
+$_['patronymic'] = '';
+$_['entry_email'] = 'Ваш e-mail';
+$_['button_continue'] = 'Сохранить';
+$_['text_telephone'] = 'Телефон';

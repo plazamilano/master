@@ -60,6 +60,10 @@ class ControllerAccountPassword extends Controller {
 		$data['button_continue'] = $this->language->get('button_continue');
 		$data['button_back'] = $this->language->get('button_back');
 
+		$data['entry_new_password'] = $this->language->get('entry_new_password');
+		$data['error_new_confirm'] = $this->language->get('error_new_confirm');
+		$data['button_continue'] = $this->language->get('button_continue');
+
 		if (isset($this->error['password'])) {
 			$data['error_password'] = $this->error['password'];
 		} else {

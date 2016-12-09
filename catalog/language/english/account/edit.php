@@ -22,3 +22,11 @@ $_['error_lastname']     = 'Last Name must be between 1 and 32 characters!';
 $_['error_email']        = 'E-Mail Address does not appear to be valid!';
 $_['error_telephone']    = 'Telephone must be between 3 and 32 characters!';
 $_['error_custom_field'] = '%s required!';
+
+$_['text_change_password'] = 'Change password?';
+$_['entry_firstname'] = 'First Name';
+$_['entry_patronymic'] = 'Last Name';
+$_['patronymic'] = '';
+$_['entry_email'] = 'E-mail';
+$_['button_continue'] = 'Save';
+$_['text_telephone'] = 'Telephone';

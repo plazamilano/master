@@ -11,6 +11,7 @@ class ControllerAccountEdit extends Controller {
 
 		$this->load->language('account/edit');
 
+		$data['language_href'] = $this->session->data['language_href'];
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
@@ -97,6 +98,14 @@ class ControllerAccountEdit extends Controller {
 		$data['transaction'] = $this->url->link('account/transaction', '', 'SSL');
 		$data['newsletter'] = $this->url->link('account/newsletter', '', 'SSL');
 		$data['recurring'] = $this->url->link('account/recurring', '', 'SSL');
+
+	$data['text_change_password'] = $this->language->get('text_change_password');
+	$data['entry_firstname'] = $this->language->get('entry_firstname');
+	$data['entry_patronymic'] = $this->language->get('entry_patronymic');
+	$data['patronymic'] = $this->language->get('patronymic');
+	$data['entry_email'] = $this->language->get('entry_email');
+	$data['button_continue'] = $this->language->get('button_continue');
+	$data['text_telephone'] = $this->language->get('text_telephone');
 
 		
 		if (isset($this->error['warning'])) {

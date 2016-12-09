@@ -1,24 +1,15 @@
-<?php
-$heading_title = 'Заменить пароль?';   // $heading_title не новая переменная, но по ТЗ - 'Заменить пароль?'
-$entry_password = 'Новый пароль';
-$error_confirm = 'Подтверждение нового пароля';
-$button_continue = 'Сохранить';
-?> 
-
-
-
   <h2><?php echo $heading_title; ?></h2>
   <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal f-forgotten-form">
     <fieldset>
       <div class="form-group f-field required f-state-required">
         <label class="control-label f-label" for="input-password">
-          <span class="f-label-value"><?php echo $entry_password; ?></span>              
+          <span class="f-label-value"><?php echo $entry_new_password; ?></span>              
         </label>
         <div class="f-field-wrapper">
           <input type="password"
                  name="password"
                  value="<?php echo $password; ?>"
-                 placeholder="<?php echo $entry_password; ?>"
+                 placeholder="<?php echo $entry_new_password; ?>"
                  id="input-password"
                  class="form-control f-password" />
           <?php if ($error_password) { ?>
@@ -39,9 +30,9 @@ $button_continue = 'Сохранить';
                  placeholder="<?php echo $entry_confirm; ?>"
                  id="input-confirm"
                  class="form-control f-password" />
-          <?php if ($error_confirm) { ?>
+          <?php if ($error_new_confirm) { ?>
           <span class="f-error_message">
-            <span class="f-error_message-block js-error_input-confirm"><?php echo $error_confirm; ?></span>
+            <span class="f-error_message-block js-error_input-confirm"><?php echo $error_new_confirm; ?></span>
           </span>
           <?php } ?>
         </div>

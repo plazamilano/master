@@ -20,6 +20,15 @@ class Url {
 			$url = $this->ssl;
 		}
 
+		//Добавляем префикс языка
+		if(isset($_SESSION["default"]) AND
+			isset($_SESSION["default"]['language_href']) AND
+				$_SESSION["default"]['language_href'] != '' AND
+					$_SESSION["default"]['language_href'] != '/'){
+			
+			$url .= $_SESSION["default"]['language_href'];
+		}
+			
 		$url .= 'index.php?route=' . $route;
 
 		if ($args) {

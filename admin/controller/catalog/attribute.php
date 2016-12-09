@@ -350,6 +350,14 @@ class ControllerCatalogAttribute extends Controller {
 			$data['attribute_group_id'] = '';
 		}
 
+		if (isset($this->request->post['filter_name'])) {
+			$data['filter_name'] = $this->request->post['filter_name'];
+		} elseif (!empty($attribute_info)) {
+			$data['filter_name'] = $attribute_info['filter_name'];
+		} else {
+			$data['filter_name'] = '';
+		}
+
 		$this->load->model('catalog/attribute_group');
 
 		$data['attribute_groups'] = $this->model_catalog_attribute_group->getAttributeGroups();

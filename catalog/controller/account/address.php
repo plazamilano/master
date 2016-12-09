@@ -159,6 +159,8 @@ class ControllerAccountAddress extends Controller {
 	}
 
 	protected function getList() {
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/home')
@@ -184,6 +186,14 @@ class ControllerAccountAddress extends Controller {
 		$data['button_delete'] = $this->language->get('button_delete');
 		$data['button_back'] = $this->language->get('button_back');
 
+		$data['text_address_delivery'] = $this->language->get('text_address_delivery');
+		$data['text_address'] = $this->language->get('text_address');
+		$data['text_country'] = $this->language->get('text_country');
+		$data['text_city'] = $this->language->get('text_city');
+		$data['text_postcode'] = $this->language->get('text_postcode');
+		$data['text_address_1'] = $this->language->get('text_address_1');
+
+		
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {

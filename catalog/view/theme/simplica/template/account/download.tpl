@@ -2,7 +2,7 @@
 <div class="container">
   <ul class="breadcrumb">
     <?php foreach ($breadcrumbs as $breadcrumb) { ?>
-    <li><a href="<?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
+    <li><a href="<?php echo $language_href; ?><?php echo $breadcrumb['href']; ?>"><?php echo $breadcrumb['text']; ?></a></li>
     <?php } ?>
   </ul>
   <div class="row"><?php echo $column_left; ?>
@@ -34,7 +34,7 @@
             <td class="text-left"><?php echo $download['name']; ?></td>
             <td class="text-left"><?php echo $download['size']; ?></td>
             <td class="text-left"><?php echo $download['date_added']; ?></td>
-            <td><a href="<?php echo $download['href']; ?>" data-toggle="tooltip" title="<?php echo $button_download; ?>" class="btn btn-primary"><i class="fa fa-cloud-download"></i></a></td>
+            <td><a href="<?php echo $language_href; ?><?php echo $download['href']; ?>" data-toggle="tooltip" title="<?php echo $button_download; ?>" class="btn btn-primary"><i class="fa fa-cloud-download"></i></a></td>
           </tr>
           <?php } ?>
         </tbody>

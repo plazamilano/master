@@ -1,16 +1,5 @@
 <?php echo $header; ?>
 
-<?php
-$text_change_password = 'Заменить пароль?';
-$entry_firstname = 'Имя';
-$entry_patronymic = 'Отчество';
-$patronymic = '';
-$entry_email = 'Ваш e-mail';
-$button_continue = 'Сохранить';
-
-$text_telephone = 'Телефон';
-?>
-
 
 <main class="l-main_account l-main_account-edit">
   
@@ -20,7 +9,7 @@ $text_telephone = 'Телефон';
       <?php $count = 0; ?>
       <?php foreach ($breadcrumbs as $breadcrumb) { ?>
         <li class="b-breadcrumb-item" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" <?php if ($count == 0) { echo ' style="display: none;"';} ?>>
-          <a  class="b-breadcrumb-link js-breadcrumb_refinement-link" href="<?php echo $breadcrumb['href']; ?>" itemprop="item" title="<?php echo $breadcrumb['text']; ?>"><span itemprop="name"><?php echo $breadcrumb['text']; ?></span></a>
+          <a  class="b-breadcrumb-link js-breadcrumb_refinement-link" href="<?php echo $language_href; ?><?php echo $breadcrumb['href']; ?>" itemprop="item" title="<?php echo $breadcrumb['text']; ?>"><span itemprop="name"><?php echo $breadcrumb['text']; ?></span></a>
           <meta content="<?php echo $count++; ?>">
         </li>
       <?php } ?>
@@ -297,7 +286,7 @@ $text_telephone = 'Телефон';
 // подгружаем смену пароля. START
   $(document).ready(function() {
     $.ajax({
-        url: 'index.php?route=account/password',
+        url: '/<?php echo $language_href; ?>index.php?route=account/password',
         dataType: 'html',
         success: function(html) {
            $('#block-change_password .panel-body').html(html);
@@ -312,7 +301,7 @@ $text_telephone = 'Телефон';
 // подгружаем адреса доставки. START
   $(document).ready(function() {
     $.ajax({
-        url: 'index.php?route=account/address',
+        url: '/<?php echo $language_href; ?>index.php?route=account/address',
         dataType: 'html',
         success: function(html) {
            $('#block-address_delivery .panel-body').html(html);

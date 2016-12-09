@@ -11,6 +11,8 @@ class ControllerAccountDownload extends Controller {
 
 		$this->document->setTitle($this->language->get('heading_title'));
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(

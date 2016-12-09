@@ -28,7 +28,7 @@ class ModelCatalogAttribute extends Model {
 						LEFT JOIN " . DB_PREFIX . "attribute_group AG ON A.attribute_group_id = AG.attribute_group_id
 						LEFT JOIN " . DB_PREFIX . "attribute_group_description AGD ON A.attribute_group_id = AGD.attribute_group_id
 						
-						WHERE A.attribute_id IN ($attributes) AND A.enable='1'
+						WHERE A.attribute_id IN ($attributes) AND A.enable='1' AND AD.language_id = '" . (int)$this->config->get('config_language_id') . "'
 						GROUP BY A.attribute_id
 						ORDER BY A.sort_order, AD.name ;";
 		//echo $sql;
@@ -53,7 +53,7 @@ class ModelCatalogAttribute extends Model {
 										LEFT JOIN " . DB_PREFIX . "attribute_group AG ON A.attribute_group_id = AG.attribute_group_id
 										LEFT JOIN " . DB_PREFIX . "attribute_group_description AGD ON A.attribute_group_id = AGD.attribute_group_id
 										
-										WHERE A.attribute_group_id = '".(int)$attribute_group_id."' AND A.enable='1'
+										WHERE A.attribute_group_id = '".(int)$attribute_group_id."' AND A.enable='1' AND AD.language_id = '" . (int)$this->config->get('config_language_id') . "'
 										GROUP BY A.attribute_id
 										ORDER BY A.sort_order, AD.name ;");
 
@@ -77,7 +77,7 @@ class ModelCatalogAttribute extends Model {
 										LEFT JOIN " . DB_PREFIX . "attribute_group AG ON A.attribute_group_id = AG.attribute_group_id
 										LEFT JOIN " . DB_PREFIX . "attribute_group_description AGD ON A.attribute_group_id = AGD.attribute_group_id
 										
-										WHERE A.attribute_id IN ($attributes) AND A.enable='1'
+										WHERE A.attribute_id IN ($attributes) AND A.enable='1' AND AD.language_id = '" . (int)$this->config->get('config_language_id') . "'
 										GROUP BY A.attribute_id
 										LIMIT 0, 1;");
 
@@ -105,7 +105,7 @@ class ModelCatalogAttribute extends Model {
 		
 		$query = $this->db->query("SELECT name
 										FROM " . DB_PREFIX . "attribute_description
-										WHERE attribute_id IN ($attributes)
+										WHERE attribute_id IN ($attributes) AND language_id = '" . (int)$this->config->get('config_language_id') . "'
 										LIMIT 0, 1;");
 
 		if($query->num_rows){									
