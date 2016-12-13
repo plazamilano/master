@@ -140,7 +140,7 @@ class ControllerProductCategory extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => TMP_URL.'' /*HTTP_SERVER /*$this->url->link('common/home')*/
+			'href' => TMP_URL.$data['language_href'].'' /*HTTP_SERVER /*$this->url->link('common/home')*/
 		);
 
 		if (isset($this->request->get['path'])) {
@@ -195,7 +195,7 @@ class ControllerProductCategory extends Controller {
 				if ($category_info) {
 					$data['breadcrumbs'][] = array(
 						'text' => ''.$category_info['name'],
-						'href' => TMP_URL.$this->model_catalog_category->getCategoryAlias((int)$path_id)//.$url
+						'href' => TMP_URL.$data['language_href'].$this->model_catalog_category->getCategoryAlias((int)$path_id)//.$url
 					);
 				}
 		
@@ -229,13 +229,25 @@ class ControllerProductCategory extends Controller {
 			$category_id = 0;
 			$data['manufacturer_main_category'] = true;
 			$this->load->model('catalog/information'); 
-			$category_info = $this->model_catalog_information->getInformation(23); // id 23 = страница для бренда
+			$category_info = $this->model_catalog_information->getInformation(24); // id 23 = страница для бренда
 			$category_info['name'] = $category_info['title'];
 			$category_info['category_id'] = $category_id;
 			$category_info['image'] = array();
 			
 			$manufacturer_info = $this->model_catalog_manufacturer->getManufacturer((int)$this->request->get['manufacturer_id']);
 			$selected_attributes_alias = $manufacturer_info['keyword'];
+	
+		//Если это полная выборка по разпродаже
+		}elseif (isset($this->request->get['main_sale'])) {
+			$category_id = 0;
+			$data['main_sale'] = true;
+			$this->load->model('catalog/information'); 
+			$category_info = $this->model_catalog_information->getInformation(23); // id 23 = страница для бренда
+			$category_info['name'] = $category_info['title'];
+			$category_info['category_id'] = $category_id;
+			$category_info['image'] = array();
+			
+			$data['manufacturer_main_category'] = true;
 	
 		}elseif (isset($this->request->get['_route_']) AND $this->request->get['_route_']== 'lovedproducts') {
 			
@@ -379,7 +391,7 @@ class ControllerProductCategory extends Controller {
 			$data['text_size'] = $this->language->get('text_size');
 			$data['text_category'] = $this->language->get('text_category');
 			$data['text_color'] = $this->language->get('text_color');
-			$data[''] = $this->language->get('');
+			$data['text_clear_all'] = $this->language->get('text_clear_all');
 			$data[''] = $this->language->get('');
 			
 			
@@ -396,7 +408,7 @@ class ControllerProductCategory extends Controller {
 				//Для информационной страницы
 				$data['breadcrumbs'][] = array(
 					'text' => $category_info['title'],
-					'href' => TMP_URL.''
+					'href' => TMP_URL.$data['language_href'].''
 				);
 	
 				$data['thumb'] = '';
@@ -406,13 +418,13 @@ class ControllerProductCategory extends Controller {
 				if($no_index > 0){
 					$data['breadcrumbs'][] = array(
 						'text' => $category_info['name'],
-						'href' => TMP_URL.$this->model_catalog_category->getCategoryAlias((int)$category_info['category_id']),
+						'href' => TMP_URL.$data['language_href'].$this->model_catalog_category->getCategoryAlias((int)$category_info['category_id']),
 						'as_link' => true
 					);
 				}else{
 					$data['breadcrumbs'][] = array(
 						'text' => $category_info['name'],
-						'href' => TMP_URL.$this->model_catalog_category->getCategoryAlias((int)$category_info['category_id'])
+						'href' => TMP_URL.$data['language_href'].$this->model_catalog_category->getCategoryAlias((int)$category_info['category_id'])
 					);
 				}
 	
@@ -513,7 +525,11 @@ class ControllerProductCategory extends Controller {
 			
 			}
 			
-			$data['category_alias'] = $this->model_catalog_category->getCategoryAlias($category_id);
+			if (isset($this->request->get['main_sale'])) {
+				$data['category_alias'] = 'sale';
+			}else{
+				$data['category_alias'] = $this->model_catalog_category->getCategoryAlias($category_id);
+			}
 
 			$product_ids = $this->model_catalog_product->getTotalProductIds($filter_data);
 			$data['total_product_info'] = $total_product_info = $this->model_catalog_product->getTotalProductsInfo($filter_data);
@@ -638,7 +654,7 @@ class ControllerProductCategory extends Controller {
 				unset($filter_data_tmp['filter_sizes']);
 				$tmp = $this->model_catalog_product->getTotalProductIds($filter_data_tmp);
 			}else{
-				$tmp = $product_total;
+				$tmp = $product_ids;
 			}
 			
 			$product_ids_no_size_filter = array();
@@ -652,8 +668,30 @@ class ControllerProductCategory extends Controller {
 			//$data['sizes'] = $this->model_catalog_attribute->getSisezOnProductNoGroup($product_ids_no_size_filter);
 
 				
-			//$this->load->model('catalog/manufacturer');
-			$data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturersByCategoryId($category_id);
+			//Тут все бренды по категории
+			//$data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturersByCategoryId($category_id);
+			
+			
+			//Выберем ИД товаров без учера фильтра брендов если он был
+			if(isset($filter_data_tmp['filter_manufacturer_id']) AND $filter_data_tmp['filter_manufacturer_id'] != ''){
+				$filter_data_tmp = $filter_data;
+				unset($filter_data_tmp['filter_manufacturer_id']);
+				$tmp = $this->model_catalog_product->getTotalProductIds($filter_data_tmp);
+			}else{
+				$tmp = $product_ids;
+			}
+
+			$product_ids_no_size_filter = array();
+			foreach($tmp as $value){
+				$product_ids_no_manuf_filter[] = $value['product_id'];
+			}
+				
+					
+			//Тут все бренды с учетом выбранных товаров
+			$data['manufacturers'] = array();
+			if(isset($product_ids_no_manuf_filter)){
+				$data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturersByProductIds($product_ids_no_manuf_filter);
+			}
 		
 			unset($product_ids_no_size_filter);
 			//end Соберем размеры
@@ -677,6 +715,7 @@ class ControllerProductCategory extends Controller {
 				$product_attributes[$result['category_id']] = $result['category_id'];
 				
 				$tmp = $this->model_catalog_attribute->getAttributesIdOnProduct($result['product_id']);
+			
 				if($tmp){
 					foreach($tmp as $value){
 						$attr_ids[$value['attribute_id']] = $value['attribute_id'];
@@ -918,20 +957,6 @@ class ControllerProductCategory extends Controller {
 			
 			if(isset($selected_attributes_alias) AND $selected_attributes_alias == '-') $selected_attributes_alias = '';
 			
-			//Выбранные фильтры
-			/*
-			if(isset($product_attributes) AND is_array($product_attributes) AND count($product_attributes) > 0){
-				
-				$selected_attributes = $data['selected_attributes'];
-				//создаем доп строку с фильтрами
-				foreach($product_attributes as $product_attribute){
-					foreach($product_attribute['attributes'] as $attributes){
-						if(isset($selected_attributes[$attributes['attribute_id']])){
-							$selected_attributes_alias .= $attributes['filter_name'].'-';
-						}
-					}
-				}
-			}*/
 			
 			//Возможно залетел системный фильтр
 			$results = $this->model_catalog_attribute->getAttributesOnGroupId(0);
@@ -955,6 +980,7 @@ class ControllerProductCategory extends Controller {
 			}
 
 			$data['selected_attributes_alias'] = isset($selected_attributes_alias) ? $selected_attributes_alias : '';
+			
 			
 			//Вынесем атрибут цвета в отдельный массив
 			$data['product_attribute_colors'] = array();
@@ -991,20 +1017,7 @@ class ControllerProductCategory extends Controller {
 				'href'  => '&sort=p.sort_order&order=ASC' . $url
 			);
 
-/*
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_name_asc'),
-				'value' => 'pd.name-ASC',
-				'href'  => '&sort=pd.name&order=ASC' . $url
-			);
-*/
-/*
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_name_desc'),
-				'value' => 'pd.name-DESC',
-				'href'  => '&sort=pd.name&order=DESC' . $url
-			);
-*/
+
 			$data['sorts'][] = array(
 				'text'  => $this->language->get('text_price_asc'),
 				'value' => 'p.price-ASC',
@@ -1017,35 +1030,7 @@ class ControllerProductCategory extends Controller {
 				'href'  => '&sort=p.price&order=DESC' . $url
 			);
 
-/*			
-			if ($this->config->get('config_review_status')) {
-				$data['sorts'][] = array(
-					'text'  => $this->language->get('text_rating_desc'),
-					'value' => 'rating-DESC',
-					'href'  => '&sort=rating&order=DESC' . $url
-				);
 
-				$data['sorts'][] = array(
-					'text'  => $this->language->get('text_rating_asc'),
-					'value' => 'rating-ASC',
-					'href'  => '&sort=rating&order=ASC' . $url
-				);
-			}
-*/
-/*
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_model_asc'),
-				'value' => 'p.model-ASC',
-				'href'  => '&sort=p.model&order=ASC' . $url
-			);
-*/
-/*
-			$data['sorts'][] = array(
-				'text'  => $this->language->get('text_model_desc'),
-				'value' => 'p.model-DESC',
-				'href'  => '&sort=p.model&order=DESC' . $url
-			);
-*/
 			$url = '';
 
 			

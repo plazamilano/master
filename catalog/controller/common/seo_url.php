@@ -2,6 +2,18 @@
 class ControllerCommonSeoUrl extends Controller {
 	public function index() {
 		
+		//Если прилетел мусор в УРЛ (-)
+		if (isset($this->request->get['_route_']) AND substr($this->request->get['_route_'], -1, 1) == '-') {
+	
+			$redirect = trim($this->request->get['_route_'], '-');
+
+			if($redirect == '') $redirect = '/';
+			header('HTTP/1.1 301 Moved Permanently');
+			header("Location: ".$redirect ."");
+			exit(0);
+		}
+
+		
 		//Смена языка
 		// перенесено в index.php
 		$this->session->data['language_href'] = '';
@@ -541,6 +553,8 @@ class ControllerCommonSeoUrl extends Controller {
 						$sizes = array();
 						$attributes_name = array();
 						
+						
+						
 						if(count($aliases) > 0){
 							
 							$error = false;
@@ -549,10 +563,25 @@ class ControllerCommonSeoUrl extends Controller {
 							
 								//Если разпродажа
 								if($alias == 'sale'){
-								
-									$this->request->get['sale'] = true;
-									$categ = str_replace($alias.'-', '', $categ);
-									continue;
+									
+									//Если это главная распродажа
+									if($categ == 'sale'){
+										$this->request->get['_route_'] = $categ;
+										$this->request->get['main_sale'] = true;
+										$this->request->get['route'] = 'product/category';
+										$this->request->get['sizes'] = implode(',',$sizes);
+										$this->request->get['attributes'] = implode(',',$attributes);
+										$this->request->get['attributes_name'] = implode(',',$attributes_name);
+										$this->request->get['category_id'] = 0;
+										$this->request->get['path'] = true;
+										$this->request->get['sale'] = true;
+										break;
+									}else{
+										$this->request->get['sale'] = true;
+										$categ = str_replace($alias.'-', '', $categ);
+										continue;	
+									}
+									
 								//Если есть подчеркивание - Это размер
 								}elseif(strpos($alias,'_') !== false){
 									$size = explode('_',$alias);
@@ -580,6 +609,7 @@ class ControllerCommonSeoUrl extends Controller {
 											$this->request->get['path'] = true;
 											break;
 										
+								
 										}elseif($categ == 'lovedproducts'  OR
 													$categ == 'lastviewed'){
 	
@@ -680,6 +710,7 @@ class ControllerCommonSeoUrl extends Controller {
 											break;
 											  
 										}
+								
 									}elseif($categ == 'lovedproducts'  OR
 												$categ == 'lastviewed'){
 

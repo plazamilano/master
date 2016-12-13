@@ -5,6 +5,8 @@ class ControllerProductProduct extends Controller {
 	public function index() {
 		$this->load->language('product/product');
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		$data['breadcrumbs'] = array();
 
 		$data['breadcrumbs'][] = array(
@@ -82,7 +84,7 @@ class ControllerProductProduct extends Controller {
 					
 					$data['breadcrumbs'][] = array(
 						'text' => $category_info['name'],
-						'href' => $category_info['keyword']
+						'href' => $data['language_href'].$category_info['keyword']
 					);
 
 				}
@@ -287,23 +289,37 @@ class ControllerProductProduct extends Controller {
 			$data['button_upload'] = $this->language->get('button_upload');
 			$data['button_continue'] = $this->language->get('button_continue');
 	
-$data['text_next'] = $this->language->get('text_next');
-$data['text_size'] = $this->language->get('text_size');
-$data['text_select_size_help'] = $this->language->get('text_select_size_help');
-$data['text_select_size'] = $this->language->get('text_select_size');
-$data['text_need_help'] = $this->language->get('text_need_help');
-$data['text_contact_to_us'] = $this->language->get('text_contact_to_us');
-$data['text_contact_us'] = $this->language->get('text_contact_us');
-$data['text_client_service'] = $this->language->get('text_client_service');
-$data['text_using_product'] = $this->language->get('text_using_product');
-$data['text_delivery_and_return'] = $this->language->get('text_delivery_and_return');
-$data['text_color'] = $this->language->get('text_color');
-$data['text_bay'] = $this->language->get('text_bay');
-	$data['text_onesize'] = $this->language->get('text_onesize');
-		
-$data[''] = $this->language->get('');
-$data[''] = $this->language->get('');
-$data[''] = $this->language->get('');
+			$data['text_next'] = $this->language->get('text_next');
+			$data['text_size'] = $this->language->get('text_size');
+			$data['text_select_size_help'] = $this->language->get('text_select_size_help');
+			$data['text_select_size'] = $this->language->get('text_select_size');
+			$data['text_need_help'] = $this->language->get('text_need_help');
+			$data['text_contact_to_us'] = $this->language->get('text_contact_to_us');
+			$data['text_contact_us'] = $this->language->get('text_contact_us');
+			$data['text_client_service'] = $this->language->get('text_client_service');
+			$data['text_using_product'] = $this->language->get('text_using_product');
+			$data['text_delivery_and_return'] = $this->language->get('text_delivery_and_return');
+			$data['text_color'] = $this->language->get('text_color');
+			$data['text_bay'] = $this->language->get('text_bay');
+			$data['text_onesize'] = $this->language->get('text_onesize');
+					
+			$data['text_size_table'] = $this->language->get('text_size_table');
+			$data['text_help_is_needed'] = $this->language->get('text_help_is_needed');
+			$data['text_prev'] = $this->language->get('text_prev');
+			$data['text_next'] = $this->language->get('text_next');
+			$data['text_material'] = $this->language->get('text_material');
+			$data['text_message_1'] = $this->language->get('text_message_1');
+			$data['text_add_to_wishlist'] = $this->language->get('text_add_to_wishlist');
+			$data['text_added_to_wishlist'] = $this->language->get('text_added_to_wishlist');
+			$data['text_delivery_info'] = $this->language->get('text_delivery_info');
+			$data['text_zdes'] = $this->language->get('text_zdes');
+			$data['text_send_to_frend'] = $this->language->get('text_send_to_frend');
+			$data['text_no_product'] = $this->language->get('text_no_product');
+			$data['text_send_me_msg'] = $this->language->get('text_send_me_msg');
+			$data['text_confirm'] = $this->language->get('text_confirm');
+			$data['text_error_email'] = $this->language->get('text_error_email');
+			$data['text_politic'] = $this->language->get('text_politic');
+
 
 			$this->load->model('catalog/review');
 
@@ -551,11 +567,12 @@ $data[''] = $this->language->get('');
 				} else {
 					$rating = false;
 				}
-
+				
+				
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
 					'thumb'       => $image,
-					/*'size'			=> $result['size'],*/
+					'options'	  => $this->model_catalog_product->getProductOptions($result['product_id']),
 					'name'        => $result['name'],
 					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
 					'price'       => $price,
@@ -568,7 +585,7 @@ $data[''] = $this->language->get('');
 			}
 
 			
-		
+			$data['email'] = $this->config->get('config_email');
 			
 			
 			$data['tags'] = array();
@@ -711,6 +728,8 @@ $data[''] = $this->language->get('');
 			);
 		}
 
+		$data['email'] = $this->config->get('config_email');
+		
 		$pagination = new Pagination();
 		$pagination->total = $review_total;
 		$pagination->page = $page;

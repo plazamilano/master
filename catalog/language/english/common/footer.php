@@ -22,3 +22,7 @@ $_['text_language']   = 'Language';
 $_['text_select_language']   = 'Select language';
 $_['text_more_country']   = 'More country';
 $_['text_customer_care']   = 'Customer care';
+
+$_['currency_text']         = "Currency";
+$_['country_language_text'] = 'Currency&amp;Language:';
+$_['text_select_currency']  = 'Currency';

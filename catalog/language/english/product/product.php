@@ -65,18 +65,34 @@ $_['text_bay']                           = 'Bay';
 
 $_['text_onesize']        = 'OneSize';
 
-//Раземры
-$_['entry_size']          = 'Размер товара';
-$_['entry_alternative_size']          = 'Размер на сайт';
-$_['entry_shirina_plech']          = 'Ширина плеч';
-$_['entry_shirina_grudi']          = 'Ширина груди';
-$_['entry_dlina_verh']          = 'Длина изделия';
-$_['entry_dlina_rukava']          = 'Длина рукава';
-$_['entry_vorotnik']          = 'Воротник';
-$_['entry_shirina_talii']          = 'Ширина Талии';
-$_['entry_shirina_beder']          = 'Ширина бедер';
-$_['entry_dlina_niz']          = 'Длина изделия';
-$_['entry_podiem']          = 'Подъем';
-$_['entry_s_dlina']          = 'Длина';
-$_['entry_s_shirina']          = 'Ширина';
+//Размеры
+$_['entry_size']          = 'eng-Размер товара';
+$_['entry_alternative_size']          = 'eng-Размер на сайт';
+$_['entry_shirina_plech']          = 'eng-Ширина плеч';
+$_['entry_shirina_grudi']          = 'eng-Ширина груди';
+$_['entry_dlina_verh']          = 'eng-Длина изделия';
+$_['entry_dlina_rukava']          = 'eng-Длина рукава';
+$_['entry_vorotnik']          = 'eng-Воротник';
+$_['entry_shirina_talii']          = 'eng-Ширина Талии';
+$_['entry_shirina_beder']          = 'eng-Ширина бедер';
+$_['entry_dlina_niz']          = 'eng-Длина изделия';
+$_['entry_podiem']          = 'eng-Подъем';
+$_['entry_s_dlina']          = 'eng-Длина';
+$_['entry_s_shirina']          = 'eng-Ширина';
 
+$_['text_size_table'] = 'Size table';
+$_['text_help_is_needed'] = 'eng-Если Вам необходима дополнительная поддержка, пожалуйста, свяжитесь с нашей Клиентской службой по email:';
+$_['text_prev'] = 'Previous';
+$_['text_next'] = 'Next';
+$_['text_material'] = 'material';
+$_['text_message_1'] = 'eng-Оповестить меня, когда он снова будет доступен.';
+$_['text_add_to_wishlist'] = 'eng-В список желаний';
+$_['text_added_to_wishlist'] = 'eng-Этот товар добавлен в Ваш список желаний';
+$_['text_delivery_info'] = 'eng-Вы можете найти информацию о доставке и возвате';
+$_['text_zdes'] = 'here';
+$_['text_send_to_frend'] = 'eng-Отправить другу';
+$_['text_no_product'] = 'eng-Этот товар недоступен в настоящее время.';
+$_['text_send_me_msg'] = 'eng-Оповестить меня, когда он снова будет доступен.';
+$_['text_confirm'] = 'Confirm';
+$_['text_error_email'] = 'Input Email';
+$_['text_politic'] = 'eng-Подтверждая, Вы соглашаетесь с нашей</span> <a class="b-notifyme_form-privacy_link" href="privacy-policy.html" id="privacyPolicyNL" target="_blank" title="Политика конфиденциальности">Политика конфиденциальности</a>';

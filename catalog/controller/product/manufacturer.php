@@ -22,12 +22,12 @@ class ControllerProductManufacturer extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => ''//$this->url->link('common/home')
+			'href' => '/'.$data['language_href'].''//$this->url->link('common/home')
 		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_brand'),
-			'href' => '/brands_and_shops' //$this->url->link('product/manufacturer')
+			'href' => '/'.$data['language_href'].'brands_and_shops' //$this->url->link('product/manufacturer')
 		);
 
 		$data['categories'] = array();
@@ -47,7 +47,7 @@ class ControllerProductManufacturer extends Controller {
 
 			$data['categories'][$key]['manufacturer'][] = array(
 				'name' => $result['name'],
-				'href' => $result['keyword']//$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id'])
+				'href' => '/'.$data['language_href'].$result['keyword']//$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $result['manufacturer_id'])
 			);
 		}
 
@@ -181,12 +181,12 @@ class ControllerProductManufacturer extends Controller {
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
-			'href' => TMP_URL //$this->url->link('common/home')
+			'href' => '/'.TMP_URL.$data['language_href'] //$this->url->link('common/home')
 		);
 
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_brand'),
-			'href' => TMP_URL.'/brands_and_shops' //$this->url->link('product/manufacturer')
+			'href' => '/'.TMP_URL.$data['language_href'].'brands_and_shops' //$this->url->link('product/manufacturer')
 		);
 
 		if(isset($shop_id) AND $shop_id > 0){
@@ -222,7 +222,7 @@ class ControllerProductManufacturer extends Controller {
 			if(isset($shop_id) AND $shop_id > 0){
 				$data['breadcrumbs'][] = array(
 				'text' => $manufacturer_info['name'],
-				'href' => '/'.$manufacturer_info['keyword']
+				'href' => '/'.$data['language_href'].$manufacturer_info['keyword']
 				);
 			}else{
 				$data['breadcrumbs'][] = array(

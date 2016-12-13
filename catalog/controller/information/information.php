@@ -34,6 +34,11 @@ class ControllerInformationInformation extends Controller {
 
 			$data['button_continue'] = $this->language->get('button_continue');
 
+$data['text_write_to_us'] = $this->language->get('text_write_to_us');
+$data['text_customer_service'] = $this->language->get('text_customer_service');
+$data['email'] = $this->config->get('config_email');
+
+			
 			$data['description'] = html_entity_decode($information_info['description'], ENT_QUOTES, 'UTF-8');
 
 			$data['continue'] = $this->url->link('common/home');
@@ -44,6 +49,7 @@ class ControllerInformationInformation extends Controller {
 			$data['content_bottom'] = $this->load->controller('common/content_bottom');
 			$data['footer'] = $this->load->controller('common/footer');
 			$data['header'] = $this->load->controller('common/header');
+			$data['leftmenu'] = $this->load->controller('information/leftmenu');
 
 			if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/information/information.tpl')) {
 				$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/information/information.tpl', $data));

@@ -38,7 +38,7 @@ $_['error_custom_field']   = '%s required!';
 
 $_['text_address_delivery'] = 'Shipping address';
 $_['text_address'] = 'Address';
-$_['text_country'] = 'Страна';
-$_['text_city'] = 'Country';
+$_['text_country'] = 'Country';
+$_['text_city'] = 'City';
 $_['text_postcode'] = 'Post Code';
 $_['text_address_1'] = 'Address';

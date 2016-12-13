@@ -34,6 +34,6 @@ $_['text_sort']        = 'Sort by';
 $_['text_size']        = 'Size';
 $_['text_category']        = 'Category';
 $_['text_color']        = 'Color';
-$_['']        = '';
+$_['text_clear_all'] = 'Clear all';
 $_['']        = '';
 

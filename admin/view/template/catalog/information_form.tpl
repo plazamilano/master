@@ -124,6 +124,22 @@
                   <?php } ?>
                 </div>
               </div>
+              
+              <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-is_system"><span data-toggle="tooltip" title="<?php echo $text_is_system; ?>"><?php echo $text_is_system; ?></span></label>
+                <div class="col-sm-10">
+                  <div class="checkbox">
+                    <label>
+                      <?php if ($is_system) { ?>
+                      <input type="checkbox" name="is_system" value="1" checked="checked" id="input-is_system" />
+                      <?php } else { ?>
+                      <input type="checkbox" name="is_system" value="1" id="input-is_system" />
+                      <?php } ?>
+                      &nbsp; </label>
+                  </div>
+                </div>
+              </div>
+              
               <div class="form-group">
                 <label class="col-sm-2 control-label" for="input-bottom"><span data-toggle="tooltip" title="<?php echo $help_bottom; ?>"><?php echo $entry_bottom; ?></span></label>
                 <div class="col-sm-10">

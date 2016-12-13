@@ -1,4 +1,5 @@
 <?php
+/*
 $text_email = 'E-mail';
 $text_password_reset = 'Востановление пароля';
 $text_i_remember_password = 'Помню пароль';
@@ -18,18 +19,16 @@ $text_error_password = 'Введите пароль';
 $text_error_password_confirm = 'Введите пароль ещё раз';
 $text_error_form_valid = 'Не все поля заполнены верно!';
 
-
+$text_cart = 'Ваша корзина';
+$text_wishlist = 'Список желаний';
+$text_service_center = 'Клиентская служба';
+*/
 /*
 Осталось без перевода:
-1) пункты в мобильном меню: "Ваша корзина", "Список желаний", "Клиентская служба"
 2) помоему это не задействовано (смысл переводить?) : "Вы в Украина", "Верный язык?", "Верная страна?", "Оставить", "Изменить"
 */
 
-
-
 ?>
-
-
 <!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <!--[if IE 8 ]><html dir="<?php echo $direction; ?>" lang="<?php echo $lang; ?>" class="ie8"><![endif]-->
@@ -256,13 +255,13 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
 
     <header class="l-header_checkout">
         <div class="b-primary_logo">
-            <a class="b-primary_logo-link" href="<?php echo $home; ?>"><img alt="" src="catalog/view/theme/simplica/img/logo.png" title=""></a>
+            <a class="b-primary_logo-link" href="/<?php echo $language_href; ?>"><img alt="" src="catalog/view/theme/simplica/img/logo.png" title=""></a>
         </div>
         <ul class="l-header_service_menu-checkout">
             <li class="l-header_service_menu-list">
                 <?php if($logged) { ?>
                 <div class="b-login_header-link">
-                    <a href="/index.php?route=account/edit"><?php echo $text_cabinet; ?></a>
+                    <a href="/<?php echo $language_href; ?>index.php?route=account/edit"><?php echo $text_cabinet; ?></a>
                 </div>
                 <?php }else{ ?>
                 <div class="b-login_header-link js-login_popup_link">
@@ -375,7 +374,7 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
                     </div>
                     <div class="b-language_informer">
                         <div class="b-language_informer-current">
-                            Вы в Украина
+                            <!-- Вы в Украина -->
                         </div>
                         <div class="b-language_informer-change">
                             Верный язык?&nbsp; Верная страна?&nbsp;
@@ -390,7 +389,7 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
                         menu
                     </div>
                     <div class="b-primary_logo">
-                        <a class="b-primary_logo-link" href="<?php echo $home; ?>"><img alt="" src="catalog/view/theme/simplica/img/logo.png" title=""></a>
+                        <a class="b-primary_logo-link" href="/<?php echo $language_href; ?>"><img alt="" src="catalog/view/theme/simplica/img/logo.png" title=""></a>
                     </div>
                     <div class="l-main_navigation">
                         <nav class="b-main_navigation" id="navigation" role="navigation">
@@ -427,11 +426,31 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
                             
                                 <?php if(isset($text_sale)){ ?>
                                 <li class="b-menu_category-item">
-                                    <a href="/sale-<?php echo substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI'])); ?>"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                    <?php if(strpos($_SERVER['REQUEST_URI'], 'sale') !== false){?>
+                                        <?php
+                                            $sale_url = str_replace('sale-','',$_SERVER['REQUEST_URI']);
+                                            if($_SERVER['REQUEST_URI'] == 'sale'){
+                                                $sale_url = '/'.$language_href;
+                                            }
+                                        ?>
+                                        <a href="<?php echo $sale_url; ?>"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                    <?php }else{ ?>
+                                        <?php $sale_url = 'sale-'.str_replace($language_href,'',substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI']))); ?>
+                                        <?php $sale_url = trim($sale_url, '-'); ?>
+                                        
+                                        <?php //Если УРЛ содержит уровни
+                                            if(strpos($sale_url, '/') !== false){
+                                                $tmp = explode('/', $sale_url);
+                                                $sale_url = $tmp[0];
+                                            }
+                                        ?>
+                                        
+                                        <a href="/<?php echo $language_href.$sale_url; ?>"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                    <?php } ?>
                                 </li>
                                 <?php } ?>
                                 <li class="b-menu_category-item">
-                                    <a href="/brands"><span class="b-menu_category-link"><?php echo $text_brands; ?></span></a>
+                                    <a href="/<?php echo $language_href; ?>brands"><span class="b-menu_category-link"><?php echo $text_brands; ?></span></a>
                                 </li>
                             </ul>
                         </nav>
@@ -503,7 +522,28 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
                 <?php } ?>
                 <?php if(isset($text_sale)){ ?>
                 <li class="mob-menu_category-level_1_item">
-                    <a href="/sale"><?php echo $text_sale; ?></a>
+                    <?php if(strpos($_SERVER['REQUEST_URI'], 'sale') !== false){?>
+                        <?php
+                            $sale_url = str_replace('sale-','',$_SERVER['REQUEST_URI']);
+                            if($_SERVER['REQUEST_URI'] == 'sale'){
+                                $sale_url = '/'.$language_href;
+                            }
+                        ?>
+                        <a href="<?php echo $sale_url; ?>"><?php echo $text_sale; ?></a>
+                    <?php }else{ ?>
+                        <?php $sale_url = 'sale-'.str_replace($language_href,'',substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI']))); ?>
+                        <?php $sale_url = trim($sale_url, '-'); ?>
+                        
+                        <?php //Если УРЛ содержит уровни
+                            if(strpos($sale_url, '/') !== false){
+                                $tmp = explode('/', $sale_url);
+                                $sale_url = $tmp[0];
+                            }
+                        ?>
+                        
+                        <a href="/<?php echo $language_href.$sale_url; ?>"><?php echo $text_sale; ?></a>
+                    <?php } ?>
+                    
                 </li>
                 <?php } ?>
                 <li class="mob-menu_category-level_1_item">
@@ -512,13 +552,13 @@ $text_error_form_valid = 'Не все поля заполнены верно!';
             </ul>
             <ul class="mob-service_menu">
                 <li class="mob-service_menu-item">
-                    <a href="/">Ваша корзина</a>
+                    <a href="/<?php echo $language_href;?>index.php?route=account/edit"><?php echo $text_cart; ?></a>
                 </li>
                 <li class="mob-service_menu-item">
-                    <a href="/">Список желаний</a>
+                    <a href="/<?php echo $language_href;?>index.php?route=account/edit"><?php echo $text_wishlist; ?></a>
                 </li>
                 <li class="mob-service_menu-item">
-                    <a href="/">Клиентская служба</a>
+                    <a href="/<?php echo $language_href;?>index.php?route=account/edit"><?php echo $text_service_center; ?></a>
                 </li>
             </ul>
         </div>

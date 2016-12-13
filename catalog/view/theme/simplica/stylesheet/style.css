@@ -5971,6 +5971,7 @@ html.ipad.html_fancybox_opened body {
 }
 
 .l-pdp .b-product_tile,.b-quickview-wrapper .b-product_tile {
+    float: left;
     width: 25%;
     margin: 0 0 6px;
     font-size: 14px;

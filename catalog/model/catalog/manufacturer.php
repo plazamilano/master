@@ -135,4 +135,18 @@ class ModelCatalogManufacturer extends Model {
 
                     return $result->rows;
         }
+	public function getManufacturersByProductIds($product_ids){
+                    $p = DB_PREFIX;
+         
+				    $sql = "SELECT `m`.`name`, `m`.`manufacturer_id`, `m`.`code` FROM `{$p}manufacturer` `m`"
+                        . " INNER JOIN `{$p}product` `p` ON `p`.`manufacturer_id` = `m`.`manufacturer_id`"
+                          . " WHERE `p`.`product_id` IN (".implode(',',$product_ids).") AND `p`.`status` = 1 AND `p`.`date_available` <= NOW()"
+                        . " GROUP BY `m`.`manufacturer_id` ORDER BY LCASE(`m`.`name`)";
+                    $result = $this->db->query($sql);
+                    if ($result->num_rows == 0) {
+                        return false;
+                    }
+
+                    return $result->rows;
+        }
 }

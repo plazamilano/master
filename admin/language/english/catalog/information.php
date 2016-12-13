@@ -8,6 +8,7 @@ $_['text_list']              = 'Information List';
 $_['text_add']               = 'Add Information';
 $_['text_edit']              = 'Edit Information';
 $_['text_default']           = 'Default';
+$_['text_is_system']           = 'System (not in information list)';
 
 // Column
 $_['column_title']           = 'Information Title';

@@ -1,4 +1,12 @@
 <?php echo $header; ?>
+<?php
+/*
+$text_new_search = 'Новый поиск';
+$text_go = 'Перейти';
+$text_navigation = 'Дополнительная навигация';
+$text_confirm = 'Подтвердить';
+*/
+?>
 
 <main role="main" class="l-error_page">
     <div class="l-primary_content b-error_page-primary_content">
@@ -15,10 +23,10 @@
             <form class="b-error_page-form" action="/ru/search-results" method="get" novalidate="novalidate">
                 <fieldset>
                 <div class="b-error_page-form_row">
-                    <label for="error-search" class="f-label">Новый поиск</label>
-                    <input id="error-search" name="q" value="" class="f-textinput js-validate_placeholder" placeholder="Новый поиск" type="text">
-                    <button class="b-error_page-button" type="submit" value="Перейти" name="simplesearch">
-                        Подтвердить
+                    <label for="error-search" class="f-label"><?php echo $text_new_search; ?></label>
+                    <input id="error-search" name="q" value="" class="f-textinput js-validate_placeholder" placeholder="<?php echo $text_new_search; ?>" type="text">
+                    <button class="b-error_page-button" type="submit" value="<?php echo $text_go; ?>" name="simplesearch">
+                        <?php echo $text_confirm;?>
                     </button>
                 </div>
                 </fieldset>
@@ -35,7 +43,7 @@
     
     <div class="l-secondary_content b-error_page-nav">
         <nav>
-            <h1 class="h-hidden">Дополнительная навигация</h1>
+            <h1 class="h-hidden"><?php echo $text_navigation; ?></h1>
             <div class="b-error_page-secondary_navigation">
                     
                 <?php echo $leftmenu; ?>

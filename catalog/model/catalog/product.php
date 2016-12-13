@@ -362,6 +362,7 @@ class ModelCatalogProduct extends Model {
 				'original_code'      => $query->row['original_code'],
 				'meta_title'       => $query->row['meta_title'],
 				'meta_description' => $query->row['meta_description'],
+				'keyword'     => $query->row['keyword'],
 				'meta_keyword'     => $query->row['meta_keyword'],
 				'shop_id'     => $query->row['shop_id'],
 				'shop_name'     => $query->row['shop_name'],
@@ -1195,7 +1196,7 @@ class ModelCatalogProduct extends Model {
 		
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			//$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id)";
 		}
 	
 		//Фильтр по атрибутам
@@ -1279,6 +1280,11 @@ class ModelCatalogProduct extends Model {
 		//end Фильтр по атрибутам
 
 
+		//Фильтр по размерам
+		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
+			$sql .= " AND (pov.option_value_id IN (" . $this->db->escape($data['filter_sizes']) . ") OR pov.alternative_size IN (" . $this->db->escape($data['filter_sizes']) . "))";
+		}
+		//end Фильтр по размерам
 
 		
 		if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
@@ -1366,7 +1372,7 @@ class ModelCatalogProduct extends Model {
 
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
-			//$sql .= " LEFT JOIN " . DB_PREFIX . "product_to_size p2size ON (p.product_id = p2size.product_id)";
+			$sql .= " LEFT JOIN " . DB_PREFIX . "product_option_value pov ON (p.product_id = pov.product_id)";
 		}
 			
 		//Фильтр по атрибутам
@@ -1437,6 +1443,11 @@ class ModelCatalogProduct extends Model {
 		}
 		//end Фильтр по атрибутам
 
+		//Фильтр по размерам
+		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
+			$sql .= " AND (pov.option_value_id IN (" . $this->db->escape($data['filter_sizes']) . ") OR pov.alternative_size IN (" . $this->db->escape($data['filter_sizes']) . "))";
+		}
+		//end Фильтр по размерам
 		
 		if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
 			$sql .= " AND (";
@@ -1482,7 +1493,7 @@ class ModelCatalogProduct extends Model {
 
 		if (!empty($data['filter_manufacturer_id'])) {
 			if (is_array($data['filter_manufacturer_id'])) {
-				$sql .= " AND p.manufacturer_id = (" . implode(',',$data['filter_manufacturer_id']) . ")";
+				$sql .= " AND p.manufacturer_id IN (" . implode(',',$data['filter_manufacturer_id']) . ")";
 			}else{
 				$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
 			}
@@ -1633,9 +1644,12 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (!empty($data['filter_manufacturer_id'])) {
-			$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			if (is_array($data['filter_manufacturer_id'])) {
+				$sql .= " AND p.manufacturer_id IN (" . implode(',', $data['filter_manufacturer_id']) . ")";
+			}else{
+				$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+			}
 		}
-
 		$query = $this->db->query($sql);
 //echo $sql;
 		$return = array();

@@ -1,8 +1,9 @@
 <?php
-           
+            /*
             $currency_text = "Валюта";
             $country_language_text = 'Валюта&amp;Язык:';
             $text_select_currency = 'Валюта';
+            */
             $text_selected_currency = $currencies[$_SESSION['default']['currency']]['title'];
             
              
@@ -15,13 +16,7 @@
                     $curr_href =  $_SERVER['REQUEST_URI'].'?currency=';
                 } 
             }
-            
-            /*
-            header("Content-Type: text/html; charset=UTF-8");
-            echo "<pre>";  print_r(var_dump( $_SERVER )); echo "</pre>";
-            echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
-            echo "<pre>";  print_r(var_dump( $currencies )); echo "</pre>";
-            */
+
 ?>
 
 <?php if ( isset($_GET['route']) AND 
@@ -30,7 +25,7 @@
            )
          ) { ?>
 <footer class="l-footer_checkout">
-    <div class="b-copyright_footer"><a href="/" target="_blank">Site</a> - managed by The Level Group S.r.l - Copyright © Plazamilano 2016 – All rights reserved - any reproduction of the contents is strictly forbidden</div>
+    <div class="b-copyright_footer">COPYRIGHT © PLAZAMILANO 2016 - ONLINE CLOTHES SHOP. All rights reserved</div>
 </footer>
 <?php } else { ?>
 
@@ -266,9 +261,9 @@
                         <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="<?php echo $language_href.$sitemap; ?>"><?php echo $text_sitemap; ?></a></h6>
                         </li-->
-                        <li class="b-footer_bottom-navigation_item subcategory">
+                        <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="/<?php echo $language_href; ?>brands"><?php echo $text_manufacturer; ?></a></h6>
-                        </li>
+                        </li-->
                         <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="<?php echo $language_href.$voucher; ?>"><?php echo $text_voucher; ?></a></h6>
                         </li-->
@@ -278,18 +273,18 @@
                         <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="<?php echo $language_href.$special; ?>"><?php echo $text_special; ?></a></h6>
                         </li-->
-                        <li class="b-footer_bottom-navigation_item subcategory">
+                        <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="/<?php echo $language_href; ?>account"><?php echo $text_account; ?></a></h6>
-                        </li>
-                        <li class="b-footer_bottom-navigation_item subcategory">
+                        </li-->
+                        <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="/<?php echo $language_href; ?>order"><?php echo $text_order; ?></a></h6>
-                        </li>
-                        <li class="b-footer_bottom-navigation_item subcategory">
+                        </li-->
+                        <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="/<?php echo $language_href; ?>wishlist"><?php echo $text_wishlist; ?></a></h6>
-                        </li>
-                        <li class="b-footer_bottom-navigation_item subcategory">
+                        </li-->
+                        <!--li class="b-footer_bottom-navigation_item subcategory">
                             <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link" href="/<?php echo $language_href; ?>newsletter"><?php echo $text_newsletter; ?></a></h6>
-                        </li>
+                        </li-->
                     </ul>
                 </div>
             </li>

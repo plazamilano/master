@@ -45,6 +45,7 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_sort_order; ?></a>
                     <?php } ?></td>
+                  <td class="text-right"><?php echo $text_is_system; ?></td>
                   <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
@@ -59,6 +60,7 @@
                     <?php } ?></td>
                   <td class="text-left"><?php echo $information['title']; ?></td>
                   <td class="text-right"><?php echo $information['sort_order']; ?></td>
+                  <td class="text-right" style="color:red;"><?php if($information['is_system'] == 1) echo 'system'; ?></td>
                   <td class="text-right"><a href="<?php echo $information['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>

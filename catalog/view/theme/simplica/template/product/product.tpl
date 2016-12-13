@@ -1,12 +1,25 @@
 <?php echo $header; ?>
 
 <?php
+/*
 $text_size_table = 'Таблица размеров';
 $text_help_is_needed = 'Если Вам необходима дополнительная поддержка, пожалуйста, свяжитесь с нашей Клиентской службой по email:';
 $text_prev = 'Предыдущее';
 $text_next = 'Далее';
-
-$email = 'mail@plazamilano.com';
+$text_material = 'материал';
+$text_message_1 = 'Оповестить меня, когда он снова будет доступен.';
+$text_add_to_wishlist = 'В список желаний';
+$text_added_to_wishlist = 'Этот товар добавлен в Ваш список желаний';
+$text_delivery_info = 'Вы можете найти информацию о доставке и возвате';
+$text_zdes = 'здесь';
+$text_send_to_frend = 'Отправить другу';
+$text_no_product = 'Этот товар недоступен в настоящее время.';
+$text_send_me_msg = 'Оповестить меня, когда он снова будет доступен.';
+$text_confirm = 'Подтвердить';
+$text_error_email = 'Пожалуйста, введите Email';
+$text_politic = 'Подтверждая, Вы соглашаетесь с нашей</span> <a class="b-notifyme_form-privacy_link" href="privacy-policy.html" id="privacyPolicyNL" target="_blank" title="Политика конфиденциальности">Политика конфиденциальности</a>';
+*/
+//$email = 'mail@plazamilano.com';
 ?>
 
 <span class="h-hidden">
@@ -485,15 +498,15 @@ $email = 'mail@plazamilano.com';
 
                     <div class="js-notifyme_form-wrapper h-hidden">
                         <form class="b-notifyme_form js-notifyme_container" novalidate="novalidate">
-                            <span class="b-notifyme_form-message_not_available">Этот товар недоступен в настоящее время.</span> <span class="b-notifyme_form-message_notify">Оповестить меня, когда он снова будет доступен.</span>
-                            <div class=" f-field f-field-email js-notifyme_email f-state-required" data-required-text="Пожалуйста, введите Email" data-valid-text="">
+                            <span class="b-notifyme_form-message_not_available"><?php echo $text_no_product; ?></span> <span class="b-notifyme_form-message_notify"><?php echo $text_send_me_msg; ?></span>
+                            <div class=" f-field f-field-email js-notifyme_email f-state-required" data-required-text="<?php echo $text_error_email; ?>" data-valid-text="">
                                 <label class="f-label" for="dwfrm_notifyme_email"><span class="f-label-value">Email</span></label>
                                 <div class="f-field-wrapper">
                                     <input class="f-email f-state-required" id="dwfrm_notifyme_email" maxlength="50" name="dwfrm_notifyme_email" type="email"> <span class="f-error_message"><span class="f-error_message-block"></span></span> <span class="f-warning_message"><span class="f-warning_message-block"><span class="f-warning_text"></span></span></span>
                                 </div>
-                            </div><input name="pid" type="hidden" value="F61D5TFMME1S8031"> <button class="b-notifyme_form-submit js-notify_me_submit" type="button"><span>Подтвердить</span></button>
+                            </div><input name="pid" type="hidden" value="F61D5TFMME1S8031"> <button class="b-notifyme_form-submit js-notify_me_submit" type="button"><span><?php echo $text_confirm; ?></span></button>
                             <div class="b-notifyme_form-privacy">
-                                <span>Подтверждая, Вы соглашаетесь с нашей</span> <a class="b-notifyme_form-privacy_link" href="privacy-policy.html" id="privacyPolicyNL" target="_blank" title="Политика конфиденциальности">Политика конфиденциальности</a>
+                                <span><?php echo $text_politic; ?>
                             </div>
                         </form>
                     </div>
@@ -522,16 +535,16 @@ $email = 'mail@plazamilano.com';
                     
                     
                     <div class="b-add_to_wishlist js-add_to_wishlist" onclick="wishlist.add('<?php echo $product_id; ?>');">>
-                        В список желаний
+                        <?php echo $text_add_to_wishlist; ?>
                     </div>
                     <div class="b-add_to_wishlist-added_message js-added_to_wishlist" >
-                        Этот товар добавлен в Ваш список желаний
+                        <?php echo $text_added_to_wishlist; ?>
                     </div>
                 </div>
                 <div class="b-product_share">
                     <span class="b-product_share-text"></span>
                     <div class="b-product_share-content">
-                        <a class="js-send_to_friend b-product_share-send_to_friend" href="" title="Отправить другу"><span>Отправить другу</span></a>
+                        <a class="js-send_to_friend b-product_share-send_to_friend" href="" title="<?php echo $text_send_to_frend;?>"><span><?php echo $text_send_to_frend;?></span></a>
                         <div class="social-share-bar" data-popup="menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600">
                             <a class="social-share-button facebook" data-share="facebook" href="" target="_blank" title="Facebook"></a>
                             <a class="social-share-button twitter" data-share="twitter" href="" target="_blank" title="Twitter"></a>
@@ -572,7 +585,7 @@ $email = 'mail@plazamilano.com';
                     <div class="b-product_long_description">
                         <?php echo $description; ?>
                     </div>
-                    <span class="b-product_tabs-label">материал</span>
+                    <span class="b-product_tabs-label"><?php echo $text_material; ?></span>
                     <div class="b-product_material">
                         <br>
                     </div>
@@ -588,7 +601,7 @@ $email = 'mail@plazamilano.com';
                 </div>
                 <?php } ?>
                 <div aria-hidden="true" aria-labelledby="ui-id-3" class="b-product_tabs-content b-product_tabs-content_3 ui-tabs-panel ui-widget-content ui-corner-bottom" id="tab3" role="tabpanel" style="display: none;">
-                    Вы можете найти информацию о доставке и возвате <a href="shippinginfo" target="_blank"><b>здесь</b></a>
+                    <?php echo $text_delivery_info; ?> <a href="shippinginfo" target="_blank"><b><?php echo $text_zdes; ?></b></a>
                 </div>
             </div>
         </div>
@@ -606,7 +619,7 @@ $email = 'mail@plazamilano.com';
                         <li>
                             <div class="b-product_tile b-product_tile--1" data-product-name="<?php echo $product['name']; ?>">
                                 <div class="b-product-hover_box">
-                                    <a class="b-product_image-wrapper" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>">
+                                    <a class="b-product_image-wrapper" href="<?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>">
                                     <img alt="<?php echo $product['name']; ?>" class="b-product_image" src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" data-altimage="<?php echo $product['thumb_second']; ?>" >
                                     </a>
 
@@ -626,19 +639,32 @@ $email = 'mail@plazamilano.com';
                                                                             <div class="b-variation-size_chart_link">
                                                                                 <span><?php echo $text_size_help; ?></span>
                                                                             </div>
-                                                                            <ul class="b-swatches_size">
-                                                                                <?php if ( count($product['size']) < 2 ) { ?>
-                                                                                    <li class="b-swatches_size-item emptyswatch"><?php echo $text_onesize; ?></li>
-                                                                                <?php } else { ?>
-                                                                                <?php    foreach ( $product['size'] as $size ) { ?>
-
-                                                                                    <li class="b-swatches_size-item emptyswatch">
-                                                                                        <a class="b-swatches_size-link" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>?size=<?php echo $size['size_id']?>" title="<?php echo $size['size_name']?>"><?php echo $size['size_name']?></a>
-                                                                                    </li>
-
-                                                                                <?php } // end foreach ?>
-                                                                                <?php } // end if ?>
-                                                                            </ul>
+                                                                            <?php if ($product['options']) { ?>
+        
+                                                                                <?php foreach ($product['options'] as $option) { ?>
+                                                                                    <?php if ($option['type'] == 'radio') { ?>
+                                                                                    <ul class="b-swatches_size">
+                                                                                        <?php foreach ($option['product_option_value'] as $option_value) { ?>
+        
+                                                                                        <?php if($option_value['quantity'] <= 0) { ?>
+                                                                                        <li class="b-swatches_size-item emptyswatch m-unselectable">
+                                                                                            <span class="b-swatches_size-link"><?php echo $option_value['name']; ?></span>
+                                                                                        </li>
+                                                                                        <?php }else{ ?>
+                                                                                        <li class="b-swatches_size-item emptyswatch">
+                                                                                            <a href="<?php echo $product['href']; ?>?option[<?php echo $option['product_option_id']; ?>]=<?php echo $option_value['product_option_value_id']; ?>" class="b-swatches_size-link"><?php echo $option_value['name']; ?></a>
+                                                                                        </li>
+                                                                                        <?php } ?>
+        
+                                                                                        <?php } ?>
+                                                                                    </ul>
+        
+                                                                                    <?php } ?>
+                                                                                <?php } ?>
+        
+                                                                            <?php }else{ ?>
+                                                                                <div class="b-swatches_size-item emptyswatch"><?php echo $text_onesize; ?></div>
+                                                                            <?php } ?>
                                                                         </div>
                                                                     </div>
                                                                 </li>

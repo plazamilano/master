@@ -93,7 +93,31 @@ class ControllerCommonHeader extends Controller {
 		$data['text_forgotten_pass'] = $this->language->get('text_forgotten_pass');
 		$data['text_next'] = $this->language->get('text_next');
 		$data['text_cookie_error'] = $this->language->get('text_cookie_error');
-		
+
+		$data['text_email'] = $this->language->get('text_email');
+$data['text_password_reset'] = $this->language->get('text_password_reset');
+$data['text_i_remember_password'] = $this->language->get('text_i_remember_password');
+$data['text_reestablish'] = $this->language->get('text_reestablish');
+$data['text_name'] = $this->language->get('text_name');
+$data['text_register_new_buyer'] = $this->language->get('text_register_new_buyer');
+$data['text_register_new_wholesale_buyer'] = $this->language->get('text_register_new_wholesale_buyer');
+$data['text_sign_up'] = $this->language->get('text_sign_up');
+$data['text_cabinet'] = $this->language->get('text_cabinet');
+$data['text_enter_in_account'] = $this->language->get('text_enter_in_account');
+$data['text_back_to_shopping'] = $this->language->get('text_back_to_shopping');
+$data['text_go_back'] = $this->language->get('text_go_back');
+$data['text_error_name'] = $this->language->get('text_error_name');
+$data['text_error_email'] = $this->language->get('text_error_email');
+$data['text_error_password'] = $this->language->get('text_error_password');
+$data['text_error_password_confirm'] = $this->language->get('text_error_password_confirm');
+$data['text_error_form_valid'] = $this->language->get('text_error_form_valid');
+$data['text_cart'] = $this->language->get('text_cart');
+$data['text_wishlist'] = $this->language->get('text_wishlist');
+$data['text_service_center'] = $this->language->get('text_service_center');
+$data[''] = $this->language->get('');
+$data[''] = $this->language->get('');
+
+
 		// Wishlist
 		if ($this->customer->isLogged()) {
 			$this->load->model('account/wishlist');

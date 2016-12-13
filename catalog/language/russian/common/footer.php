@@ -23,4 +23,8 @@ $_['text_select_language']   = 'Язык';
 $_['text_more_country']   = 'Больше стран';
 $_['text_customer_care']   = 'КЛИЕНТСКАЯ СЛУЖБА';
 
+$_['currency_text']         = "Валюта";
+$_['country_language_text'] = 'Валюта&amp;Язык:';
+$_['text_select_currency']  = 'Валюта';
+
 

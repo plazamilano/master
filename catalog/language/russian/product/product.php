@@ -55,7 +55,7 @@ $_['error_captcha']                           = 'Код, указанный на
 $_['text_next']                           = 'Далее';
 $_['text_size']                           = 'Размер';
 $_['text_select_size_help']                           = 'Как выбрать размер?';
-$_['text_select_size']                           = 'Пожалуйста, выберите размер';
+$_['text_select_size']                           = 'Выберите размер';
 $_['text_need_help']                           = 'Нужна помощь?';
 $_['text_contact_to_us']                           = 'Если Вам нужна помощь, пожалуйста, свяжитесь с нами:';
 $_['text_contact_us']                           = 'Contact us';
@@ -81,6 +81,23 @@ $_['entry_dlina_niz']          = 'Длина изделия';
 $_['entry_podiem']          = 'Подъем';
 $_['entry_s_dlina']          = 'Длина';
 $_['entry_s_shirina']          = 'Ширина';
+
+$_['text_size_table'] = 'Таблица размеров';
+$_['text_help_is_needed'] = 'Если Вам необходима дополнительная поддержка, пожалуйста, свяжитесь с нашей Клиентской службой по email:';
+$_['text_prev'] = 'Предыдущее';
+$_['text_next'] = 'Далее';
+$_['text_material'] = 'материал';
+$_['text_message_1'] = 'Оповестить меня, когда он снова будет доступен.';
+$_['text_add_to_wishlist'] = 'В список желаний';
+$_['text_added_to_wishlist'] = 'Этот товар добавлен в Ваш список желаний';
+$_['text_delivery_info'] = 'Вы можете найти информацию о доставке и возвате';
+$_['text_zdes'] = 'здесь';
+$_['text_send_to_frend'] = 'Отправить другу';
+$_['text_no_product'] = 'Этот товар недоступен в настоящее время.';
+$_['text_send_me_msg'] = 'Оповестить меня, когда он снова будет доступен.';
+$_['text_confirm'] = 'Подтвердить';
+$_['text_error_email'] = 'Пожалуйста, введите Email';
+$_['text_politic'] = 'Подтверждая, Вы соглашаетесь с нашей</span> <a class="b-notifyme_form-privacy_link" href="privacy-policy.html" id="privacyPolicyNL" target="_blank" title="Политика конфиденциальности">Политика конфиденциальности</a>';
 
 
 
