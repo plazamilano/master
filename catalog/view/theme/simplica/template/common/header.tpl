@@ -396,21 +396,25 @@ $text_service_center = 'Клиентская служба';
                             <ul class="b-menu_category">
                             <?php foreach ($categories as $category) { ?>
                                 <li class="b-menu_category-item">
-                                    <span class="b-menu_category-link"><?php echo $category['name']; ?></span>
+                                    <a href="<?php echo $language_href.$category['href']; ?>"><span class="b-menu_category-link"
+                                            <?php if(in_array($category['category_id'], $category_path)) echo ' style="text-decoration:underline;"'; ?>
+                                            ><?php echo $category['name']; ?></span></a>
                                     <div class="b-menu_category-level_2">
                                         <div class="b-menu_category-level_2-wrapper">
                                             <ul class="b-menu_category-level_2-list">
                                             <?php if (isset($category['children'])) { ?>
                                             <?php foreach ($category['children'] as $child2) { ?>
                                                 <li class="b-menu_category-level_2-item" data-index="1">
-                                                    <a href="<?php echo $language_href.$child2['href']; ?>"><span class="b-menu_category-level_2-link"><?php echo $child2['name']; ?></span></a>
+                                                    <a href="<?php echo $language_href.$child2['href']; ?>"><span class="b-menu_category-level_2-link"
+                                                            <?php if(in_array($child2['category_id'], $category_path)) echo ' style="text-decoration:underline;"'; ?>
+                                                            ><?php echo $child2['name']; ?></span></a>
                                                     <div class="b-menu_category-level_3">
                                                         <ul class="b-menu_category-level_3-list">
                                                         <?php if (isset($child2['children'])) { ?>
                                                         <?php foreach ($child2['children'] as $child3) { ?>
                                                             <li class="b-menu_category-level_3-item">
-                                                                <a class="b-menu_category-level_3-link" href="<?php echo $language_href.$child3['href']; ?>">
-                                                                <h3><?php echo $child3['name']; ?></h3></a>
+                                                                <a class="b-menu_category-level_3-link" href="<?php echo $language_href.$child3['href']; ?>"
+                                                                <?php if(in_array($child3['category_id'], $category_path)) echo ' style="text-decoration:underline;"'; ?>><?php echo $child3['name']; ?></h3></a>
                                                             </li>
                                                         <?php }} ?>
                                                         </ul>

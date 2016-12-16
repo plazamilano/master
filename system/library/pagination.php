@@ -39,14 +39,25 @@ class Pagination {
 		}
 		//$this->url = $this->url.'?page={page}';
 		
-		$output = '<ul class="clearfix">';
-
-		//<div class="links_blank" data-link="<?php echo $product['href']; 
-		
-		if ($page > 1) {
-			$output .= '<li><div class="links" data-link="' . str_replace('{page}', 1, $this->url) . '">' . $this->text_first . '</div></li>';
-			$output .= '<li><div class="links" data-link="' . str_replace('{page}', $page - 1, $this->url) . '">' . $this->text_prev . '</div></li>';
+		if(strpos($_SERVER['REQUEST_URI'],'/admin/') !== false){
+			$output = '<ul class="pagination">';
+		}else{
+			$output = '<ul class="clearfix">';
 		}
+
+		
+		if(strpos($_SERVER['REQUEST_URI'],'/admin/') !== false){
+			if ($page > 1) {
+				$output .= '<li><a href="' . str_replace('{page}', 1, $this->url) . '">' . $this->text_first . '</a></li>';
+				$output .= '<li><a href="' . str_replace('{page}', $page - 1, $this->url) . '">' . $this->text_prev . '</a></li>';
+			}	
+		}else{
+			if ($page > 1) {
+				$output .= '<li><div class="links" data-link="' . str_replace('{page}', 1, $this->url) . '">' . $this->text_first . '</div></li>';
+				$output .= '<li><div class="links" data-link="' . str_replace('{page}', $page - 1, $this->url) . '">' . $this->text_prev . '</div></li>';
+			}	
+		}
+		
 
 		if ($num_pages > 1) {
 			if ($num_pages <= $num_links) {
@@ -71,14 +82,24 @@ class Pagination {
 				if ($page == $i) {
 					$output .= '<li class="active"><span>' . $i . '</span></li>';
 				} else {
-					$output .= '<li><div class="links" data-link="' . str_replace('{page}', $i, $this->url) . '">' . $i . '</div></li>';
+					if(strpos($_SERVER['REQUEST_URI'],'/admin/') !== false){
+						$output .= '<li><a href="' . str_replace('{page}', $i, $this->url) . '">' . $i . '</a></li>';
+					}else{
+						$output .= '<li><div class="links" data-link="' . str_replace('{page}', $i, $this->url) . '">' . $i . '</div></li>';
+					}
 				}
 			}
 		}
 
 		if ($page < $num_pages) {
-			$output .= '<li><div class="links" data-link="' . str_replace('{page}', $page + 1, $this->url) . '">' . $this->text_next . '</div></li>';
-			$output .= '<li><div class="links" data-link="' . str_replace('{page}', $num_pages, $this->url) . '">' . $this->text_last . '</div></li>';
+			
+			if(strpos($_SERVER['REQUEST_URI'],'/admin/') !== false){
+				$output .= '<li><a href="' . str_replace('{page}', $page + 1, $this->url) . '">' . $this->text_next . '</a></li>';
+				$output .= '<li><a href="' . str_replace('{page}', $num_pages, $this->url) . '">' . $this->text_last . '</a></li>';
+			}else{
+				$output .= '<li><div class="links" data-link="' . str_replace('{page}', $page + 1, $this->url) . '">' . $this->text_next . '</div></li>';
+				$output .= '<li><div class="links" data-link="' . str_replace('{page}', $num_pages, $this->url) . '">' . $this->text_last . '</div></li>';
+			}
 		}
 
 		$output .= '</ul>';

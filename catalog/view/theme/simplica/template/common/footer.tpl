@@ -84,7 +84,7 @@
                         <div class="b-language_selector-flyout js-country_language_selector">
 
                             <div class="b-language_selector-country">
-                                <p class="b-language_selector-country_title"><?php echo $text_select_country; ?></p>
+                                <p class="b-language_selector-country_title"><?php echo $currency_text; ?></p>
 
                                 <ul class="b-language_selector-country_list">
                                     <?php foreach ($currencies as $index => $currency) { ?>
@@ -160,7 +160,7 @@
             <div class="b-footer_navigation_list-item">
                 <div class="b-content_asset b-content_asset--mobile-footer-copyright content-asset">
                     <p>
-                        <span style="text-transform:uppercase;"><a href="/" target="_blank">Site</a> - managed by The Level Group S.r.l - Copyright © Plazamilano 2016– All rights reserved- any reproduction of the contents is strictly forbidden.</span>
+                        <span style="text-transform:uppercase;">COPYRIGHT © PLAZAMILANO 2016 - ONLINE CLOTHES SHOP. All rights reserved</span>
                     </p>
                 </div>
             </div>
@@ -312,7 +312,7 @@
         <div class="l-footer-copyright_soc-content">
             <div class="l-footer-mini">
                 <div class="b-content_asset b-content_asset--mini-footer content-asset">
-                    <p><span style="text-transform:uppercase;"><a href="/" target="_blank">Site</a> - managed by The Level Group S.r.l - Copyright © Plazamilano 2016– All rights reserved- any reproduction of the contents is strictly forbidden.</span></p>
+                    <p><span style="text-transform:uppercase;">COPYRIGHT © PLAZAMILANO 2016 - ONLINE CLOTHES SHOP. All rights reserved</span></p>
                 </div><!-- End content-asset mini-footer -->
             </div>
             <div class="l-social-links">

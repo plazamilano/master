@@ -41,6 +41,8 @@ class ControllerCommonFooter extends Controller {
 		$data['currency_text'] 			= $this->language->get('currency_text');
 		$data['country_language_text'] 	= $this->language->get('country_language_text');
 		$data['text_select_currency'] 	= $this->language->get('text_select_currency');
+		//$data['currency_text'] 	= $this->language->get('currency_text');
+
 
 
 		$this->load->model('catalog/information');

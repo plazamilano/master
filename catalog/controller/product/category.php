@@ -211,6 +211,8 @@ class ControllerProductCategory extends Controller {
 			$category_id = 0;
 		}
 
+		
+		
 		$search = '';
 		if (isset($this->request->get['search'])) {
 			

@@ -40,6 +40,23 @@ class ControllerCommonHeader extends Controller {
 		$data['meta_teg'] = $this->document->getMetaTeg();
 		//$data['shop'] = $this->document->getShop();
 
+		if(isset($this->request->get['category_id'])){
+			$data['category_id'] = $this->request->get['category_id'];
+		}else{
+			$data['category_id'] = 0;
+		}
+
+		// Menu
+		$this->load->model('catalog/category');
+
+		$this->load->model('catalog/product');
+
+		$data['categories'] = $this->document->getCategoryMenu();
+
+		$data['category_path'] =$this->model_catalog_category->getCategoryPath($data['category_id']);
+		
+		
+		
 		$data['base'] = $server;
 		$data['description'] = $this->document->getDescription();
 		$data['keywords'] = $this->document->getKeywords();
@@ -191,13 +208,6 @@ $data[''] = $this->language->get('');
 			}
 		}
 
-		// Menu
-		$this->load->model('catalog/category');
-
-		$this->load->model('catalog/product');
-
-
-	$data['categories'] = $this->document->getCategoryMenu();
 	
 	
 

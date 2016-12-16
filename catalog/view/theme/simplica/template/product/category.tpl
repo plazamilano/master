@@ -440,7 +440,8 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                                                         <span class="b-variation-title">цвет</span> <span class="js_color-description">Черный</span>
                                                                         <ul class="js-swatches b-swatches_color">
                                                                             <li class="b-swatches_color-item b-swatches_color-item-selected">
-                                                                                <a class="js-swatches_color-link js-swatches_color-link-selected b-swatches_color-link-selected b-swatches_color-link" data-lgimg="{&quot;url&quot;:&quot;http://demandware.edgesuite.net/sits_pod25/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwa582dcac/images/zoom/F61D5TFMME1_S8031_0.jpg?sw=804&amp;sh=1200&amp;sm=fit&quot;, &quot;title&quot;:&quot;ПЛАТЬЕ А-СИЛУЭТА ИЗ ШЕРСТЯНОГО ТВИДА&quot;, &quot;alt&quot;:&quot;ПЛАТЬЕ А-СИЛУЭТА ИЗ ШЕРСТЯНОГО ТВИДА&quot;, &quot;hires&quot;:&quot;http://demandware.edgesuite.net/sits_pod25/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwa582dcac/images/zoom/F61D5TFMME1_S8031_0.jpg?sw=1571&amp;sh=2000&amp;sm=fit&quot;}" data-thumbs=".js-thumbs-F61D5TFMME1S8031" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" style="background-color: #000000;" title="Черный"></a>
+                                                                                <a class="js-swatches_color-link js-swatches_color-link-selected b-swatches_color-link-selected b-swatches_color-link" data-lgimg="{&quot;url&quot;:&quot;http://demandware.edgesuite.net/sits_pod25/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwa582dcac/images/zoom/F61D5TFMME1_S8031_0.jpg?sw=804&amp;sh=1200&amp;sm=fit&quot;, &quot;title&quot;:&quot;ПЛАТЬЕ А-СИЛУЭТА ИЗ ШЕРСТЯНОГО ТВИДА&quot;, &quot;alt&quot;:&quot;ПЛАТЬЕ А-СИЛУЭТА ИЗ ШЕРСТЯНОГО ТВИДА&quot;, &quot;hires&quot;:&quot;http://demandware.edgesuite.net/sits_pod25/dw/image/v2/AAGA_PRD/on/demandware.static/-/Sites-15/default/dwa582dcac/images/zoom/F61D5TFMME1_S8031_0.jpg?sw=1571&amp;sh=2000&amp;sm=fit&quot;}"
+                                                                                   data-thumbs=".js-thumbs-F61D5TFMME1S8031" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" style="background-color: #000000;" title="Черный"></a>
                                                                             </li>
                                                                         </ul>
                                                                     </div>
@@ -451,12 +452,12 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                                 </div>
                                                 
                                             </div>
-                                            <a class="js-producttile_name b-product_name product_name" href="<?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['name']; ?></a>
+                                            <a class="js-producttile_name b-product_name product_name" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['name']; ?></a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <a class="js-producttile_name b-product_name product_name" href="<?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['name']; ?></a>
+                            <a class="js-producttile_name b-product_name product_name" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['name']; ?></a>
 
 
                             <div class="b-product_price" style="">
