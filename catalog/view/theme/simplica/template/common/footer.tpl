@@ -42,7 +42,7 @@
                         </li>
                         <?php } ?>
                         <?php } ?>
-                        <li class="b-mobile_footer_menu-item">
+                        <!--li class="b-mobile_footer_menu-item">
                             <a class="b-mobile_footer_menu-link" href="/<?php echo $language_href; ?>contact_us"><?php echo $text_contact; ?></a>
                         </li>
                         <li class="b-mobile_footer_menu-item">
@@ -59,7 +59,7 @@
                         </li>
                         <li class="b-mobile_footer_menu-item">
                             <a class="b-mobile_footer_menu-link" href="/<?php echo $language_href; ?>newsletter"><?php echo $text_newsletter; ?></a>
-                        </li>
+                        </li-->
                     </ul>
                 </div>
             </div>
