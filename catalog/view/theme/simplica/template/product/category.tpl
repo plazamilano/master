@@ -496,7 +496,7 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                     </div>
                 </div>
             </div>
-
+            <div><?php echo $pagination; ?></div>
         </div>
     </main>
 

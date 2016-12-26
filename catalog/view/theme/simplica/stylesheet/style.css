@@ -11217,3 +11217,21 @@ html.ipad.html_fancybox_opened body {
     margin-left: 20px;
 }
 
+/* pagination */
+.clearfix li{
+    display: block;
+    border: 1px solid #ccc;
+    display: list-item;
+    position: relative;
+    color: #252525;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color .2s;
+    float: left;
+    padding: 5px 10px 5px 10px;
+    margin-left: 10px;
+}
+.clearfix li.active{
+    color:white;
+    background-color: #ccc;
+}

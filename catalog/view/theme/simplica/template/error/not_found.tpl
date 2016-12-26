@@ -1,4 +1,5 @@
 <?php echo $header; ?>
+
 <?php
 /*
 $text_new_search = 'Новый поиск';
