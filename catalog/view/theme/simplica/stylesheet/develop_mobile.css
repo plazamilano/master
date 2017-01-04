@@ -124,7 +124,8 @@
 @media screen and (max-width: 860px) {
     .l-search_result-content:not(.m-four-columns) { padding: 0; }
     .m-four-columns .b-product_tile { width: 48%; }
-    .b-product_tile:hover .b-productile_hover { display: none; }
+    /*.b-product_tile:hover .b-productile_hover { display: none; }*/
+    .b-product_tile .b-productile_hover { display: block !important; }
     .l-breadcrumb { display: none; }
     .b-filter_view-header.b-change_view { display: none; }
 
