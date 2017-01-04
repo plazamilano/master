@@ -19,6 +19,9 @@ class ControllerCommonHeader extends Controller {
 		$data['social_images'] = $social_images;
 		//==========================================	
 		
+		if (isset($this->request->get['manufacturer_main_category'])) {
+				$data['manufacturer_main_category'] = true;
+		}
 		
 		foreach ($analytics as $analytic) {
 			if ($this->config->get($analytic['code'] . '_status')) {
@@ -134,7 +137,9 @@ $data['text_service_center'] = $this->language->get('text_service_center');
 $data[''] = $this->language->get('');
 $data[''] = $this->language->get('');
 
-
+		if (isset($this->session->data['user_id']) AND $this->session->data['user_id']) {
+			$data['is_user'] = $this->session->data['user_id'];
+		}
 		// Wishlist
 		if ($this->customer->isLogged()) {
 			$this->load->model('account/wishlist');

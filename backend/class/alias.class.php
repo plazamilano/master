@@ -38,13 +38,16 @@ class Alias
 		if($r->num_rows > 0){
 			$row = $r->fetch_assoc();
 			if($row['code'] != ''){
-				$alias .= '/'.strtolower($row['code']);
+				$alias .= ''.strtolower($row['code']);
 			}elseif($row['sku'] != ''){
-				$alias .= '/'.strtolower($this->translitArtkl($row['name'].'-'.$row['sku']));
+				$alias .= ''.strtolower($this->translitArtkl($row['name'].'-'.$row['sku']));
 			}else{
-				$alias .= '/'.strtolower($this->translitArtkl($row['name'].'-'.$product_id));
+				$alias .= ''.strtolower($this->translitArtkl($row['name'].'-'.$product_id));
 			}
 		}
+		
+		$alias = trim($alias, '-');
+		$alias = trim($alias);
 		
 		return $alias;
 		

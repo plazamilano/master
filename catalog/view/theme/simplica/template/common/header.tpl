@@ -391,6 +391,7 @@ $text_service_center = 'Клиентская служба';
                     <div class="b-primary_logo">
                         <a class="b-primary_logo-link" href="/<?php echo $language_href; ?>"><img alt="" src="catalog/view/theme/simplica/img/logo.png" title=""></a>
                     </div>
+                 
                     <div class="l-main_navigation">
                         <nav class="b-main_navigation" id="navigation" role="navigation">
                             <ul class="b-menu_category">
@@ -405,6 +406,12 @@ $text_service_center = 'Клиентская служба';
                                             <?php if (isset($category['children'])) { ?>
                                             <?php foreach ($category['children'] as $child2) { ?>
                                                 <li class="b-menu_category-level_2-item" data-index="1">
+                                                    
+                                                    <?php if(isset($is_user) AND $is_user){ ?>
+                                                        <a href="javascript:;" class="dell_category" data-id="<?php echo $child2['category_id']; ?>" class="color:#DD0000;">x</a>
+                                                        <a href="/admin/index.php?route=catalog/category/edit&token=<?php echo $_SESSION["default"]['token']; ?>&category_id=<?php echo $child2['category_id']; ?>" target="_blank" class="color:#007F19;">e</a>
+                                                    <?php } ?>
+                                  
                                                     <a href="<?php echo $language_href.$child2['href']; ?>"><span class="b-menu_category-level_2-link"
                                                             <?php if(in_array($child2['category_id'], $category_path)) echo ' style="text-decoration:underline;"'; ?>
                                                             ><?php echo $child2['name']; ?></span></a>
@@ -413,6 +420,12 @@ $text_service_center = 'Клиентская служба';
                                                         <?php if (isset($child2['children'])) { ?>
                                                         <?php foreach ($child2['children'] as $child3) { ?>
                                                             <li class="b-menu_category-level_3-item">
+                                                                
+                                                                <?php if(isset($is_user) AND $is_user){ ?>
+                                                                    <a href="javascript:;" class="dell_category" data-id="<?php echo $child3['category_id']; ?>" class="color:#DD0000;">x</a>
+                                                                    <a href="/admin/index.php?route=catalog/category/edit&token=<?php echo $_SESSION["default"]['token']; ?>&category_id=<?php echo $child3['category_id']; ?>" target="_blank" class="color:#007F19;">e</a>
+                                                                <?php } ?>
+     
                                                                 <a class="b-menu_category-level_3-link" href="<?php echo $language_href.$child3['href']; ?>"
                                                                 <?php if(in_array($child3['category_id'], $category_path)) echo ' style="text-decoration:underline;"'; ?>><?php echo $child3['name']; ?></h3></a>
                                                             </li>
@@ -437,7 +450,9 @@ $text_service_center = 'Клиентская служба';
                                                 $sale_url = '/'.$language_href;
                                             }
                                         ?>
-                                        <a href="<?php echo $sale_url; ?>"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                        
+                                        <a href="/<?php echo $language_href; ?>"><span class="b-menu_category-link" style="text-decoration:underline;"><?php echo $text_sale; ?></span></a>
+                                        
                                     <?php }else{ ?>
                                         <?php $sale_url = 'sale-'.str_replace($language_href,'',substr($_SERVER['REQUEST_URI'],1,strlen($_SERVER['REQUEST_URI']))); ?>
                                         <?php $sale_url = trim($sale_url, '-'); ?>
@@ -449,12 +464,17 @@ $text_service_center = 'Клиентская служба';
                                             }
                                         ?>
                                         
-                                        <a href="/<?php echo $language_href.$sale_url; ?>"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                        <a href="/<?php echo $language_href; ?>sale"><span class="b-menu_category-link"><?php echo $text_sale; ?></span></a>
+                                        
                                     <?php } ?>
                                 </li>
                                 <?php } ?>
                                 <li class="b-menu_category-item">
-                                    <a href="/<?php echo $language_href; ?>brands"><span class="b-menu_category-link"><?php echo $text_brands; ?></span></a>
+                                    <?php if(isset($manufacturer_main_category) OR strpos($_SERVER['REQUEST_URI'],'brands') !== false){ ?>
+                                        <a href="/<?php echo $language_href; ?>brands" ><span class="b-menu_category-link" style="text-decoration:underline;"><?php echo $text_brands; ?></span></a>
+                                    <?php }else{ ?>
+                                        <a href="/<?php echo $language_href; ?>brands"><span class="b-menu_category-link"><?php echo $text_brands; ?></span></a>
+                                    <?php } ?>
                                 </li>
                             </ul>
                         </nav>
@@ -545,13 +565,21 @@ $text_service_center = 'Клиентская служба';
                             }
                         ?>
                         
-                        <a href="/<?php echo $language_href.$sale_url; ?>"><?php echo $text_sale; ?></a>
+                        <?php if(strpos($_SERVER['REQUEST_URI'], 'sale') !== false){ ?>
+                            <a href="/<?php echo $language_href.$sale_url; ?>" style="text-decoration:underline;"><?php echo $text_sale; ?></a>
+                        <?php }else{ ?>
+                            <a href="/<?php echo $language_href.$sale_url; ?>"><?php echo $text_sale; ?></a>
+                        <?php } ?>
                     <?php } ?>
                     
                 </li>
                 <?php } ?>
                 <li class="mob-menu_category-level_1_item">
-                    <a href="/brands"><?php echo $text_brands; ?></a>
+                    <?php if(isset($manufacturer_main_category) OR strpos($_SERVER['REQUEST_URI'], 'brands') !== false){ ?>
+                        <a href="/brands" style="text-decoration:underline;"><?php echo $text_brands; ?></a>
+                    <?php }else{ ?>
+                        <a href="/brands"><?php echo $text_brands; ?></a>
+                    <?php } ?>
                 </li>
             </ul>
             <ul class="mob-service_menu">
@@ -693,4 +721,31 @@ $('.js-registaration-submit').on('click', function(e){
 // Проверяем все поля перед отправкиой формы. END
 
 </script>
+<?php if(isset($is_user) AND $is_user){ ?>
+    <script>
+        $(document).on('click', '.dell_category', function(){
+           
+            var category_id = $(this).data('id');
+            
+            console.log($(this).parent('li').html());
+            $(this).parent('li').html('');
+            
+            
+            $.ajax({
+                type: "POST",
+                url: "/admin/index.php?route=catalog/category/deleteAjax&category_id="+category_id+"&token=<?php echo $_SESSION["default"]['token']; ?>",
+                dataType: "text",
+                data: "",
+                beforeSend: function(){
+                },
+                success: function(msg){
+                    console.log(  msg );
+                    
+                }
+            });
+            
+        });
+        
+    </script>
 
+<?php } ?>

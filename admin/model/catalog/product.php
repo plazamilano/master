@@ -8,7 +8,11 @@ class ModelCatalogProduct extends Model {
 		
 		$data['code'] = $data['keyword'];
 		
+		$product_id = '';
+		if(isset($data['product_id'])) $product_id = $data['product_id'];
+		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "product SET
+									product_id = '" . $product_id . "',
 									model = '" . $this->db->escape($data['model']) . "',
 									code = '" . $this->db->escape($data['code']) . "',
 									moderation_id = '" . $this->db->escape($data['moderation_id']) . "',
@@ -91,7 +95,10 @@ class ModelCatalogProduct extends Model {
 												subtract = '" . (int)$product_option_value['subtract'] . "',
 												price = '" . (float)$product_option_value['price'] . "',
 												price_prefix = '" . $this->db->escape($product_option_value['price_prefix']) . "',
-												points = '" . (int)$product_option_value['points'] . "', points_prefix = '" . $this->db->escape($product_option_value['points_prefix']) . "', weight = '" . (float)$product_option_value['weight'] . "', weight_prefix = '" . $this->db->escape($product_option_value['weight_prefix']) . "'");
+												points = '" . (int)$product_option_value['points'] . "',
+												points_prefix = '" . $this->db->escape($product_option_value['points_prefix']) . "',
+												weight = '" . (float)$product_option_value['weight'] . "',
+												weight_prefix = '" . $this->db->escape($product_option_value['weight_prefix']) . "'");
 							$product_option_value_id = $this->db->getLastId();
 							
 							//Заэкранировано
@@ -147,7 +154,7 @@ class ModelCatalogProduct extends Model {
 			}
 		}
 
-		
+		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "'");
 		//$this->_checkClausesAndMakeDecisionToUpdateRelationships($data, $product_id);
 		if (isset($data['product_category'])) {
 			foreach ($data['product_category'] as $category_id) {
@@ -193,7 +200,7 @@ class ModelCatalogProduct extends Model {
 		}
 
 		if (isset($data['keyword'])) {
-			//$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'product_id=" . (int)$product_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "url_alias SET query = 'product_id=" . (int)$product_id . "', keyword = '" . $this->db->escape($data['keyword']) . "'");
 		}
 
 		if (isset($data['product_recurrings'])) {
@@ -865,6 +872,7 @@ class ModelCatalogProduct extends Model {
 		if (isset($data['filter_status']) && !is_null($data['filter_status'])) {
 			$sql .= " AND p.status = '" . (int)$data['filter_status'] . "'";
 		}
+//echo $sql; die();
 
 		$query = $this->db->query($sql);
 
@@ -1073,7 +1081,7 @@ class ModelCatalogProduct extends Model {
                             FROM `'.DB_PREFIX.'category` C
                             LEFT JOIN `'.DB_PREFIX.'category_description` CD ON C.category_id = CD.category_id
                             LEFT JOIN `'.DB_PREFIX.'url_alias` A ON A.query = CONCAT("category_id=",CD.category_id)
-                            WHERE parent_id = "0" AND CD.language_id = "'.(int)$this->config->get('config_language_id').'" ORDER BY name ASC;';
+                            WHERE parent_id = "0" AND C.category_id > 0 AND CD.language_id = "'.(int)$this->config->get('config_language_id').'" ORDER BY name ASC;';
             //echo '<br>'.$sql;
             $rs = $this->db->query($sql);
             
@@ -1105,7 +1113,7 @@ class ModelCatalogProduct extends Model {
                         FROM `'.DB_PREFIX.'category` C
                         LEFT JOIN `'.DB_PREFIX.'category_description` CD ON C.category_id = CD.category_id
                         LEFT JOIN `'.DB_PREFIX.'url_alias` A ON A.query = CONCAT("category_id=",CD.category_id)
-                        WHERE parent_id = "'.$parent.'"  AND CD.language_id = "'.(int)$this->config->get('config_language_id').'" ORDER BY name ASC;';
+                        WHERE parent_id = "'.$parent.'" AND C.category_id > 0 AND CD.language_id = "'.(int)$this->config->get('config_language_id').'" ORDER BY name ASC;';
                 
             $rs = $this->db->query($sql);
         

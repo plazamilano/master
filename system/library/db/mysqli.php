@@ -43,6 +43,7 @@ final class MySQLi {
 	}
 
 	public function escape($value) {
+		$value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 		return $this->link->real_escape_string($value);
 	}
 

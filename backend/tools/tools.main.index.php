@@ -13,6 +13,32 @@ ini_set("max_execution_time","0");
 ini_set("memory_limit","256G");
 error_reporting(E_ALL ^ E_DEPRECATED);
 
+
+//Копируем товары из старой базы
+	define('DB_DATABASE2', 'blockb5_etalon');
+   
+    $mysqli2 = mysqli_connect(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE2) or die("Error " . mysqli_error($mysqli)); 
+    mysqli_set_charset($mysqli,"utf8"); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 die('Только для разработчика!');
 //Чистка описаний по алиасам от дубляжей
 	$sql = 'select id, url FROM `'.DB_PREFIX.'alias_description`';

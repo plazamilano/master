@@ -11235,3 +11235,7 @@ html.ipad.html_fancybox_opened body {
     color:white;
     background-color: #ccc;
 }
+
+.pagination-wrapper{
+    padding-bottom: 10px;
+}

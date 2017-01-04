@@ -3,15 +3,21 @@ class ModelCatalogAttribute extends Model {
 	public function addAttribute($data) {
 		$this->event->trigger('pre.admin.attribute.add', $data);
 
+		if(!isset($data['enable'])) $data['enable'] = 0;
+		
 		$this->db->query("INSERT INTO " . DB_PREFIX . "attribute SET attribute_group_id = '" . (int)$data['attribute_group_id'] . "',
 						 filter_name = '" . $this->db->escape($data['filter_name']) . "',
-						 sort_order = '" . (int)$data['sort_order'] . "'
+						 sort_order = '" . (int)$data['sort_order'] . "',
+						 enable = '" . (int)$data['enable'] . "'
 						 ");
 
 		$attribute_id = $this->db->getLastId();
 
 		foreach ($data['attribute_description'] as $language_id => $value) {
-			$this->db->query("INSERT INTO " . DB_PREFIX . "attribute_description SET attribute_id = '" . (int)$attribute_id . "', language_id = '" . (int)$language_id . "', name = '" . $this->db->escape($value['name']) . "'");
+			$this->db->query("INSERT INTO " . DB_PREFIX . "attribute_description SET
+							 attribute_id = '" . (int)$attribute_id . "',
+							 language_id = '" . (int)$language_id . "',
+							 name = '" . $this->db->escape($value['name']) . "'");
 		}
 
 		$this->event->trigger('post.admin.attribute.add', $attribute_id);
@@ -166,4 +172,50 @@ class ModelCatalogAttribute extends Model {
 
 		return $query->row['total'];
 	}
+	public function getAttributeOnName($attribute_name){
+	
+		$sql = "SELECT attribute_id FROM " . DB_PREFIX . "attribute_description
+									WHERE upper(`name`) LIKE '".mb_strtoupper(addslashes($attribute_name[1]),'UTF-8')."' OR
+										upper(`name`) LIKE '".mb_strtoupper(addslashes($attribute_name[2]),'UTF-8')."'
+									LIMIT 0,1;";
+		
+		
+		$r = $this->db->query($sql);
+		
+		if($r->num_rows){
+			
+			$row = $r->row;
+			return $row['attribute_id'];
+			
+		}
+		
+		return 0;
+		
+	}
+	
+	public function getAttributeOrAdd($attribute_name, $attribute_group_id = 0){
+	
+		$attribute_id = $this->getAttributeOnName($attribute_name, $attribute_group_id);
+		
+		if($attribute_id) return $attribute_id;
+		
+		$data = array();
+		$data['attribute_description'][1]['name'] = $attribute_name[1];
+		$data['attribute_description'][1]['description'] = $attribute_name[1];
+		$data['attribute_description'][2]['name'] = $attribute_name[2];
+		$data['attribute_description'][2]['description'] = $attribute_name[2];
+		$data['filter_name'] = strtolower(str_replace(' ','',$attribute_name[2]));
+		
+		$data['attribute_group_id'] = $attribute_group_id;
+		$data['sort_order'] = 1;
+		$data['enable'] = 1;
+		
+		//header("Content-Type: text/html; charset=UTF-8");
+		//echo "<pre>";  print_r(var_dump( $data )); echo "</pre>";die();
+		
+		return $this->addAttribute($data);
+		
+	}
+	
+
 }
