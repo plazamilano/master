@@ -1149,17 +1149,17 @@ margin-left: 0px;
 }
 
 .l-search_result-wrapper .b-refinement {
-    width: 20%;
+    width: calc(100% / 6);
 }
 
 .l-search_result-wrapper .b-refinement--clothingsize, .l-search_result-wrapper .b-refinement--shoesize {
-    width: 20%;
+    width: calc(100% / 6);
 
 }
 
 
 .l-search_result-wrapper .b-refinement {
-    padding: 0 0 0 5%;
+    padding: 0 0 0 2%;
 }
 .b-refinement-ul {
     max-height: 240px;
@@ -1713,6 +1713,10 @@ body.checkout-checkout {
 }
 .b-language_selector-language_item--selected {
     text-decoration: underline;
+}
+.b-content_asset--footer-misc-links .b-footer_bottom-navigation_item.top-category:hover .b-footer_bottom-navigation_link {
+    border: none;
+    cursor: initial;
 }
 /* footer. END */
 

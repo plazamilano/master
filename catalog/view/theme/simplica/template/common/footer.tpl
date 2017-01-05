@@ -241,8 +241,9 @@
                 <div class="b-content_asset b-content_asset--footer-misc-links content-asset">
                     <ul class="b-footer_bottom-navigation_list">
                         <li class="b-footer_bottom-navigation_item top-category">
-                            <h6 class="b-footer_bottom-navigation_title"><a class="b-footer_bottom-navigation_link"
-                            href="/<?php echo $language_href; ?>customer-care"><?php echo $text_customer_care; ?></a></h6>
+                            <h6 class="b-footer_bottom-navigation_title">
+                                <span class="b-footer_bottom-navigation_link"><?php echo $text_customer_care; ?></span>
+                            </h6>
                         </li>
                         <?php if ($informations) { ?>
                         <?php foreach ($informations as $information) { ?>
