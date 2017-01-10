@@ -94,28 +94,24 @@ $text_politic = 'Подтверждая, Вы соглашаетесь с наш
             <div class="l-product_images_container-wrap js-product_images_container-zoom">
                 <div class="js-thumb_slider b-product_thumbnails">
                     <ul class="b-product_thumbnails-list">
-                        <li class="b-product_thumbnail" data-img-popup="<?php echo $thumb; ?>">
-                            <a href="<?php echo $_SERVER['REDIRECT_URL']; ?>#slide0">
-                                <img alt="<?php echo $heading_title; ?>" class="b-product_thumbnail-image" src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>">
-                            </a>
+                        <li class="b-product_thumbnail" data-img-popup="<?php echo $thumb; ?>" data-index-img="0">
+                            <img alt="<?php echo $heading_title; ?>" class="b-product_thumbnail-image" src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>">
                         </li>
-                        <?php $count = 0; ?>
+                        <?php $count = 1; ?>
                         <?php foreach ($images as $img) { ?>
-                        <li class="b-product_thumbnail" data-img-popup="<?php echo $img['popup'];?>">
-                            <a href="<?php echo $_SERVER['REDIRECT_URL'].'#slide'.++$count; ?>">
-                                <img alt="<?php echo $heading_title; ?>" class="b-product_thumbnail-image" src="<?php echo $img['thumb'];?>" title="<?php echo $heading_title; ?>">
-                            </a>
+                        <li class="b-product_thumbnail" data-img-popup="<?php echo $img['popup'];?>" data-index-img="<?php echo $count++; ?>">
+                            <img alt="<?php echo $heading_title; ?>" class="b-product_thumbnail-image" src="<?php echo $img['thumb'];?>" title="<?php echo $heading_title; ?>">
                         </li>
                         <?php } ?>
                     </ul>
                 </div>
                 <div class="b-product_primary_image owl-carousel js-owl-carousel">
-                    <div class="product-image" data-hash="slide0">
+                    <div class="product-image">
                             <img alt="<?php echo $heading_title; ?>" class="b-product_image js-thumb_image_zoom" src="<?php echo $thumb; ?>" title="<?php echo $heading_title; ?>">
                     </div>
                     <?php $count = 0; ?>
                     <?php foreach ($images as $img) { ?>
-                    <div class="product-image" data-hash="slide<?php echo ++$count; ?>">
+                    <div class="product-image">
                             <img alt="<?php echo $heading_title; ?>" class="b-product_image js-thumb_image_zoom" src="<?php echo $img['popup'];?>" title="<?php echo $heading_title; ?>">
                     </div>
                     <?php } ?>
@@ -729,6 +725,7 @@ $('.js-thumb_slider').on('click', 'li', function(){
     $('.js-thumb_slider li').removeClass('b-product_thumbnail-selected');
     $(this).addClass('b-product_thumbnail-selected');
     $('.js-fancybox-img').attr('src', $(this).data('img-popup'));
+    $('.owl-carousel').trigger("to.owl.carousel", [$(this).data('index-img'), 1, true]);
 });
 $('.js-thumb_slider li:first').click();
 // Увеличение фото товара (миниатюры). END

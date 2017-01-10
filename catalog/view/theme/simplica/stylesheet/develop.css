@@ -1507,6 +1507,9 @@ body.checkout-checkout {
 .text-danger {
     color: #f99;
 }
+.l-pdp .b-product_thumbnails-list, .b-quickview-wrapper .b-product_thumbnails-list {
+    overflow: auto;
+}
 /* product.tpl END */
 
 
@@ -1518,6 +1521,9 @@ body.checkout-checkout {
 }
 .b-product_image_zoomed {
     width: 100% !important;
+}
+.b-product_image_zoomed .b-product_thumbnails-list {
+    overflow: initial;
 }
 /* zoom фото в продукции. END */
 
