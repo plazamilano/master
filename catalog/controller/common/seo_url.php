@@ -1,7 +1,8 @@
 <?php
 class ControllerCommonSeoUrl extends Controller {
 	public function index() {
-		
+	
+			
 		//Если прилетел мусор в УРЛ (-)
 		if (isset($this->request->get['_route_']) AND substr($this->request->get['_route_'], -1, 1) == '-') {
 	

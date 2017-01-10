@@ -467,7 +467,7 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                     </div>
                                 </div>
                             </div>
-                            <a class="js-producttile_name b-product_name product_name" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['product_id'].' '; ?><?php echo $product['name']; ?></a>
+                            <a class="js-producttile_name b-product_name product_name" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>" title="<?php echo $product['name']; ?>"><?php echo $product['sku'].' '; ?><?php echo $product['name']; ?></a>
 
 
                             <div class="b-product_price" style="">

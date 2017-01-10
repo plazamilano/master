@@ -166,7 +166,7 @@ class ModelCatalogOption extends Model {
 			$return = array();
 			if($r->num_rows){
 				foreach($r->rows as $row){
-					$return[$row['param_key']] = $row['param_value'];
+					$return[$row['param_key']] = number_format($row['param_value'], '1', '.', '');
 				}
 				
 				return $return;

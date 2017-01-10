@@ -14,7 +14,7 @@ class Alias
 		$pp = $this->pp;
 		$alias = '';
 		
-		$sql = 'SELECT category_id FROM `'.$pp.'product_to_category` where `product_id` = "'.$product_id.'" AND is_main=1 LIMIT 0,1;';
+		$sql = 'SELECT category_id FROM `'.$pp.'product_to_category` where `product_id` = "'.$product_id.'" ORDER BY is_main DESC LIMIT 0,1;';
 		$r = $this->db->query($sql) or die($sql);
 		
 		
@@ -33,16 +33,37 @@ class Alias
 		$sql = 'SELECT sku, name, code
 					FROM `'.$pp.'product` P
 					LEFT JOIN `'.$pp.'product_description` PD ON (P.product_id = PD.product_id)
-					WHERE P.product_id="'.$product_id.'" LIMIT 0,1;';
+					WHERE P.product_id="'.$product_id.'" AND PD.language_id=2 LIMIT 0,1;';
 		$r = $this->db->query($sql) or die($sql);
 		if($r->num_rows > 0){
 			$row = $r->fetch_assoc();
+			
+			
+			//if($row['code'] == '' OR strpos($row['code'],'&') !== false){
+				$row['code'] = $this->translitArtkl($row['sku'].'-'.$row['name']);
+				$row['code'] = strtolower($row['code']);
+				
+				$row['code'] = str_replace('/','-',$row['code']);
+				$row['code'] = str_replace('--','-',$row['code']);
+				$row['code'] = str_replace('--','-',$row['code']);
+				$row['code'] = str_replace('--','-',$row['code']);
+				
+				$row['code'] = trim($row['code']);
+				$row['code'] = trim($row['code'],'-');
+				$row['code'] = trim($row['code']);
+				
+				$sql = 'UPDATE `'.$pp.'product` SET `code`="'.$row['code'].'" WHERE `product_id` = "'.$product_id.'"';
+				$this->db->query($sql);
+			//}
+		
+		//die('-'.$row['code'].' '.$sql);	
+			
 			if($row['code'] != ''){
-				$alias .= ''.strtolower($row['code']);
+				$alias .= '-'.strtolower($row['code']);
 			}elseif($row['sku'] != ''){
-				$alias .= ''.strtolower($this->translitArtkl($row['name'].'-'.$row['sku']));
+				$alias .= '-'.strtolower($this->translitArtkl($row['name'].'-'.$row['sku']));
 			}else{
-				$alias .= ''.strtolower($this->translitArtkl($row['name'].'-'.$product_id));
+				$alias .= '-'.strtolower($this->translitArtkl($row['name'].'-'.$product_id));
 			}
 		}
 		
@@ -91,6 +112,7 @@ class Alias
 	}
 
 	public function setProductAlias($alias, $product_id){
+		$alias = str_replace(array('&','?'),'',$alias);
 		
 		$pp = $this->pp;
 		
@@ -111,6 +133,8 @@ class Alias
 	}
 	
 	public function setCategoryAlias($alias, $category_id){
+		
+		$alias = str_replace(array('&','?'),'',$alias);
 		
 		$pp = $this->pp;
 		

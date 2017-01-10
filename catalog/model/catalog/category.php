@@ -92,7 +92,8 @@ class ModelCatalogCategory extends Model {
 		
 		$sql .= "cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND
 						c2s.store_id = '" . (int)$this->config->get('config_store_id') . "'  AND
-						c.status = '1'
+						c.status = '1' AND
+						c.category_id > '0'
 						
 						GROUP BY c.category_id
 						

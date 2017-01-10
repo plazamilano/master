@@ -61,10 +61,28 @@ class ControllerCatalogCategory extends Controller {
 	}
 
 	public function import() {
-
 		define('DB_DATABASE2', 'blockb5_etalon');
 		$this->mysqli2 = mysqli_connect(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE2) or die("Error " . mysqli_error($this->mysqli2)); 
 		mysqli_set_charset($this->mysqli2,"utf8");
+	
+
+	
+//die('Удаление левых фоток');	
+	
+	
+
+//die('Удаление пустых товаров');
+		$this->dellNullCategoryLinks();
+		$this->importProducts();
+		die('11111111');
+		
+		$this->dellNullProducts();
+		$this->fixPhotos();
+		die('11111111');
+		$this->ClearCategorys();
+		
+die('Импорт старого товара');
+
 		
 		$this->db->query("DELETE FROM " . DB_PREFIX . "url_alias WHERE query LIKE 'product_id=%' OR  query LIKE 'category_id=%'");
 		$this->importCategory();
@@ -75,10 +93,163 @@ class ControllerCatalogCategory extends Controller {
 		
 		
 die('stop');
+$this->ClearCategorys();
 
+
+die('Таблица размеров');	
+	//$this->model_catalog_product->getProducts();
+	$this->importProducts();
+	$this->dellNullProducts();
 	
 	}
 
+//Удалим привязки к левым категориям
+	public function dellNullCategoryLinks(){
+		$sql = "SELECT * FROM " . DB_PREFIX . "product_to_category";
+		$r = $this->db->query($sql);
+		foreach($r->rows as $row){
+			
+			$sql = "SELECT product_id FROM " . DB_PREFIX . "product WHERE product_id = '".$row['product_id']."'";
+			$prod = $this->db->query($sql);
+			
+			$sql = "SELECT category_id FROM " . DB_PREFIX . "category WHERE category_id = '".$row['category_id']."'";
+			$categ = $this->db->query($sql);
+			
+			if($prod->num_rows == 0 OR $categ->num_rows == 0){
+				$sql = "DELETE FROM " . DB_PREFIX . "product_to_category WHERE product_id = '".$row['product_id']."' AND category_id = '".$row['category_id']."'";
+				$this->db->query($sql);
+			}
+		}
+		
+	}
+//Чиним фотки
+	public function fixPhotos(){
+		header("Content-Type: text/html; charset=UTF-8");
+		
+		$this->load->model('catalog/product');
+		
+		$path = '/home/adminroot/www/plazamilano.com/image/';
+		
+		$sql = 'SELECT product_id, image FROM ' . DB_PREFIX . 'product';// WHERE product_id = "463904464"';
+		$products = $this->db->query($sql);
+		
+		foreach($products->rows as $row){
+			
+			$images = $this->model_catalog_product->getProductImages($row['product_id']);
+				
+			$filename = $path . $row['image'];
+			
+			if (file_exists($filename) AND $row['image']) {
+				//echo "<br>The file $filename exists";
+			} else {
+				
+				//echo "<pre>".$filename.'<br>';  print_r(var_dump( $images )); echo "</pre>";
+				
+				if(is_array($images) AND count($images) > 0){
+					$sql = 'UPDATE fash_product SET image = "'.$images['0']["image"].'" WHERE product_id="'.$row['product_id'].'"';
+					$this->db->query($sql);
+					$sql = 'DELETE FROM fash_product_image WHERE image = "'.$images['0']["image"].'" AND product_id="'.$row['product_id'].'"';
+					$this->db->query($sql);
+				}else{
+					$sql = 'UPDATE fash_product SET image = "" WHERE product_id="'.$row['product_id'].'"';
+					$this->db->query($sql);
+					
+				}
+			}
+				
+			
+		}
+	}
+
+//Переносим таблицу размеров
+	public function getDimension(){
+		$mysqli2 = $this->mysqli2;
+		$this->load->model('catalog/option');
+		$this->load->model('catalog/attribute');
+		
+		
+		$sql = 'SELECT id_goodcolor, id_good, color_rus, color FROM goodcolors GC
+					LEFT JOIN colors C ON C.id_color = GC.id_color';
+		$products = $mysqli2->query($sql) or die($sql);
+		while($product = $products->fetch_assoc()){
+			
+			//Размеры
+			$sql = "SELECT GD.*, GZ.goodsize FROM gooddimensions GD
+									LEFT JOIN goodsizes GZ ON GZ.id_goodsize = GD.id_goodsize
+									WHERE GD.id_good = '".$product['id_good']."';";
+			
+			$r = $mysqli2->query($sql) or die($sql);
+			if($r->num_rows){
+				
+				$product_option = array();
+				
+				while($option = $r->fetch_assoc()){
+					
+					$option_value_id = 0;
+					$option_id = 11;
+					$option_value_id = $this->model_catalog_option->getOptionValueOrAdd($option['goodsize'], $option_id, $option); // 11 - Это группа размеров Одежды
+					
+					$attribute_group_id = 15;
+					$attribute_id = 0;
+					$attr_name = array();
+					$attr_name[1] = $product['color_rus'];
+					$attr_name[2] = $product['color'];
+					$id_goodcolor = $this->model_catalog_attribute->getAttributeOrAdd($attr_name, $attribute_group_id);
+					
+					
+					if($option['shoulders']) $params['shirina_plech'] = number_format(((float)$option['shoulders'] * 2.54),2,'.','');
+					if($option['width']) $params['shirina_grudi'] = number_format(((float)$option['width'] * 2.54),2,'.','');
+					if($option['length']) $params['dlina_verh'] = number_format(((float)$option['length'] * 2.54),2,'.','');
+					if($option['sleeve']) $params['dlina_rukava'] = number_format(((float)$option['sleeve'] * 2.54),2,'.','');
+					if($option['collar']) $params['vorotnik'] = number_format(((float)$option['collar'] * 2.54),2,'.','');
+					if($option['waist']) $params['shirina_talii'] = number_format(((float)$option['waist'] * 2.54),2,'.','');
+					if($option['hips']) $params['shirina_beder'] = number_format(((float)$option['hips'] * 2.54),2,'.','');
+					if($option['rise']) $params['podiem'] = number_format(((float)$option['rise'] * 2.54),2,'.','');
+					
+					$product_id = $option['id_good'] + ($id_goodcolor * 100000);
+					
+					
+					header("Content-Type: text/html; charset=UTF-8");
+					echo $product['color'];
+					echo "<pre>";  print_r(var_dump( $product_id )); echo "</pre>"; 
+					echo "<pre>";  print_r(var_dump( $option_value_id )); echo "</pre>"; 
+					echo "<pre>";  print_r(var_dump( $params )); echo "</pre>"; 
+					echo "<pre>";  print_r(var_dump( $option )); echo "</pre>"; die();
+				
+					
+				}
+			}
+		
+		}
+		
+	}
+	
+//Удаляем пустые товары
+	public function	dellNullProducts(){
+		$this->load->model('catalog/product');
+		
+		$products = $this->model_catalog_product->getProductsIdList();
+		
+		foreach($products as $row){
+		
+			$option = $this->model_catalog_product->getProductOptions($row['product_id']);
+			
+			$quantity = 0;
+			
+			if(isset($option['0']['product_option_value'])){
+				foreach($option['0']['product_option_value'] as $size){
+					$quantity += $size['quantity'];
+				}
+			}
+			
+			if($quantity < 1){
+				$this->model_catalog_product->deleteProduct($row['product_id']);
+			}
+			
+		}
+		
+	}
+	
 //Почистим пустые категории
 	public function	ClearCategorys(){
 		$this->load->model('catalog/category');
@@ -114,6 +285,8 @@ die('stop');
 			
 		}
 		
+		$sql = 'DELETE FROM '.DB_PREFIX.'product_to_category WHERE category_id NOT IN (SELECT category_id FROM '.DB_PREFIX.'category)';
+		$this->db->query($sql);
 	
 	}
 	
@@ -125,19 +298,28 @@ die('stop');
 		$this->load->model('catalog/category');
 		$mysqli2 = $this->mysqli2;
 		
-		$this->model_catalog_product->dellAllProduct();
+		//$this->model_catalog_product->dellAllProduct();
 		
-		$r_m = $mysqli2->query("SELECT * FROM goods;");// WHERE id_good = 9003;");
+		$r_m = $mysqli2->query("SELECT * FROM goods WHERE id_good = 10586;");
 		
 		while($product = $r_m->fetch_assoc()){
 		
-			$sql = "SELECT GC.*, C.color, C.color_rus FROM goodcolors GC
+			$sql = "SELECT GC.*, C.color, C.color_rus, artikul FROM goodcolors GC
 							LEFT JOIN colors C ON C.id_color = GC.id_color
 							WHERE GC.id_good = '".$product['id_good']."'";
 			$r_size = $mysqli2->query($sql);
 				while($color = $r_size->fetch_assoc()){
 					
 					$color_id = $color['id_goodcolor'];
+					
+					$product['good_rus'] = str_replace('  ',' ', $product['good_rus']);
+					$product['good_rus'] = str_replace('  ',' ', $product['good_rus']);
+					$product['good_rus'] = str_replace('  ',' ', $product['good_rus']);
+					
+					$product['good'] = str_replace('  ',' ', $product['good']);
+					$product['good'] = str_replace('  ',' ', $product['good']);
+					$product['good'] = str_replace('  ',' ', $product['good']);
+					
 					
 					$data_P = array();
 					$data_P['product_id'] = $product['id_good'] + ($color_id * 100000);
@@ -162,11 +344,11 @@ die('stop');
 					$data_P['product_description'][2]['meta_keyword'] = $product['keywords'];
 					$data_P['product_description'][2]['tag'] = $product['good'];
 				
-					$data_P['original_url'] = '';
+					$data_P['original_url'] = $product['id_good'] + ($color_id * 100000).' old_id=['.$product['id_good'].']'.' old_color_id=['.$color_id.']';
 					
-					$data_P['original_code'] = $product['article'];
-					$data_P['model'] = $product['article'];//strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
-					$data_P['sku'] = $product['article'];//strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
+					$data_P['original_code'] = $color['artikul'];
+					$data_P['model'] = $color['artikul'];//strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
+					$data_P['sku'] = $color['artikul'];//strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
 					$data_P['price'] = $product['price'];
 					$data_P['zakup'] = 0;
 					$data_P['quantity'] = 10;
@@ -191,11 +373,12 @@ die('stop');
 					$data_P['product_shop'] = array(0 => 1);
 					
 					//Картинки
-					$sql = "SELECT id_goodphoto_largeimage, ext FROM goodphotos GP
+					$sql = "SELECT * FROM goodphotos GP
 							LEFT JOIN goodphoto_largeimages CL ON GP.id_goodphoto = CL.id_goodphoto
-							WHERE GP.id_goodcolor = '".$color_id."'";
+							LEFT JOIN goodphoto_mediumimages CM ON GP.id_goodphoto = CM.id_goodphoto
+							WHERE GP.id_goodcolor = '".$color_id."' ORDER BY GP.priority";
 					$r_photo = $mysqli2->query($sql);
-				
+				echo $sql;
 					if($r_photo->num_rows){
 						$p_count = 1;
 						
@@ -203,9 +386,11 @@ die('stop');
 						
 						while($photo = $r_photo->fetch_assoc()){
 							
-							if($photo['id_goodphoto_largeimage']){
+							if($photo['id_goodphoto_largeimage'] OR $photo['id_goodphoto_mediumimage']){
 								$image = 'product/'.$photo['id_goodphoto_largeimage'].'.'.$photo['ext'];
-								
+								$image1 = 'product/'.$photo['id_goodphoto_mediumimage'].'.'.$photo['ext'];
+			
+			echo '<br>'.$image.'<br>'.$image1;
 								if($p_count == 1){
 									$data_P['image'] = $image;
 								}else{
@@ -217,7 +402,6 @@ die('stop');
 							
 						}
 					}
-					
 					
 					
 					//Категория
@@ -339,6 +523,17 @@ die('stop');
 							$quantity = 0;
 							if(isset($color['goodsize'.$option['id_goodsize']])) $quantity = (int)$color['goodsize'.$option['id_goodsize']];
 							
+							$params = array();
+							if($option['shoulders']) $params['shirina_plech'] = number_format(((float)$option['shoulders'] * 2.54),2,'.','');
+							if($option['width']) $params['shirina_grudi'] = number_format(((float)$option['width'] * 2.54),2,'.','');
+							if($option['length']) $params['dlina_verh'] = number_format(((float)$option['length'] * 2.54),2,'.','');
+							if($option['sleeve']) $params['dlina_rukava'] = number_format(((float)$option['sleeve'] * 2.54),2,'.','');
+							if($option['collar']) $params['vorotnik'] = number_format(((float)$option['collar'] * 2.54),2,'.','');
+							if($option['waist']) $params['shirina_talii'] = number_format(((float)$option['waist'] * 2.54),2,'.','');
+							if($option['hips']) $params['shirina_beder'] = number_format(((float)$option['hips'] * 2.54),2,'.','');
+							if($option['rise']) $params['podiem'] = number_format(((float)$option['rise'] * 2.54),2,'.','');
+					
+							
 							$product_option[] = array(
 													'option_value_id' => $option_value_id,
 													'option_id' => $option_id,
@@ -351,14 +546,7 @@ die('stop');
 													'weight' => '',
 													'weight_prefix' => '',
 													'subtract' => 1,
-													'params' => array(
-														'vorotnik' => $option['shoulders'],
-														'dlina_rukava'=> $option['width'],
-														'dlina_verh'=> $option['length'],
-														'shirina_grudi'=> $option['sleeve'],
-														'shirina_plech'=> $option['collar']
-														
-													)
+													'params' => $params
 												);
 							
 						}
@@ -374,8 +562,10 @@ die('stop');
 					
 					}
 					
+					header("Content-Type: text/html; charset=UTF-8");
+					echo "<pre>";  print_r(var_dump( $data_P )); echo "</pre>";
 							
-					$this->model_catalog_product->addProduct($data_P);
+					//$this->model_catalog_product->addProduct($data_P);
 				}
 		}
 	

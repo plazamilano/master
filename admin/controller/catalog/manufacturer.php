@@ -404,36 +404,18 @@ class ControllerCatalogManufacturer extends Controller {
 			$data['image'] = '';
 		}
 
-		if (!empty($manufacturer_info)) {
-			$data['title_h1'] = $manufacturer_info['title_h1'];
-		} else {
-			$data['title_h1'] = '';
-		}
+		
+		$this->load->model('localisation/language');
 
+		$data['languages'] = $this->model_localisation_language->getLanguages();
+	
 		if (!empty($manufacturer_info)) {
 			$data['description'] = $manufacturer_info['description'];
 		} else {
 			$data['description'] = '';
 		}
 
-		if (!empty($manufacturer_info)) {
-			$data['meta_title'] = $manufacturer_info['meta_title'];
-		} else {
-			$data['meta_title'] = '';
-		}
-
-		if (!empty($manufacturer_info)) {
-			$data['meta_description'] = $manufacturer_info['meta_description'];
-		} else {
-			$data['meta_description'] = '';
-		}
-
-		if (!empty($manufacturer_info)) {
-			$data['meta_keyword'] = $manufacturer_info['meta_keyword'];
-		} else {
-			$data['meta_keyword'] = '';
-		}
-
+	
 		if (!empty($manufacturer_info)) {
 			$data['name_sush'] = $manufacturer_info['name_sush'];
 		} else {

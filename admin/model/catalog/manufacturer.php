@@ -131,15 +131,18 @@ class ModelCatalogManufacturer extends Model {
 		
 		$query1 = $this->db->query("SELECT *
 									FROM " . DB_PREFIX . "manufacturer_description
-									WHERE manufacturer_id = '" . (int)$manufacturer_id . "' LIMIT 0, 1");
+									WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		
 		$return = $query->row;
 		if($query1->num_rows){
-			$return['title_h1'] = $query1->row['title_h1'];
-			$return['meta_title'] = $query1->row['meta_title'];
-			$return['meta_keyword'] = $query1->row['meta_keyword'];
-			$return['meta_description'] = $query1->row['meta_description'];
-			$return['description'] = $query1->row['description'];
+			foreach($query1->rows as $row){
+				$return['description'][$row['language_id']]['name'] = ($row['name'] != '') ? $row['name'] : $query->row['name'];
+				$return['description'][$row['language_id']]['title_h1'] = $row['title_h1'];
+				$return['description'][$row['language_id']]['meta_title'] = $row['meta_title'];
+				$return['description'][$row['language_id']]['meta_keyword'] = $row['meta_keyword'];
+				$return['description'][$row['language_id']]['meta_description'] = $row['meta_description'];
+				$return['description'][$row['language_id']]['description'] = $row['description'];
+			}
 		}else{
 			$return['title_h1'] = '';
 			$return['name'] = '';

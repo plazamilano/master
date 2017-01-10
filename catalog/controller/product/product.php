@@ -71,8 +71,9 @@ class ControllerProductProduct extends Controller {
 					'href' => $this->url->link('product/category', 'path=' . $this->request->get['path'] . $url)
 				);
 			}
-		}else{
 			
+		}else{
+		
 			if (isset($this->request->get['product_id'])) {
 				
 				$product_id = (int)$this->request->get['product_id'];
@@ -81,6 +82,7 @@ class ControllerProductProduct extends Controller {
 				foreach($categories as $row){
 					
 					$category_info = $this->model_catalog_category->getCategory($row['path_id']);
+					
 					
 					$data['breadcrumbs'][] = array(
 						'text' => $category_info['name'],
@@ -246,7 +248,7 @@ class ControllerProductProduct extends Controller {
 			);
 
 			$this->document->setTitle($product_info['meta_title']);
-			$this->document->setDescription($product_info['meta_description']);
+			$this->document->setDescription(''.$product_info['meta_description']);
 			$this->document->setKeywords($product_info['meta_keyword']);
 			$this->document->addLink($this->url->link('product/product', 'product_id=' . $this->request->get['product_id']), 'canonical');
 			$this->document->addScript('catalog/view/javascript/jquery/magnific/jquery.magnific-popup.min.js');
@@ -334,8 +336,13 @@ class ControllerProductProduct extends Controller {
 			$data['sku'] = $product_info['sku'];
 			$data['reward'] = $product_info['reward'];
 			$data['points'] = $product_info['points'];
-			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
-			$data['description_detail'] = html_entity_decode($product_info['description_detail'], ENT_QUOTES, 'UTF-8');
+			
+			
+			//$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+			//$data['description'] = html_entity_decode($data['description'], ENT_QUOTES, 'UTF-8');
+			
+			//$data['description_detail'] = html_entity_decode($product_info['description_detail'], ENT_QUOTES, 'UTF-8');
+			//$data['description_detail'] = html_entity_decode($data['description_detail'], ENT_QUOTES, 'UTF-8');
 			
 			$this->load->model('catalog/attribute');
 			
@@ -574,7 +581,7 @@ class ControllerProductProduct extends Controller {
 					'thumb'       => $image,
 					'options'	  => $this->model_catalog_product->getProductOptions($result['product_id']),
 					'name'        => $result['name'],
-					'description' => utf8_substr(strip_tags(html_entity_decode($result['description'], ENT_QUOTES, 'UTF-8')), 0, $this->config->get('config_product_description_length')) . '..',
+					'description' => utf8_substr(strip_tags($result['description']), 0, $this->config->get('config_product_description_length')) . '..',
 					'price'       => $price,
 					'special'     => $special,
 					'tax'         => $tax,

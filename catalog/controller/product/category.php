@@ -9,6 +9,7 @@ class ControllerProductCategory extends Controller {
 	
 	public function index() {
 
+
 		
 		$this->load->language('product/category');
 
@@ -514,6 +515,7 @@ class ControllerProductCategory extends Controller {
 			$filter_sale = '';
 			if(isset($this->request->get['sale'])) $filter_sale = $this->request->get['sale'];
 			
+			
 			$filter_data = array(
 				'filter_category_id' 	=> $category_id,
 				'filter_sub_category' 	=> true,
@@ -529,6 +531,11 @@ class ControllerProductCategory extends Controller {
 				'start'              	=> ($page - 1) * $limit,
 				'limit'              	=> $limit
 			);
+	
+			//Если фильтры категорий
+			if($filter_category_id != $category_id){
+				$filter_data['filter_category_id'] = explode(',',$filter_category_id);
+			}
 	
 			//Фиксированные ЧПУ
 			if (isset($this->request->get['_route_']) AND $this->request->get['_route_']== 'lovedproducts') {
@@ -818,6 +825,7 @@ class ControllerProductCategory extends Controller {
 	
 				$data['products'][] = array(
 					'product_id'  => $result['product_id'],
+					'sku'  => $result['sku'],
 					'thumb'       => $image,
 					'thumb_second'       => $image_second,
 					'viewed'	=> $date_v,
@@ -1014,7 +1022,7 @@ class ControllerProductCategory extends Controller {
 			$data['subcategories'] = $this->model_catalog_category->getCategoriesTree($category_id, true);
 			$data['categories_is_filter'] = $this->model_catalog_category->getCategoriesIsFilter($category_id, true);
 		
-			
+		
 			if (isset($this->request->get['filter'])) {
 				$url .= '&filter=' . $this->request->get['filter'];
 			}

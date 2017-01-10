@@ -1149,11 +1149,11 @@ margin-left: 0px;
 }
 
 .l-search_result-wrapper .b-refinement {
-    width: calc(100% / 6);
+    width: calc(100% / 5);
 }
 
 .l-search_result-wrapper .b-refinement--clothingsize, .l-search_result-wrapper .b-refinement--shoesize {
-    width: calc(100% / 6);
+    width: calc(100% / 5);
 
 }
 

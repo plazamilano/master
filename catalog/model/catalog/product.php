@@ -28,13 +28,18 @@ class ModelCatalogProduct extends Model {
 			$sql = 'SELECT category_id FROM ' . DB_PREFIX . 'product_to_category WHERE product_id = "'.$product_id.'" AND is_main=1 LIMIT 0, 1;';
 			$query = $this->db->query($sql);
 			
+			if($query->num_rows == 0){
+				$sql = 'SELECT category_id FROM ' . DB_PREFIX . 'product_to_category WHERE product_id = "'.$product_id.'" LIMIT 0, 1;';
+				$query = $this->db->query($sql);
+			}
+			
 			$category_id = array(); 
 			
 			if($query->num_rows){
 				
 				$category_id = (int)$query->row['category_id'];	
 				
-				$sql = 'SELECT path_id FROM ' . DB_PREFIX . 'category_path WHERE category_id = "'.$category_id.'";';
+				$sql = 'SELECT path_id FROM ' . DB_PREFIX . 'category_path WHERE category_id = "'.$category_id.'" ORDER BY `level` ASC;';
 				$query = $this->db->query($sql);
 			
 				return $query->rows;
@@ -353,10 +358,10 @@ class ModelCatalogProduct extends Model {
 				'product_id'       => $product_id,
 				'category_id'       => $query->row['category_id'],
 				'loved'       		=> $query->row['loved'],
-				'name'             => $query->row['name'],
+				'name'      	=> html_entity_decode($query->row['name'], ENT_QUOTES, 'UTF-8'),
 				'count_view'             => $query->row['count_view'],
-				'description'      => $query->row['description'],
-				'description_detail'      => $query->row['description_detail'],
+				'description'      	=> html_entity_decode($query->row['description'], ENT_QUOTES, 'UTF-8'),
+				'description_detail'=>html_entity_decode($query->row['description_detail'], ENT_QUOTES, 'UTF-8'),
 				'moderation_id'      => $query->row['moderation_id'],
 				'original_url'      => $query->row['original_url'],
 				'original_code'      => $query->row['original_code'],
@@ -594,9 +599,18 @@ class ModelCatalogProduct extends Model {
 		
 		if (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category']) AND !isset($data['lastviewed'])) {
-				$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+				
+				if(is_array($data['filter_category_id'])){
+					$sql .= " AND cp.path_id IN (" . implode(',',$data['filter_category_id']) . ")";
+				}else{
+					$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+				}
 			} else {
-				$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+				if(is_array($data['filter_category_id'])){
+					$sql .= " AND p2c.category_id IN (" . implode(',',$data['filter_category_id']) . ")";
+				}else{
+					$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+				}
 			}
 
 			if (!empty($data['filter_filter'])) {
@@ -1041,7 +1055,7 @@ class ModelCatalogProduct extends Model {
 			$return = array();
 			if($r->num_rows){
 				foreach($r->rows as $row){
-					$return[$row['param_key']] = $row['param_value'];
+					$return[$row['param_key']] = number_format($row['param_value'], '1', '.', '');
 				}
 				
 				return $return;
@@ -1220,10 +1234,19 @@ class ModelCatalogProduct extends Model {
 		
 
 		if (!empty($data['filter_category_id'])) {
-			if (!empty($data['filter_sub_category'])) {
-				$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+			if (!empty($data['filter_sub_category']) AND !isset($data['lastviewed'])) {
+				
+				if(is_array($data['filter_category_id'])){
+					$sql .= " AND cp.path_id IN (" . implode(',',$data['filter_category_id']) . ")";
+				}else{
+					$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+				}
 			} else {
-				$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+				if(is_array($data['filter_category_id'])){
+					$sql .= " AND p2c.category_id IN (" . implode(',',$data['filter_category_id']) . ")";
+				}else{
+					$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+				}
 			}
 
 			if (!empty($data['filter_filter'])) {
