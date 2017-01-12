@@ -16,10 +16,11 @@ $_['text_wishlist']     = 'Закладки';
 $_['text_newsletter']   = 'Рассылка';
 $_['text_country']   = 'Страна';
 $_['text_powered']      = '%s &copy; %s';
-$_['text_change']   = 'Изменить';
+$_['text_change1']   = 'изменить';
+$_['text_change']   = 'change';
 $_['text_select_country']   = 'Выбрать страну';
-$_['text_language']   = 'Язык';
-$_['text_select_language']   = 'Язык';
+$_['text_language']   = 'Language';
+$_['text_select_language']   = 'Language';
 $_['text_more_country']   = 'Больше стран';
 $_['text_customer_care']   = 'КЛИЕНТСКАЯ СЛУЖБА';
 

@@ -16,10 +16,11 @@ $_['text_wishlist']     = 'Wish List';
 $_['text_newsletter']   = 'Newsletter';
 $_['text_country']   = 'Country';
 $_['text_powered']      = 'Powered By <a href="http://www.opencart.com">OpenCart</a><br /> %s &copy; %s';
-$_['text_change']   = 'change';
+$_['text_change']   = 'изменить';
+$_['text_change1']   = 'change';
 $_['text_select_country']   = 'Select country';
-$_['text_language']   = 'Language';
-$_['text_select_language']   = 'Select language';
+$_['text_language']   = 'Язык';
+$_['text_select_language']   = 'Язык';
 $_['text_more_country']   = 'More country';
 $_['text_customer_care']   = 'Customer care';
 

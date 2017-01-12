@@ -817,6 +817,7 @@ $(document).ready(function() {
 
 // Кнопка "Купить" START
 $('#button-cart, .js-add_to_cart').on('click', function() {
+//debugger;
     $.ajax({
         url: 'index.php?route=checkout/cart/add',
         type: 'post',
@@ -829,6 +830,8 @@ $('#button-cart, .js-add_to_cart').on('click', function() {
             $('#button-cart').button('reset');
         },
         success: function(json) {
+//console.log(json);
+            
             $('.alert, .text-danger').remove();
             $('.form-group').removeClass('has-error');
 //debugger;

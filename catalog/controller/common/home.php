@@ -16,7 +16,7 @@ class ControllerCommonHome extends Controller {
 
 		}
 		
-		
+
 		
 		$data['description'] = html_entity_decode($this->config->get('config_comment'), ENT_QUOTES, 'UTF-8');
 		if (isset($this->request->get['route'])) {
@@ -30,6 +30,7 @@ class ControllerCommonHome extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
+		/*
 		$this->load->model('catalog/mainmenu');
 		$this->load->model('catalog/category');
 		$this->load->model('catalog/product');
@@ -117,7 +118,6 @@ class ControllerCommonHome extends Controller {
 							'thumb'       => $image,
 							'original_url'      => $result['original_url'],
 							'name'        		=> $result['name'],
-							/*'size'        		=> $result['size'],*/
 							'shop_id'        	=> $result['shop_id'],
 							'shop_name'        	=> $result['shop_name'],
 							'shop_href'        	=> $result['shop_href'],
@@ -135,7 +135,7 @@ class ControllerCommonHome extends Controller {
 		
 		$data['viewed_products'] = $viewed_products;
 		unset($viewed_products);
-		
+		*/
 		
 		
 		//$data['left_category'] = $left_menu_categorys;
@@ -144,8 +144,7 @@ class ControllerCommonHome extends Controller {
 		$data['medium_banners'] = $this->model_design_banner->getBannerMediumAll();
 		//$data['medium_banners'] = $this->model_design_banner->getBannerRandom('medium', 3);
 		//$data['season_products'] = $this->model_design_banner->getBannerRandom('season_pro', 5);
-	
-		$data['manufacturer_baners'] = $this->model_catalog_manufacturer->getManufacturerBanner();
+		//$data['manufacturer_baners'] = $this->model_catalog_manufacturer->getManufacturerBanner();
 		
 		if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/common/home.tpl')) {
 			$this->response->setOutput($this->load->view($this->config->get('config_template') . '/template/common/home.tpl', $data));

@@ -10,5 +10,15 @@ class ModelCatalogShop extends Model {
 		return $query->row;
 	}
 
+	public function getShops() {
+		$sql = "SELECT *
+					FROM " . DB_PREFIX . "shops
+					ORDER BY name ASC
+					";
+		$query = $this->db->query($sql);
+
+		return $query->row;
+	}
+
 	
 }

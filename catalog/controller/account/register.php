@@ -18,6 +18,8 @@ class ControllerAccountRegister extends Controller {
 		$this->load->model('account/customer');
 
 		
+		if(!isset($this->request->post['orgn'])) $this->request->post['orgn'] = '';
+		if(!isset($this->request->post['inn'])) $this->request->post['inn'] = '';
 		if(!isset($this->request->post['fax'])) $this->request->post['fax'] = '';
 		if(!isset($this->request->post['company'])) $this->request->post['company'] = '';
 		if(!isset($this->request->post['address_2'])) $this->request->post['address_2'] = '';
@@ -92,6 +94,9 @@ class ControllerAccountRegister extends Controller {
 		$data['entry_newsletter'] = $this->language->get('entry_newsletter');
 		$data['entry_password'] = $this->language->get('entry_password');
 		$data['entry_confirm'] = $this->language->get('entry_confirm');
+
+		$data['entry_ogrn'] = $this->language->get('entry_ogrn');
+		$data['entry_inn'] = $this->language->get('entry_inn');
 
 		$data['button_continue'] = $this->language->get('button_continue');
 		$data['button_upload'] = $this->language->get('button_upload');
@@ -221,6 +226,18 @@ class ControllerAccountRegister extends Controller {
 			$data['email'] = $this->request->post['email'];
 		} else {
 			$data['email'] = '';
+		}
+
+		if (isset($this->request->post['inn'])) {
+			$data['inn'] = $this->request->post['inn'];
+		} else {
+			$data['inn'] = '';
+		}
+
+		if (isset($this->request->post['orgn'])) {
+			$data['orgn'] = $this->request->post['orgn'];
+		} else {
+			$data['orgn'] = '';
 		}
 
 		if (isset($this->request->post['telephone'])) {

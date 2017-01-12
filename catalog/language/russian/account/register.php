@@ -30,6 +30,9 @@ $_['entry_newsletter']     = 'Подписка на новости';
 $_['entry_password']       = 'Пароль';
 $_['entry_confirm']        = 'Подтверждение пароля';
 
+$_['entry_ogrn']        = 'ОГРН';
+$_['entry_inn']        = 'инн/кпп';
+
 // Error
 $_['error_exists']         = 'Данный E-Mail уже зарегистрирован!';
 $_['error_firstname']      = 'Имя должно быть от 1 до 32 символов!';

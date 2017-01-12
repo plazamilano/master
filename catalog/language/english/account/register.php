@@ -30,6 +30,9 @@ $_['entry_newsletter']     = 'Subscribe';
 $_['entry_password']       = 'Password';
 $_['entry_confirm']        = 'Password Confirm';
 
+$_['entry_ogrn']        = 'ОГРН';
+$_['entry_inn']        = 'инн/кпп';
+
 // Error
 $_['error_exists']         = 'Warning: E-Mail Address is already registered!';
 $_['error_firstname']      = 'First Name must be between 1 and 32 characters!';

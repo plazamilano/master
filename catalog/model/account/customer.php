@@ -59,6 +59,9 @@ class ModelAccountCustomer extends Model {
 							social_vk = '" . $this->db->escape($data['social_vk']) . "',
 							social_go = '" . $this->db->escape($data['social_go']) . "',
 							
+							orgn = '" . $this->db->escape($data['orgn']) . "',
+							inn = '" . $this->db->escape($data['inn']) . "',
+							
 							store_id = '" . (int)$this->config->get('config_store_id') . "',
 							firstname = '" . $this->db->escape($data['firstname']) . "',
 							lastname = '" . $this->db->escape($data['lastname']) . "',

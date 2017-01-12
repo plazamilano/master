@@ -78,7 +78,7 @@
             <div class="b-footer_navigation_list-item">
                 <div class="b-language_selector">
                     <span class="js_fancybox">
-                        <div><?php echo $country_language_text; ?></div><?php echo $text_selected_currency; ?> / <?php echo $languages[$language_code]['name'];?> (<?php echo $text_change; ?>)
+                        <div><?php echo $country_language_text; ?></div><?php echo $text_selected_currency; ?> / <?php echo $languages[$language_code]['name'];?> (<?php echo $text_change1; ?>)
                     </span>
                     <span class="h-hidden">
                         <div class="b-language_selector-flyout js-country_language_selector">
@@ -179,7 +179,7 @@
                                 data-slide=".js-footer_min_country_selector"
                                 data-toggle-class="h-minimized"
                                 data-toggle-closeonesc="yes"
-                                data-toggle-closeonoutsideclick="yes" data-toggle-elem-class="h-toggled">(<?php echo $text_change; ?>)</span>
+                                data-toggle-closeonoutsideclick="yes" data-toggle-elem-class="h-toggled">(<?php echo $text_change1; ?>)</span>
                     <div class="b-language_selector-flyout js-footer_min_country_selector js-toggler-slide h-minimized">
                         <div class="b-language_selector-container">
                             <div class="b-language_selector-language">

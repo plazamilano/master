@@ -29,6 +29,7 @@ class ControllerCommonFooter extends Controller {
 
 		$data['text_country'] = $this->language->get('text_country');
 		$data['text_change'] = $this->language->get('text_change');
+		$data['text_change1'] = $this->language->get('text_change1');
 		$data['text_select_country'] = $this->language->get('text_select_country');
 		$data['text_language'] = $this->language->get('text_language');
 		$data['text_select_language'] = $this->language->get('text_select_language');

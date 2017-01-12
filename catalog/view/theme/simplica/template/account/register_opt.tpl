@@ -124,9 +124,28 @@
             </div>
           </div>
       
+          <div class="form-group f-field">
+            <label class="control-label f-label" for="input-orgn">
+              <span class="f-label-value"><?php echo $entry_ogrn; ?></span>
+            </label>
+            <div class="f-field-wrapper">
+              <input type="text" name="orgn" value="<?php echo $orgn; ?>" placeholder="<?php echo $entry_ogrn; ?>" id="input-orgn" class="form-control f-textinput" />
+            </div>
+          </div>
+          
+          <div class="form-group f-field">
+            <label class="control-label f-label" for="input-inn">
+              <span class="f-label-value"><?php echo $entry_inn; ?></span>
+            </label>
+            <div class="f-field-wrapper">
+              <input type="text" name="inn" value="<?php echo $inn; ?>" placeholder="<?php echo $entry_inn; ?>" id="input-inn" class="form-control f-textinput" />
+            </div>
+          </div>
+      
+
        </fieldset>
         
-        
+        <!--
           <div class="form-group required f-field f-state-required">
             <label class="control-label f-label" for="input-telephone">
               <span class="f-label-value"><?php echo $entry_telephone; ?></span>
@@ -148,6 +167,7 @@
               <input type="text" name="fax" value="<?php echo $fax; ?>" placeholder="<?php echo $entry_fax; ?>" id="input-fax" class="form-control f-textinput" />
             </div>
           </div>
+        -->
           <?php foreach ($custom_fields as $custom_field) { ?>
           <?php if ($custom_field['location'] == 'account') { ?>
           <?php if ($custom_field['type'] == 'select') { ?>

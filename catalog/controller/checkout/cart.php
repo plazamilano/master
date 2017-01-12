@@ -327,6 +327,7 @@ class ControllerCheckoutCart extends Controller {
 
 		$product_info = $this->model_catalog_product->getProduct($product_id);
 
+
 		if ($product_info) {
 			if (isset($this->request->post['quantity']) && ((int)$this->request->post['quantity'] >= $product_info['minimum'])) {
 				$quantity = (int)$this->request->post['quantity'];
@@ -370,7 +371,7 @@ class ControllerCheckoutCart extends Controller {
 			}
 
 			if (!$json) {
-				
+			
 				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
 
 				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
@@ -425,6 +426,7 @@ class ControllerCheckoutCart extends Controller {
 				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']));
 			}
 		}
+
 
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));

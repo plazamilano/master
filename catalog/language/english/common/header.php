@@ -16,7 +16,7 @@ $_['text_search']        = 'Search';
 $_['text_all']           = 'Show All';
 
 $_['text_sale']         = 'Sale';
-$_['text_brands']       = 'Manufacturers';
+$_['text_brands']       = 'Brands';
 
 //==== NEW
 $_['text_alert_copy']           = 'В Вашем браузере выключена функция Javascript. Пожалуйста, включите её, чтобы задействовать все возможности сайта.';

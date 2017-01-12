@@ -338,10 +338,12 @@ class ControllerProductProduct extends Controller {
 			$data['points'] = $product_info['points'];
 			
 			
-			//$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
+			$data['description'] = $product_info['description'];
+			$data['description'] = html_entity_decode($product_info['description'], ENT_QUOTES, 'UTF-8');
 			//$data['description'] = html_entity_decode($data['description'], ENT_QUOTES, 'UTF-8');
 			
-			//$data['description_detail'] = html_entity_decode($product_info['description_detail'], ENT_QUOTES, 'UTF-8');
+			$data['description_detail'] = $product_info['description_detail'];
+			$data['description_detail'] = html_entity_decode($product_info['description_detail'], ENT_QUOTES, 'UTF-8');
 			//$data['description_detail'] = html_entity_decode($data['description_detail'], ENT_QUOTES, 'UTF-8');
 			
 			$this->load->model('catalog/attribute');
@@ -608,6 +610,15 @@ class ControllerProductProduct extends Controller {
 				}
 			}
 
+			//Массив магазинов
+			$this->load->model('catalog/shop');
+			$data['shops'] = $this->model_catalog_shop->getShops();
+			
+			//Массив Брендов
+			$this->load->model('catalog/manufacturer');
+			$data['manufacturers'] = $this->model_catalog_manufacturer->getManufacturers();
+	
+			
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
