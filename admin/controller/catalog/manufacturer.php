@@ -175,6 +175,7 @@ class ControllerCatalogManufacturer extends Controller {
 			$data['manufacturers'][] = array(
 				'manufacturer_id' => $result['manufacturer_id'],
 				'name'            => $result['name'],
+				'enable'            => $result['enable'],
 				'sort_order'      => $result['sort_order'],
 				'edit'            => $this->url->link('catalog/manufacturer/edit', 'token=' . $this->session->data['token'] . '&manufacturer_id=' . $result['manufacturer_id'] . $url, 'SSL')
 			);
@@ -259,6 +260,13 @@ class ControllerCatalogManufacturer extends Controller {
 		$this->response->setOutput($this->load->view('catalog/manufacturer_list.tpl', $data));
 	}
 
+	public function setstatus(){
+		
+		$this->load->model('catalog/manufacturer');
+		
+		$this->model_catalog_manufacturer->editManufacturerStatus($this->request->get['manufacturer_id'],$this->request->get['status']);
+	}
+	
 	protected function getForm() {
 		$data['heading_title'] = $this->language->get('heading_title');
 

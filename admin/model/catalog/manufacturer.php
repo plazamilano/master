@@ -55,6 +55,16 @@ class ModelCatalogManufacturer extends Model {
 		return $manufacturer_id;
 	}
 
+	public function editManufacturerStatus($manufacturer_id, $status) {
+		
+		$sql = "UPDATE " . DB_PREFIX . "manufacturer SET
+							enable = '" . (int)$status . "'
+							WHERE manufacturer_id = '" . (int)$manufacturer_id . "'";
+		
+		$this->db->query($sql);
+		$this->cache->delete('manufacturer');
+	}
+	
 	public function editManufacturer($manufacturer_id, $data) {
 		
 		$this->event->trigger('pre.admin.manufacturer.edit', $data);
@@ -134,14 +144,19 @@ class ModelCatalogManufacturer extends Model {
 									WHERE manufacturer_id = '" . (int)$manufacturer_id . "'");
 		
 		$return = $query->row;
+		
+		$return['name'] = html_entity_decode($return['name'], ENT_QUOTES, 'UTF-8');
+		$return['code'] = html_entity_decode($return['code'], ENT_QUOTES, 'UTF-8');
+		
 		if($query1->num_rows){
 			foreach($query1->rows as $row){
 				$return['description'][$row['language_id']]['name'] = ($row['name'] != '') ? $row['name'] : $query->row['name'];
-				$return['description'][$row['language_id']]['title_h1'] = $row['title_h1'];
-				$return['description'][$row['language_id']]['meta_title'] = $row['meta_title'];
-				$return['description'][$row['language_id']]['meta_keyword'] = $row['meta_keyword'];
-				$return['description'][$row['language_id']]['meta_description'] = $row['meta_description'];
-				$return['description'][$row['language_id']]['description'] = $row['description'];
+				$return['description'][$row['language_id']]['name'] = html_entity_decode($return['description'][$row['language_id']]['name'], ENT_QUOTES, 'UTF-8');
+				$return['description'][$row['language_id']]['title_h1'] = html_entity_decode($row['title_h1'], ENT_QUOTES, 'UTF-8');
+				$return['description'][$row['language_id']]['meta_title'] = html_entity_decode($row['meta_title'], ENT_QUOTES, 'UTF-8');
+				$return['description'][$row['language_id']]['meta_keyword'] = html_entity_decode($row['meta_keyword'], ENT_QUOTES, 'UTF-8');
+				$return['description'][$row['language_id']]['meta_description'] = html_entity_decode($row['meta_description'], ENT_QUOTES, 'UTF-8');
+				$return['description'][$row['language_id']]['description'] = html_entity_decode($row['description'], ENT_QUOTES, 'UTF-8');
 			}
 		}else{
 			$return['title_h1'] = '';
@@ -193,7 +208,15 @@ class ModelCatalogManufacturer extends Model {
 
 		$query = $this->db->query($sql);
 
-		return $query->rows;
+		$return = array();
+		foreach($query->rows as $row){
+			
+			$return[$row['manufacturer_id']] = $row;
+			$return[$row['manufacturer_id']]['name'] = html_entity_decode($row['name'], ENT_QUOTES, 'UTF-8');
+			
+		}
+		
+		return $return;
 	}
 
 	public function getManufacturerStores($manufacturer_id) {

@@ -325,9 +325,12 @@ function print_children_filter_list ( $list, $selected_attributes_alias, $catego
                                                 <span class="b-breadcrumb-refinement_value js-breadcrumb-refinement_selected">
                                                     <?php echo $attr['name']; ?>
                                                     <?php
+                                                        //$tmp = $selected_attributes_alias;
                                                         $tmp = str_replace($attr['code'].'-','',$selected_attributes_alias);
                                                         $tmp = str_replace($attr['code'].'','/',$tmp);
                                                         $tmp = trim($tmp, '-');
+                                                        if($tmp != '') $tmp .= '-';
+                                                        
                                                     ?>
                                                     <a class="b-breadcrumb-relax_image js-breadcrumb_refinement-link" href="/<?php echo $language_href; ?><?php echo $tmp.$category_alias; ?>"></a>
                                                 </span>

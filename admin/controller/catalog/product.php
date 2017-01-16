@@ -127,7 +127,7 @@ class ControllerCatalogProduct extends Controller {
 		}
 		
 		
-	echo('++'.$this->validateForm());	
+	//echo('++'.$this->validateForm());	
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			
 			$data = array_merge(
@@ -138,7 +138,7 @@ class ControllerCatalogProduct extends Controller {
 					'update_relationships' => true,
 				]
 			);
-	
+
 			$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);
 			
 			$this->session->data['success'] = $this->language->get('text_success');

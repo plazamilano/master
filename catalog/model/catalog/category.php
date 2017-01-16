@@ -76,7 +76,9 @@ class ModelCatalogCategory extends Model {
 		return $query->rows;
 	}
 
-	public function getCategoriesTree($parent_id = 0, $tree = false) {
+	public function getCategoriesTree($parent_id = 0, $filter_data, $tree = false) {
+		
+		$this->load->model('catalog/product');
 		
 		$sql = "SELECT c.category_id, c.parent_id, cd.name, A.keyword FROM " . DB_PREFIX . "category c
 						LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id)
@@ -102,10 +104,20 @@ class ModelCatalogCategory extends Model {
 	
 		$query = $this->db->query($sql) or die($sql);
 
+		
+		
 		$array = array();
 		$rows = array();
 		foreach($query->rows as $row){
-			$rows[$row['category_id']] = $row;
+			
+			$filter_data['filter_category_id'] = $row['category_id'];
+			
+			$product_ids = $this->model_catalog_product->getTotalProductIds($filter_data);
+			
+			if(count($product_ids)){
+			
+				$rows[$row['category_id']] = $row;
+			}
 		}
 	
 		

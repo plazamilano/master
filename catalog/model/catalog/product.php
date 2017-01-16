@@ -528,10 +528,12 @@ class ModelCatalogProduct extends Model {
 		
 		$sql .= "
 					LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+					LEFT JOIN " . DB_PREFIX . "manufacturer mm ON (mm.manufacturer_id = p.manufacturer_id)
 					LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
 					WHERE p.moderation_id = 0
 						AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'
 						AND p.$status
+						AND mm.enable = 1
 						AND p.date_available <= NOW()
 						AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' ";
 						
@@ -760,8 +762,10 @@ class ModelCatalogProduct extends Model {
 				$product_data[$result['product_id']]['viewed'] = date('Y-m-d', strtotime($result['date']));
 			}
 		}
-//echo $sql;		
+//echo $sql;die();
 //echo '<br><br>'.count($product_data);
+// 0673749565 Олексий
+
 
 		return $product_data;
 	}
@@ -1224,7 +1228,11 @@ class ModelCatalogProduct extends Model {
 		}
 		
 			
-		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND  p.moderation_id = 0 AND p.$status AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+					LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
+					LEFT JOIN " . DB_PREFIX . "manufacturer mm ON (mm.manufacturer_id = p.manufacturer_id)
+					WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND  p.moderation_id = 0 AND p.$status AND p.date_available <= NOW() AND mm.enable = 1 AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+	
 		
 		//Цена
 		if(isset($data['filter_price'])	AND is_array($data['filter_price'])){
@@ -1301,7 +1309,8 @@ class ModelCatalogProduct extends Model {
 			}
 		}
 		//end Фильтр по атрибутам
-
+		
+		
 
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
@@ -1362,6 +1371,7 @@ class ModelCatalogProduct extends Model {
 
 		$query = $this->db->query($sql);
 		
+		
 		return $query->row['total'];
 	}
 
@@ -1403,8 +1413,42 @@ class ModelCatalogProduct extends Model {
 			$sql .= " LEFT JOIN " . DB_PREFIX . "product_attribute p2a ON (p.product_id = p2a.product_id)";
 		}
 			
-		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND  p.moderation_id = 0 AND p.$status AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+		$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+					LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id)
+					LEFT JOIN " . DB_PREFIX . "manufacturer mm ON (mm.manufacturer_id = p.manufacturer_id)
+					WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND  p.moderation_id = 0 AND p.$status AND p.date_available <= NOW() AND mm.enable = 1 AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
 
+					
+		if (!empty($data['filter_category_id'])) {
+			if (!empty($data['filter_sub_category']) AND !isset($data['lastviewed'])) {
+				
+				if(is_array($data['filter_category_id'])){
+					$sql .= " AND cp.path_id IN (" . implode(',',$data['filter_category_id']) . ")";
+				}else{
+					$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+				}
+			} else {
+				if(is_array($data['filter_category_id'])){
+					$sql .= " AND p2c.category_id IN (" . implode(',',$data['filter_category_id']) . ")";
+				}else{
+					$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+				}
+			}
+
+			if (!empty($data['filter_filter'])) {
+				$implode = array();
+
+				$filters = explode(',', $data['filter_filter']);
+
+				foreach ($filters as $filter_id) {
+					$implode[] = (int)$filter_id;
+				}
+
+				$sql .= " AND pf.filter_id IN (" . implode(',', $implode) . ")";
+			}
+		}
+					
+/*					
 		if (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
 				$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
@@ -1424,7 +1468,7 @@ class ModelCatalogProduct extends Model {
 				$sql .= " AND pf.filter_id IN (" . implode(',', $implode) . ")";
 			}
 		}
-
+*/
 		//Цена
 		if(isset($data['filter_price'])	AND is_array($data['filter_price'])){
 			$sql .= "AND p.price >= '".$data['filter_price']['price_from']."'
@@ -1523,7 +1567,7 @@ class ModelCatalogProduct extends Model {
 		}
 
 		$query = $this->db->query($sql);
-//echo '<hr>'.$sql;
+//echo '<hr>'.$sql;die();
 	
 		return $query->rows;
 	}

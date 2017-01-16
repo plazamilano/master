@@ -53,7 +53,7 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 	die();
 	*/
 	
-	
+	/*
 	$mysqli_stilnaya = mysqli_connect(ST__DB_SERVER_NAME,ST__DB_USER,ST__DB_PASS,ST__DB_NAME) or die("Error " . mysqli_error($mysqli_stilnaya)); 
 	mysqli_set_charset($mysqli_stilnaya,"utf8");
 	
@@ -64,7 +64,8 @@ if(strpos($_SERVER['PHP_SELF'], $file[count($file)-1]) !== false){
 		while($tmp = $r->fetch_assoc()){
 			$ST_postav[$tmp['id']]['name'] = $tmp['name'];
 		}
-	}
+	}*/
+	$ST_postav = array();
 	
 //echo '<h1>Импорт УНИВЕРСАЛ</h1>';
 set_time_limit(0);
@@ -257,6 +258,7 @@ echo '<br>Кодировка сервера - '.mb_internal_encoding();
 		include_once('import/import_url_getfile.php');
 		include_once('import/init.class.upload_0.31.php');
 		
+		
 		$count = 1;
 	
 	if(!isset($_SESSION['load_files'])){$_SESSION['load_files'] = 1;}
@@ -268,41 +270,12 @@ echo '<br>Кодировка сервера - '.mb_internal_encoding();
 	if($load_files < 1){
 		$_SESSION['load_files'] = $load_files = 1;
 	}
-	if($load_files > 70){
-		$_SESSION['load_files'] = $load_files = 70; //Лимит по файлам
+	if($load_files > 10){
+		$_SESSION['load_files'] = $load_files = 10; //Лимит по файлам
 	}
+	//$_SESSION['load_files'] = $load_files = 1;
 	
 	
-		//Проверим или это не устаревший фаил
-		/*
-		$sql = 'SELECT `id`, `to` FROM '.DB_PREFIX.'import_pic LIMIT 0, 300;';
-		$r = $mysqli->query($sql) or die($sql);
-
-		if($r->num_rows > 0){
-			while($row = $r->fetch_assoc()){
-				
-				$dell = 1;
-				
-				$sql = 'SELECT product_id FROM '.DB_PREFIX.'product WHERE image LIKE "product/'.$row['to'].'" LIMIT 0, 1';
-				$r1 = $mysqli->query($sql) or die($sql);
-				if($r1->num_rows > 0){
-					continue;
-				}
-			
-				$sql = 'SELECT product_id FROM '.DB_PREFIX.'product_image WHERE image LIKE "product/'.$row['to'].'" LIMIT 0, 1';
-				$r1 = $mysqli->query($sql) or die($sql);
-				if($r1->num_rows > 0){
-					continue;
-				}
-				
-				
-				$sql = 'DELETE FROM '.DB_PREFIX.'import_pic WHERE id = "'.$row['id'].'"';
-				$mysqli->query($sql) or die($sql);
-				//echo '<br>'.$sql;
-			
-			}
-		}
-	*/
 	$timer_start = timer();
 		$sql = 'SELECT * FROM '.DB_PREFIX.'import_pic LIMIT 0, '.$load_files.';';
 		$r = $mysqli->query($sql);
@@ -323,10 +296,10 @@ echo '<br>Кодировка сервера - '.mb_internal_encoding();
 					$s = $image_from;
 					$i = parse_url($s); 
 					$p = ''; 
-					foreach(explode('/',trim($i['path'],'/')) as $v) {$p .= '/'.rawurlencode($v);} 
-					$image_from = $i['scheme'].'://'.$i['host'].$p; 
+					//foreach(explode('/',trim($i['path'],'/')) as $v) {$p .= '/'.rawurlencode($v);} 
+					//$image_from = $i['scheme'].'://'.$i['host'].$p; 
 					
-					$image_from = str_replace('svitlanochka.com.ua/userfiles/superbig/','svitlanochka.com.ua/userfiles/big/', $image_from);
+					//$image_from = str_replace('svitlanochka.com.ua/userfiles/superbig/','svitlanochka.com.ua/userfiles/big/', $image_from);
 					
 					
 					$image_from = urldecode($image_from);
@@ -341,6 +314,8 @@ echo '<br>Кодировка сервера - '.mb_internal_encoding();
 							unlink($uploaddir.$image_to);
 						}
 						
+						//echo '<br>'.$image_from.'<br>'.$uploaddir.$image_to;
+		
 						if($TdateCode){
 						
 							if(!file_put_contents($uploaddir.$image_to, $TdateCode)){
@@ -359,7 +334,7 @@ echo '<br>Кодировка сервера - '.mb_internal_encoding();
 					}
 					
 					
-					//echo '<br><img src="'.$image_from.'" width="100px"> <img src="/'.TMP_DIR.'image/product/'.$image_to.'" width="100px">';
+					//echo '<br><!--img src="'.$image_from.'" width="100px"--> <img src="/'.TMP_DIR.'image/product/'.$image_to.'" width="100px">';
 					//echo '<br>'.$image_from.'<br>'.$uploaddir.$image_to;
 
 

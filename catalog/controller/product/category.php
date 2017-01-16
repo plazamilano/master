@@ -558,6 +558,7 @@ class ControllerProductCategory extends Controller {
 			}
 
 			$product_ids = $this->model_catalog_product->getTotalProductIds($filter_data);
+		
 			$data['total_product_info'] = $total_product_info = $this->model_catalog_product->getTotalProductsInfo($filter_data);
 	
 			$product_total = count($product_ids);
@@ -1019,7 +1020,7 @@ class ControllerProductCategory extends Controller {
 
 			$url = '';
 
-			$data['subcategories'] = $this->model_catalog_category->getCategoriesTree($category_id, true);
+			$data['subcategories'] = $this->model_catalog_category->getCategoriesTree($category_id, $filter_data, true);
 			$data['categories_is_filter'] = $this->model_catalog_category->getCategoriesIsFilter($category_id, true);
 		
 		

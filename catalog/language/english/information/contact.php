@@ -15,7 +15,7 @@ $_['text_success']   = '<p>Your enquiry has been successfully sent to the store 
 
 // Entry
 $_['entry_name']     = 'Name';
-$_['entry_ordernum']  = 'eng Номер заказа';
+$_['entry_ordernum']  = 'order number';
 $_['entry_lastname']     = 'Lastname';
 $_['entry_email']    = 'E-Mail';
 $_['entry_enquiry']  = 'Enquiry';
@@ -24,14 +24,14 @@ $_['entry_country']  = 'Country';
 $_['entry_chose_country']  = 'Chose country';
 $_['entry_send']  = 'Send';
 
-$_['error_form_name']    = 'eng Пожалуйста, введите имя';
-$_['error_form_lastname']    = 'eng Пожалуйста, введите фамилию';
-$_['error_form_email']    = 'eng Пожалуйста, введите Email';
-$_['error_form_ordernum']  = 'eng Пожалуйста, введите номер заказа.';
-$_['error_form_message']  = 'eng Пожалуйста, введите сообщение';
-$_['error_form_country']  = 'eng Пожалуйста, выберите страну';
+$_['error_form_name']    = 'Please enter a First Name';
+$_['error_form_lastname']    = 'Please enter a Last Name';
+$_['error_form_email']    = 'Please enter email';
+$_['error_form_ordernum']  = 'Please enter a order number';
+$_['error_form_message']  = 'Please enter a message';
+$_['error_form_country']  = 'Please select a country';
 
-$_['text_form_message_count']  = 'eng Осталось <span class="char-remain-count">3000</span> символов из <span class="char-allowed-count">3000</span>.';
+$_['text_form_message_count']  = 'Max message leng <span class="char-remain-count">3000</span> - <span class="char-allowed-count">3000</span>.';
 
 
 
@@ -43,10 +43,10 @@ $_['error_name']     = 'Name must be between 3 and 32 characters!';
 $_['error_email']    = 'E-Mail Address does not appear to be valid!';
 $_['error_enquiry']  = 'Enquiry must be between 10 and 3000 characters!';
 
-$_['text_info']      = 'АНГЛИЙСКИЙ ТЕКСТ Клиентская служба онлайн';
+$_['text_info']      = 'CUSTOMER SERVICE ONLINE';
 $_['text_contact_us']      = 'Contact us';
-$_['text_for_contact']  = '<p><b>АНГЛИЙСКИЙ ТЕКСТ</b> Если у Вас возникли вопросы о Вашем заказе или Вы хотите узнать какую-либо общую информацию наша команда клиентской службы будет рада помочь Вам!</p>
-                            <p>Пожалуйста, сообщите, как мы можем Вам помочь в управлении Вашим личным кабинетом.</p>
-                            <p>Отправьте Ваш отзыв: он всегда очень важен для нас.</p>
-                            <p>Заполните форму ниже, выберите тему, тип Вашего вопроса или комментария, и мы скоро с Вами свяжемся.</p>
+$_['text_for_contact']  = '<p>If you have questions about your order or need any general information our customer service team will be happy to assist you.</p>
+                            <p>Let us know how we may help you regarding your "My Account" page.</p>
+                            <p>Send us your feedback: it is always very important to us</p>
+                            <p>Complete the form below, select a subject, type your question or comment and we will get back to you as soon as possible.</p>
                             <p></p>';

@@ -51,10 +51,10 @@
 
         return $data;
     }
-	 function DownloadFileNoCode($url)
-    {
 	
-	if (!extension_loaded('curl')) {
+	function DownloadFileNoCode($url){
+	
+		if (!extension_loaded('curl')) {
             return null;
         }
 
@@ -82,7 +82,7 @@
 
 	    $data = curl_exec($ch);
 		
-		//echo "<pre>";  print_r(var_dump( $data )); echo "</pre>";
+		//echo "<pre>";  print_r(var_dump( $data )); echo "</pre>";die();
 		
         if (curl_errno($ch) != CURLE_OK) {
 			echo '<br><br><font color="red">Ошибка curl: ' . curl_error($ch).'</font>';

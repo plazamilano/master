@@ -45,7 +45,8 @@
                     <?php } else { ?>
                     <a href="<?php echo $sort_sort_order; ?>"><?php echo $column_sort_order; ?></a>
                     <?php } ?></td>
-                  <td class="text-right"><?php echo $column_action; ?></td>
+                  <td class="text-right">Активный</td>
+                 <td class="text-right"><?php echo $column_action; ?></td>
                 </tr>
               </thead>
               <tbody>
@@ -59,6 +60,12 @@
                     <?php } ?></td>
                   <td class="text-left"><?php echo $manufacturer['name']; ?></td>
                   <td class="text-right"><?php echo $manufacturer['sort_order']; ?></td>
+                  <td class="text-center">
+                    <?php if ($manufacturer['enable'] == 1) { ?>
+                      <input type="checkbox" class="manufacturer_enable" data-id="<?php echo $manufacturer['manufacturer_id']; ?>" name="manufacturer_enable" value="1" checked="checked" />
+                    <?php } else { ?>
+                      <input type="checkbox" class="manufacturer_enable" data-id="<?php echo $manufacturer['manufacturer_id']; ?>" name="manufacturer_enable" value="0" />
+                    <?php } ?></td>
                   <td class="text-right"><a href="<?php echo $manufacturer['edit']; ?>" data-toggle="tooltip" title="<?php echo $button_edit; ?>" class="btn btn-primary"><i class="fa fa-pencil"></i></a></td>
                 </tr>
                 <?php } ?>
@@ -80,3 +87,29 @@
   </div>
 </div>
 <?php echo $footer; ?>
+
+<script>
+  
+ $(document).on('change', '.manufacturer_enable', function(){
+    var manufacturer_id = $(this).data('id');
+    var status = 0;
+    
+    if ($(this).prop("checked")) {
+        status = 1;
+    }
+    
+    $.ajax({
+      type: "POST",
+      url: "/admin/index.php?route=catalog/manufacturer/setstatus&token=<?php echo $_GET['token'];?>&manufacturer_id="+manufacturer_id+'&status='+status,
+      dataType: "text",
+      data: "manufacturer_id="+manufacturer_id+'&status='+status,
+      beforeSend: function(){
+      },
+      success: function(msg){
+        console.log( "Прибыли данные: " + msg );
+      }
+    });
+ 
+ }); 
+  
+</script>

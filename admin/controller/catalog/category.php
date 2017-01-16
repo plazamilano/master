@@ -67,8 +67,12 @@ class ControllerCatalogCategory extends Controller {
 	
 
 	
-//die('Удаление левых фоток');	
-	
+//die('Удаление левых фоток');
+	$this->importProducts();
+	$this->reloadPhotos();
+		die('11111111');
+	$this->importProducts();
+		die('11111111');
 	
 
 //die('Удаление пустых товаров');
@@ -103,6 +107,29 @@ die('Таблица размеров');
 	
 	}
 
+	public function reloadPhotos(){
+		$sql = "SELECT image FROM " . DB_PREFIX . "product";
+		$r = $this->db->query($sql);
+		foreach($r->rows as $row){
+			$from = str_replace('product/','http://blockbidderlist.com/illustr/goodphotos/mediumimages/',$row['image']);
+			$to =  str_replace('product/','',$row['image']);
+			
+			if(!file_exists(DIR_IMAGE.'product/'.$to)){
+				$this->db->query('INSERT INTO ' . DB_PREFIX . 'import_pic SET `from` = "'.$from.'", `to`="'.$to.'"');
+			}
+		}
+		
+		$sql = "SELECT image FROM " . DB_PREFIX . "product_image";
+		$r = $this->db->query($sql);
+		foreach($r->rows as $row){
+			$from = str_replace('product/','http://blockbidderlist.com/illustr/goodphotos/mediumimages/',$row['image']);
+			$to =  str_replace('product/','',$row['image']);
+			if(!file_exists(DIR_IMAGE.'product/'.$to)){
+				$this->db->query('INSERT INTO ' . DB_PREFIX . 'import_pic SET `from` = "'.$from.'", `to`="'.$to.'"');
+			}
+		}
+	}
+	
 //Удалим привязки к левым категориям
 	public function dellNullCategoryLinks(){
 		$sql = "SELECT * FROM " . DB_PREFIX . "product_to_category";
@@ -300,7 +327,7 @@ die('Таблица размеров');
 		
 		//$this->model_catalog_product->dellAllProduct();
 		
-		$r_m = $mysqli2->query("SELECT * FROM goods WHERE id_good = 10586;");
+		$r_m = $mysqli2->query("SELECT * FROM goods");// WHERE id_good = 10586;");
 		
 		while($product = $r_m->fetch_assoc()){
 		
@@ -378,31 +405,38 @@ die('Таблица размеров');
 							LEFT JOIN goodphoto_mediumimages CM ON GP.id_goodphoto = CM.id_goodphoto
 							WHERE GP.id_goodcolor = '".$color_id."' ORDER BY GP.priority";
 					$r_photo = $mysqli2->query($sql);
-				echo $sql;
+				
 					if($r_photo->num_rows){
 						$p_count = 1;
 						
 						if($r_photo->num_rows > 1) $data_P['product_image'] = array();
 						
+						$product_image = array();
+						
 						while($photo = $r_photo->fetch_assoc()){
 							
-							if($photo['id_goodphoto_largeimage'] OR $photo['id_goodphoto_mediumimage']){
-								$image = 'product/'.$photo['id_goodphoto_largeimage'].'.'.$photo['ext'];
-								$image1 = 'product/'.$photo['id_goodphoto_mediumimage'].'.'.$photo['ext'];
+							if($photo['id_goodphoto_mediumimage']){
+								//$image = 'product/'.$photo['id_goodphoto_largeimage'].'.'.$photo['ext'];
+								$image = 'product/'.$photo['id_goodphoto_mediumimage'].'.'.$photo['ext'];
 			
-			echo '<br>'.$image.'<br>'.$image1;
 								if($p_count == 1){
 									$data_P['image'] = $image;
 								}else{
 									$data_P['product_image'][] = array('image' => $image, 'sort_order'=>'0');
 								}
+								$product_image[] = $image;
 							}
 						
 							$p_count++;
 							
 						}
 					}
-					
+				
+				if(isset($product_image) AND count($product_image)){
+					$this->model_catalog_product->dellProductImages($data_P['product_id']);
+					$this->model_catalog_product->updateProductImages($data_P['product_id'], $product_image);
+				}
+				continue;	
 					
 					//Категория
 					$category_id = 1;
@@ -562,8 +596,6 @@ die('Таблица размеров');
 					
 					}
 					
-					header("Content-Type: text/html; charset=UTF-8");
-					echo "<pre>";  print_r(var_dump( $data_P )); echo "</pre>";
 							
 					//$this->model_catalog_product->addProduct($data_P);
 				}

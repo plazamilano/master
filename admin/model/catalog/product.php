@@ -54,11 +54,13 @@ class ModelCatalogProduct extends Model {
 							 product_id = '" . (int)$product_id . "',
 							 language_id = '" . (int)$language_id . "',
 							 name = '" . $this->db->escape($value['name']) . "',
-							 description = '" . $this->db->escape($value['description']) . "',
-							 description_detail = '" . $this->db->escape($value['description_detail']) . "',
+							 description = '" . $value['description'] . "',
+							 description_detail = '" . $value['description_detail'] . "',
 							 tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+			
 		}
 
+		
 		if (isset($data['product_store'])) {
 			foreach ($data['product_store'] as $store_id) {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "product_to_store SET product_id = '" . (int)$product_id . "', store_id = '" . (int)$store_id . "'");
@@ -250,6 +252,16 @@ class ModelCatalogProduct extends Model {
 		//die();
 	}
 	
+	public function dellProductImages($product_id) {
+		
+		$sql = 'UPDATE ' . DB_PREFIX . 'product SET `image`="" WHERE product_id = "'.(int)$product_id.'" ';
+		$r = $this->db->query($sql);
+		
+		$sql = "DELETE FROM " . DB_PREFIX . "product_image WHERE product_id = '" . (int)$product_id . "'";
+		$this->db->query($sql);
+		
+	}
+	
 	public function editProduct($product_id, $data) {
 		
 		$this->event->trigger('pre.admin.product.edit', $data);
@@ -304,10 +316,11 @@ class ModelCatalogProduct extends Model {
 								product_id = '" . (int)$product_id . "',
 								language_id = '" . (int)$language_id . "',
 								name = '" . $this->db->escape($value['name']) . "',
-								description = '" . $this->db->escape($value['description']) . "',
-								description_detail = '" . $this->db->escape($value['description_detail']) . "',
+								description = '" . $value['description'] . "',
+								description_detail = '" . $value['description_detail'] . "',
 								tag = '" . $this->db->escape($value['tag']) . "',
 								meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+
 		}
 
 		$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_store WHERE product_id = '" . (int)$product_id . "'");
@@ -579,9 +592,12 @@ class ModelCatalogProduct extends Model {
 								  FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
 								  WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
+										  
+								  
 		$query->row['name']     		= html_entity_decode($query->row['name'], ENT_QUOTES, 'UTF-8');				  
 		$query->row['description']     		= html_entity_decode($query->row['description'], ENT_QUOTES, 'UTF-8');				  
 		$query->row['description_detail'] 	= html_entity_decode($query->row['description_detail'], ENT_QUOTES, 'UTF-8');					  
+	
 								  
 		return $query->row;
 	}
