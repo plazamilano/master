@@ -2,6 +2,7 @@
 class ControllerCheckoutLogin extends Controller {
 	public function index() {
 		$this->load->language('checkout/checkout');
+		$this->load->language('checkout/login');
 
 		$data['text_checkout_account'] = $this->language->get('text_checkout_account');
 		$data['text_checkout_payment_address'] = $this->language->get('text_checkout_payment_address');
@@ -15,6 +16,12 @@ class ControllerCheckoutLogin extends Controller {
 		$data['text_forgotten'] = $this->language->get('text_forgotten');
 		$data['text_loading'] = $this->language->get('text_loading');
 
+		$data['text_login_pleace'] = $this->language->get('text_login_pleace');
+		$data['text_enter'] = $this->language->get('text_enter');
+		$data['text_signup_pleace'] = $this->language->get('text_signup_pleace');
+
+		
+		
 		$data['entry_email'] = $this->language->get('entry_email');
 		$data['entry_password'] = $this->language->get('entry_password');
 

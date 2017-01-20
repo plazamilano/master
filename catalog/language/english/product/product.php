@@ -61,7 +61,7 @@ $_['text_client_service']                           = 'Client service';
 $_['text_using_product']                           = 'Used product';
 $_['text_delivery_and_return']                           = 'Delivery and return';
 $_['text_color']                           = 'color';
-$_['text_bay']                           = 'Bay';
+$_['text_bay']                           = 'Buy';
 
 $_['text_onesize']        = 'OneSize';
 

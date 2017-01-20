@@ -122,7 +122,8 @@ class ModelCatalogAttribute extends Model {
 			
 			$query = $this->db->query("SELECT name
 										FROM " . DB_PREFIX . "attribute_group_description
-										WHERE attribute_group_id = '$grp_id' LIMIT 0, 1;");
+										WHERE attribute_group_id = '$grp_id' AND language_id = '" . (int)$this->config->get('config_language_id') . "'
+										LIMIT 0, 1;");
 			if($query->num_rows){									
 				$return .= $query->row['name'].': ';
 			}
@@ -130,7 +131,7 @@ class ModelCatalogAttribute extends Model {
 			
 			$query = $this->db->query("SELECT name
 										FROM " . DB_PREFIX . "attribute_description
-										WHERE attribute_id IN (".implode(',',$attr_grp).");");
+										WHERE attribute_id IN (".implode(',',$attr_grp).") AND language_id = '" . (int)$this->config->get('config_language_id') . "';");
 			
 			if($query->num_rows){									
 				foreach($query->rows as $row){
@@ -166,7 +167,7 @@ class ModelCatalogAttribute extends Model {
 										LEFT JOIN " . DB_PREFIX . "product_to_size P2S ON S.size_id = P2S.size_id
 										LEFT JOIN " . DB_PREFIX . "size_group SG ON SG.id = S.group_id
 										
-										WHERE P2S.product_id IN ($product_id) AND S.enable='1'
+										WHERE P2S.product_id IN ($product_id) AND S.enable='1' 
 										GROUP BY S.size_id
 										ORDER BY S.sort, S.name ;");
 

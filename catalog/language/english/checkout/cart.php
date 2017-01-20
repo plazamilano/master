@@ -40,3 +40,30 @@ $_['error_minimum']            = 'Minimum order amount for %s is %s!';
 $_['error_required']           = '%s required!';
 $_['error_product']            = 'Warning: There are no products in your cart!';
 $_['error_recurring_required'] = 'Please select a payment recurring!';
+
+
+
+$_['text_cart'] = 'Cart';
+$_['text_order'] = 'Order';
+$_['text_confirmation_order'] = 'Confirm order';
+$_['text_wishlist'] = 'Add to wishlist';
+$_['text_in_stock'] = 'in stock';
+$_['text_delivery_method'] = 'Delivery method';
+$_['text_delivery_country'] = 'Delivery country';
+$_['text_delivery'] = 'Delivery';
+$_['text_summary_information_on_ordering'] = 'Summary information on ordering';
+$_['text_total'] = 'Total';
+$_['text_back_to_shopping'] = 'Back to shopping';
+$_['text_help_is_needed'] = 'Needed help?';
+$_['text_write_to_us'] = 'Contack us';
+$_['text_faq'] = 'FAQ';
+$_['text_send_email'] = 'eng-Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+$_['text_size'] = 'Size:';
+$_['text_color'] = 'Color:';
+$_['text_order_q']= 'Question about the order';
+$_['column_name'] = 'Product';       // есть переменная column_name = 'Название' - переименовать на 'Товар'
+$_['column_duti'] = 'Dues';     // эта колонка скрыта, но текст в ней есть... так что не знаю удалять или переводить...
+$_['text_conditional_preliminary_confirmation'] = 'Conditional preliminary confirmation';  // этот текст сейчас скрыт. нужно переводить?
+$_['text_purchase_terms'] = 'eng-Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>';
+
+$_['error_no_quantity'] = 'This quantity is not available !!!';

@@ -30,6 +30,8 @@ class ControllerCommonHome extends Controller {
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		/*
 		$this->load->model('catalog/mainmenu');
 		$this->load->model('catalog/category');

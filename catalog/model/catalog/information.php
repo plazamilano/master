@@ -11,10 +11,17 @@ class ModelCatalogInformation extends Model {
 								  AND i.status = '1'";
 		
 		//echo $sql;
-		
 		$query = $this->db->query($sql);
-
-		return $query->row;
+		
+		$return = $query->row;
+		
+		$return['title'] = html_entity_decode(html_entity_decode($return['title']));
+		$return['description'] = html_entity_decode(html_entity_decode($return['description']));
+		$return['meta_title'] = html_entity_decode(html_entity_decode($return['meta_title']));
+		$return['meta_description'] = html_entity_decode(html_entity_decode($return['meta_description']));
+		$return['meta_keyword'] = html_entity_decode(html_entity_decode($return['meta_keyword']));
+		
+		return $return;
 	}
 
 	public function getInformations() {

@@ -455,7 +455,7 @@ $text_politic = 'Подтверждая, Вы соглашаетесь с наш
                                             <!-- =====Original Key================================================ -->         
                                             <div class="btn-group" style="display: none;">
                                                 <button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_wishlist; ?>" onclick="wishlist.add('<?php echo $product_id; ?>');"><i class="fa fa-heart"></i></button>
-                                                <!--button type="button" data-toggle="tooltip" class="btn btn-default" title="<?php echo $button_compare; ?>" onclick="compare.add('<?php echo $product_id; ?>');"><i class="fa fa-exchange"></i></button-->
+                                                
                                             </div>
         
                                             
@@ -523,14 +523,14 @@ $text_politic = 'Подтверждая, Вы соглашаетесь с наш
                     
                     
                          <button class="js-add_to_cart b-product_add_to_cart-submit"
-                                 title="В корзину"
+                                 title="<?php echo $text_bay; ?>"
                                  value="<?php echo $text_bay; ?>"><?php echo $text_bay; ?></button>
                                     
                     </div>
                     <!--  end details block -->
                     
                     
-                    <div class="b-add_to_wishlist js-add_to_wishlist" onclick="wishlist.add('<?php echo $product_id; ?>');">>
+                    <div class="b-add_to_wishlist js-add_to_wishlist" onclick="wishlist.add('<?php echo $product_id; ?>');">
                         <?php echo $text_add_to_wishlist; ?>
                     </div>
                     <div class="b-add_to_wishlist-added_message js-added_to_wishlist" >
@@ -819,7 +819,7 @@ $(document).ready(function() {
 $('#button-cart, .js-add_to_cart').on('click', function() {
 //debugger;
     $.ajax({
-        url: 'index.php?route=checkout/cart/add',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/cart/add',
         type: 'post',
         data: $('#product input[type=\'text\'], #product input[type=\'hidden\'], #product input[type=\'radio\']:checked, #product input[type=\'checkbox\']:checked, #product select, #product textarea'),
         dataType: 'json',
@@ -850,6 +850,7 @@ $('#button-cart, .js-add_to_cart').on('click', function() {
 
                 if (json['error']['recurring']) {
                     $('select[name=\'recurring_id\']').after('<div class="text-danger">' + json['error']['recurring'] + '</div>');
+                    alert(json['error']['recurring']);
                 }
 
                 // Highlight any found errors
@@ -863,7 +864,7 @@ $('#button-cart, .js-add_to_cart').on('click', function() {
 
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
 
-                $('#cart > ul').load('index.php?route=common/cart/info ul li');
+                $('#cart > ul').load('/<?php echo $language_href; ?>index.php?route=common/cart/info ul li');
 
                 /* вставил кусок из common.js (чтобы хоть как-то работало - потом падо будет этот ajax пересмотреть ) 
                 START */
@@ -877,7 +878,7 @@ $('#button-cart, .js-add_to_cart').on('click', function() {
 
                     $('html, body').animate({ scrollTop: 0 }, 'slow');
 
-                    $('#cart').load('index.php?route=common/cart/info');
+                    $('#cart').load('/<?php echo $language_href; ?>index.php?route=common/cart/info');
 
                     $('.js-mini_cart').removeClass('h-minimized');
                     setTimeout(function() {

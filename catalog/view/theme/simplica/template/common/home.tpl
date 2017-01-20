@@ -16,7 +16,7 @@ while ( $i_l < $count_l || $i_m < $count_m ) {
     <?php $banner = $large_banners[$i_l]; ?>
             <!-- большой баннер. START -->
             <div class="l-homepage-hero_banner varying_block-container">
-                <a href="<?php echo $banner['baner_url']; ?>">
+                <a href="/<?php echo $language_href.$banner['baner_url']; ?>">
                     <img alt="" src="/image/banners/mainpage_large/<?php echo $banner['baner_pic']; ?>" title="">
                 </a>
                 <?php
@@ -43,7 +43,7 @@ while ( $i_l < $count_l || $i_m < $count_m ) {
                 <div class="l-homepage-hero_banner-info <?php echo $class_baner_place; ?>" style="color: <?php echo $banner['baner_text_color']?>">
                     <div class="l-homepage-hero_banner-info_title"><?php echo $banner['baner_header']?></div>
                     <div class="l-homepage-hero_banner-info_subtitle"><?php echo $banner['baner_text']?></div>
-                    <a href="<?php echo $banner['baner_url']; ?>" class="l-homepage-link varying_block-btn_black"><?php echo $banner['baner_title']?></a>
+                    <a href="/<?php echo $language_href.$banner['baner_url']; ?>" class="l-homepage-link varying_block-btn_black"><?php echo $banner['baner_title']?></a>
                 </div>
             </div>
             <!-- большой баннер. END -->
@@ -78,13 +78,13 @@ while ( $i_l < $count_l || $i_m < $count_m ) {
 
                 ?>
                 <div class="l-homepage-mood_banner">
-                    <a href="<?php echo $banner['baner_url']; ?>">
+                    <a href="/<?php echo $language_href.$banner['baner_url']; ?>">
                         <img alt="" src="/image/banners/mainpage_medium/<?php echo $banner['baner_pic']; ?>" title="">
                     </a>
                     <div class="l-homepage-hero_banner-info <?php echo $class_baner_place; ?>" style="color: <?php echo $banner['baner_text_color']?>">
                         <div class="l-homepage-title font_mood_title_left"><?php echo $banner['baner_header']?></div>
                         <div class="l-homepage-subtitle font_mood_subtitle_left"><?php echo $banner['baner_text']?></div>
-                        <a href="<?php echo $banner['baner_url']; ?>" class="l-homepage-link l-homepage-link_mood_left"><?php echo $banner['baner_title']?></a>
+                        <a href="/<?php echo $language_href.$banner['baner_url']; ?>" class="l-homepage-link l-homepage-link_mood_left"><?php echo $banner['baner_title']?></a>
                     </div>
                 </div>
             <?php } ?>
@@ -112,13 +112,13 @@ while ( $i_l < $count_l || $i_m < $count_m ) {
                     if ( !isset($banner['baner_text_color']) ) { $banner['baner_text_color'] = '#FFF'; };
                 ?>
                 <div class="l-homepage-mood_banner">
-                    <a href="<?php echo $banner['baner_url']; ?>" target="_blank">
+                    <a href="/<?php echo $language_href.$banner['baner_url']; ?>" target="_blank">
                         <img alt="" src="/image/banners/mainpage_medium/<?php echo $banner['baner_pic']; ?>" title="">
                     </a>
                     <div class="l-homepage-hero_banner-info <?php echo $class_baner_place; ?>" style="color: <?php echo $banner['baner_text_color']?>">
                         <div class="l-homepage-title font_mood_title_left"><?php echo $banner['baner_header']?></div>
                         <div class="l-homepage-subtitle font_mood_subtitle_left"><?php echo $banner['baner_text']?></div>
-                        <a href="<?php echo $banner['baner_url']; ?>" class="l-homepage-link l-homepage-link_mood_left"><?php echo $banner['baner_title']?></a>
+                        <a href="/<?php echo $language_href.$banner['baner_url']; ?>" class="l-homepage-link l-homepage-link_mood_left"><?php echo $banner['baner_title']?></a>
                     </div>
                 </div>
             <?php } ?>

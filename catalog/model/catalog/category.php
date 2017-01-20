@@ -6,7 +6,19 @@ class ModelCatalogCategory extends Model {
 								  LEFT JOIN " . DB_PREFIX . "url_alias ua ON (ua.query = CONCAT('category_id=', c.category_id))
 								  LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
 
-		return $query->row;
+		$return = $query->row;
+		
+		$return['name'] = html_entity_decode(html_entity_decode($return['name']));
+		$return['name_sush'] = html_entity_decode(html_entity_decode($return['name_sush']));
+		$return['name_rod'] = html_entity_decode(html_entity_decode($return['name_rod']));
+		$return['name_several'] = html_entity_decode(html_entity_decode($return['name_several']));
+		$return['title_h1'] = html_entity_decode(html_entity_decode($return['title_h1']));
+		$return['description'] = html_entity_decode(html_entity_decode($return['description']));
+		$return['meta_title'] = html_entity_decode(html_entity_decode($return['meta_title']));
+		$return['meta_description'] = html_entity_decode(html_entity_decode($return['meta_description']));
+		$return['meta_keyword'] = html_entity_decode(html_entity_decode($return['meta_keyword']));
+		
+		return $return;
 	}
 
 	public function getCategoryNameKeyword($category_id) {

@@ -64,11 +64,69 @@ class ControllerCatalogCategory extends Controller {
 		define('DB_DATABASE2', 'blockb5_etalon');
 		$this->mysqli2 = mysqli_connect(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE2) or die("Error " . mysqli_error($this->mysqli2)); 
 		mysqli_set_charset($this->mysqli2,"utf8");
-	
 
+// Вычищаем спецсимволы	в таблице информация
+//die('***');
+
+		$sql = 'SELECT * FROM  ' . DB_PREFIX . 'information_description';
+		$desc = $this->db->query($sql);
+		
+		
+		foreach($desc->rows as $value){
+			
+			
+			$value['title']             = html_entity_decode(html_entity_decode(html_entity_decode($value['title'])));
+			$value['description']      = html_entity_decode(html_entity_decode(html_entity_decode($value['description'])));
+			$value['meta_title']       = html_entity_decode(html_entity_decode(html_entity_decode($value['meta_title'])));
+			$value['meta_description'] = html_entity_decode(html_entity_decode(html_entity_decode($value['meta_description'])));
+			$value['meta_keyword']     = html_entity_decode(html_entity_decode(html_entity_decode($value['meta_keyword'])));
+			
+			$this->db->query("UPDATE  " . DB_PREFIX . "information_description SET
+							 title = '" . htmlspecialchars($value['title'],ENT_QUOTES) . "',
+							 description = '" . htmlspecialchars($value['description'],ENT_QUOTES) . "',
+							 meta_title = '" . htmlspecialchars($value['meta_title'],ENT_QUOTES) . "',
+							 meta_description = '" . htmlspecialchars($value['meta_description'],ENT_QUOTES) . "',
+							 meta_keyword = '" . htmlspecialchars($value['meta_keyword'],ENT_QUOTES) . "'
+							 
+							 WHERE information_id = '" . (int)$value['information_id'] . "' AND language_id = '" . (int)$value['language_id'] . "'
+							 ");
+					}
 	
+	die('***');// Вычищаем спецсимволы	
+die('***');
+
+		$sql = 'SELECT * FROM fash_product_description';
+		$desc = $this->db->query($sql);
+		
+		
+		foreach($desc->rows as $value){
+			
+			
+			$value['name']             = html_entity_decode(html_entity_decode(html_entity_decode($value['name'])));
+			$value['description']      = html_entity_decode(html_entity_decode(html_entity_decode($value['description'])));
+			$value['description_detail'] = html_entity_decode(html_entity_decode(html_entity_decode($value['description_detail'])));
+			$value['meta_title']       = html_entity_decode(html_entity_decode(html_entity_decode($value['meta_title'])));
+			$value['meta_description'] = html_entity_decode(html_entity_decode(html_entity_decode($value['meta_description'])));
+			$value['meta_keyword']     = html_entity_decode(html_entity_decode(html_entity_decode($value['meta_keyword'])));
+			$value['tag']              = html_entity_decode(html_entity_decode(html_entity_decode($value['tag'])));
+			
+			$this->db->query("UPDATE  " . DB_PREFIX . "product_description SET
+							 name = '" . htmlspecialchars($value['name'],ENT_QUOTES) . "',
+							 description = '" . htmlspecialchars($value['description'],ENT_QUOTES) . "',
+							 description_detail = '" . htmlspecialchars($value['description_detail'],ENT_QUOTES) . "',
+							 tag = '" . htmlspecialchars($value['tag'],ENT_QUOTES) . "',
+							 meta_title = '" . htmlspecialchars($value['meta_title'],ENT_QUOTES) . "',
+							 meta_description = '" . htmlspecialchars($value['meta_description'],ENT_QUOTES) . "',
+							 meta_keyword = '" . htmlspecialchars($value['meta_keyword'],ENT_QUOTES) . "'
+							 
+							 WHERE product_id = '" . (int)$value['product_id'] . "' AND language_id = '" . (int)$value['language_id'] . "'
+							 ");
+					}
+	
+	die('***');
 //die('Удаление левых фоток');
 	$this->importProducts();
+		die('11111111');
 	$this->reloadPhotos();
 		die('11111111');
 	$this->importProducts();
@@ -328,6 +386,10 @@ die('Таблица размеров');
 		//$this->model_catalog_product->dellAllProduct();
 		
 		$r_m = $mysqli2->query("SELECT * FROM goods");// WHERE id_good = 10586;");
+	
+		header("Content-Type: text/html; charset=UTF-8");
+		$ids = array();
+		$count = 1;
 		
 		while($product = $r_m->fetch_assoc()){
 		
@@ -356,7 +418,7 @@ die('Таблица размеров');
 					$data_P['tax_class_id'] = '';
 					$data_P['sort_order'] = 0;
 					$data_P['product_description'][1]['name'] = ($product['good_rus'] != '') ? $product['good_rus'] : $product['good'];
-					$data_P['product_description'][1]['description'] = htmlspecialchars($product['mat_rus'].'<br>'.$product['text_rus'],ENT_QUOTES);
+					$data_P['product_description'][1]['description'] = $product['mat_rus'].'<br>'.$product['text_rus'];
 					$data_P['product_description'][1]['meta_title'] = ($product['good_rus'] != '') ? $product['good_rus'] : $product['good'];
 					$data_P['product_description'][1]['meta_description'] = $product['keywords1_rus'];
 					$data_P['product_description'][1]['description_detail'] = $product['keywords_rus'];
@@ -364,7 +426,7 @@ die('Таблица размеров');
 					$data_P['product_description'][1]['tag'] = $product['good_rus'];
 			
 					$data_P['product_description'][2]['name'] = $product['good'];
-					$data_P['product_description'][2]['description'] = htmlspecialchars($product['mat'].'<br>'.$product['text'],ENT_QUOTES);
+					$data_P['product_description'][2]['description'] = $product['mat'].'<br>'.$product['text'];
 					$data_P['product_description'][2]['meta_title'] = $product['good'];
 					$data_P['product_description'][2]['meta_description'] = $product['keywords1'];
 					$data_P['product_description'][2]['description_detail'] = $product['keywords1'];
@@ -372,6 +434,8 @@ die('Таблица размеров');
 					$data_P['product_description'][2]['tag'] = $product['good'];
 				
 					$data_P['original_url'] = $product['id_good'] + ($color_id * 100000).' old_id=['.$product['id_good'].']'.' old_color_id=['.$color_id.']';
+
+
 					
 					$data_P['original_code'] = $color['artikul'];
 					$data_P['model'] = $color['artikul'];//strtolower(translitArtkl($shop_name.'-'.$data['id']));//$product['code'];
@@ -436,7 +500,7 @@ die('Таблица размеров');
 					$this->model_catalog_product->dellProductImages($data_P['product_id']);
 					$this->model_catalog_product->updateProductImages($data_P['product_id'], $product_image);
 				}
-				continue;	
+continue;	
 					
 					//Категория
 					$category_id = 1;
@@ -600,7 +664,9 @@ die('Таблица размеров');
 					//$this->model_catalog_product->addProduct($data_P);
 				}
 		}
-	
+	echo $count.' ***';
+	header("Content-Type: text/html; charset=UTF-8");
+	echo "<pre>";  print_r(var_dump( $ids )); echo "</pre>";
 	}
 //Установим все атрибуты для всех категорий
 public function setAllAttribute(){

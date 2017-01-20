@@ -2,6 +2,8 @@
 class ModelCheckoutDelivery extends Model {
 	public function getDeliveryOnCountryId($country_id) {
 		
+		if($country_id != 176) $country_id = 1;
+		
 		$r = $this->db->query("SELECT D2C.*, D.name, C.* FROM `" . DB_PREFIX . "delivery_to_country` D2C
 								LEFT JOIN `" . DB_PREFIX . "delivery` D ON D.delivery_id = D2C.delivery_id 
 								LEFT JOIN `" . DB_PREFIX . "currency` C ON C.currency_id = D2C.currency_id

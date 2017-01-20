@@ -1,6 +1,7 @@
 <?php echo $header; ?>
 
 <?php
+/*
 $text_select_delive_adress = 'Выбрать из списка сохраненных адресов';
 $text_cart = 'Корзина';
 $text_order = 'Заказать';
@@ -88,8 +89,12 @@ $text_error_credit_card_cvn = 'Пожалуйста, введите Ваш ко�
 $text_error_credit_card_name = 'Пожалуйста, введите Ваше имя, как указано на карте';
 $text_error_agreement = 'Это обязательное для заполнения поле!';
 
-$text_order_q = 'Вопрос%20по%20заказа';
+$text_error_agreement = 'Это обязательное для заполнения поле!';
 
+$text_purchase_terms = 'Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>'
+
+$text_order_q = 'Вопрос%20по%20заказу';
+*/
 $faq_array = array ();   // Сюда засунуть фак
 //$faq_array['href'];
 //$faq_array['title'];
@@ -103,7 +108,7 @@ $faq_array = array ();   // Сюда засунуть фак
 <input type="text" class="h-hidden" value="2" id="step">
 
 <ol class="b-checkout_progress_indicator">
-    <li class="b-checkout_progress_indicator-step js-indication-step-1"><a href="/index.php?route=checkout/cart"><?php echo $text_cart; ?></a></li>
+    <li class="b-checkout_progress_indicator-step js-indication-step-1"><a href="/<?php echo $language_href; ?>index.php?route=checkout/cart"><?php echo $text_cart; ?></a></li>
     <li class="b-checkout_progress_indicator-step js-indication-step-2 b-checkout_progress_indicator-step--active"><span><?php echo $text_order; ?></span></li>
     <li class="b-checkout_progress_indicator-step js-indication-step-3"><span><?php echo $text_confirmation_order; ?></span></li>
   </ol>
@@ -158,7 +163,7 @@ $faq_array = array ();   // Сюда засунуть фак
                 $(document).on('change', '#delivery_address', function(){
                         
                     $.ajax({
-                        url: 'index.php?route=checkout/checkout/get_address',
+                        url: '/<?php echo $language_href; ?>index.php?route=checkout/checkout/get_address',
                         type: 'post',
                         data: $('#select_address select'),
                         dataType: 'json',
@@ -649,7 +654,7 @@ $faq_array = array ();   // Сюда засунуть фак
       <div class="b-checkout_content_block">
         <div class="b-checkout_content_block-info">
           <div class="b-content_asset b-content_asset--customer-service-help-contact-checkout content-asset">
-            <h2>Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span></h2>
+            <h2><?php echo $text_purchase_terms; ?></h2>
             <br> 
             <h3 class="b-checkout_content_block-toggle_title b-checkout_content_block-toggle_title--open js-checkout_contact_us_block_tt"
                 data-hide=".js-faq-questions_block_tt"
@@ -784,7 +789,7 @@ $('input.js-state-required, select.js-state-required').on('blur', function(){
             
             $.ajax({
                 type: 'post',
-                url: 'index.php?route=account/account/validationEmail',
+                url: '/<?php echo $language_href; ?>index.php?route=account/account/validationEmail',
                 data: 'email='+val,
                 dataType: 'text',
                 cache: false,
@@ -943,7 +948,7 @@ $('#step').on('change', function(){
         $('.js-checkout_shipping_address_summary').html(address_summary);
       } else {
         // НЕ переходим на следующий шаг:
-        alert('Не все поля заполнены верно!');
+        alert('<?php echo $text_error_form_valid; ?>');
         prevStep();
       }
     break;
@@ -970,7 +975,7 @@ $('#step').on('change', function(){
         
         $.ajax({
           type: 'post',
-          url: 'index.php?route=checkout/confirm',
+          url: '/<?php echo $language_href; ?>index.php?route=checkout/confirm',
           data: 'fields_phone='+fields_phone+'&email='+email+'&password='+password+'&confirm='+confirm+'&first_name='+first_name+'&last_name='+last_name+'&address1='+address1+'&address2='+address2+'&postcode='+postcode+'&city='+city+'&country_code='+country_code,
           dataType: 'html',
           cache: false,
@@ -985,13 +990,13 @@ $('#step').on('change', function(){
             //debugger;
             //$('.l-main_checkout').html(html);
             //$('a[href=\'#collapse-checkout-confirm\']').trigger('click');
-            location = '/index.php?route=checkout/success';
+            location = '/<?php echo $language_href; ?>index.php?route=checkout/success';
           }
         });
         
       } else {
         // НЕ переходим на следующий шаг:
-        alert('Не все поля заполнены верно!');
+        alert('<?php echo $text_error_form_valid; ?>');
         prevStep();
       }
     break;
@@ -1112,7 +1117,7 @@ $(document).on('change', 'input[name=\'account\']', function() {
 <?php if (!$logged) { ?>
 $(document).ready(function() {
     $.ajax({
-        url: 'index.php?route=checkout/login',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/login',
         dataType: 'html',
         success: function(html) {
            $('#collapse-checkout-option .panel-body').html(html);
@@ -1129,7 +1134,7 @@ $(document).ready(function() {
 <?php } else { ?>
 $(document).ready(function() {
     $.ajax({
-        url: 'index.php?route=checkout/payment_address',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_address',
         dataType: 'html',
         success: function(html) {
             $('#collapse-payment-address .panel-body').html(html);
@@ -1148,7 +1153,7 @@ $(document).ready(function() {
 // Checkout
 $(document).delegate('#button-account', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/' + $('input[name=\'account\']:checked').val(),
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/' + $('input[name=\'account\']:checked').val(),
         dataType: 'html',
         beforeSend: function() {
         	$('#button-account').button('loading');
@@ -1178,7 +1183,7 @@ $(document).delegate('#button-account', 'click', function() {
 // Login
 $(document).delegate('#button-login', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/login/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/login/save',
         type: 'post',
         data: $('#collapse-checkout-option :input'),
         dataType: 'json',
@@ -1211,7 +1216,7 @@ $(document).delegate('#button-login', 'click', function() {
 // Register
 $(document).delegate('#button-register', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/register/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/register/save',
         type: 'post',
         data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'password\'], #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address textarea, #collapse-payment-address select'),
         dataType: 'json',
@@ -1249,12 +1254,12 @@ $(document).delegate('#button-register', 'click', function() {
 
                 if (shipping_address) {
                     $.ajax({
-                        url: 'index.php?route=checkout/shipping_method',
+                        url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_method',
                         dataType: 'html',
                         success: function(html) {
 							// Add the shipping address
                             $.ajax({
-                                url: 'index.php?route=checkout/shipping_address',
+                                url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_address',
                                 dataType: 'html',
                                 success: function(html) {
                                     $('#collapse-shipping-address .panel-body').html(html);
@@ -1282,7 +1287,7 @@ $(document).delegate('#button-register', 'click', function() {
                     });
                 } else {
                     $.ajax({
-                        url: 'index.php?route=checkout/shipping_address',
+                        url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_address',
                         dataType: 'html',
                         success: function(html) {
                             $('#collapse-shipping-address .panel-body').html(html);
@@ -1302,7 +1307,7 @@ $(document).delegate('#button-register', 'click', function() {
                 }
                 <?php } else { ?>
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_method',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_method',
                     dataType: 'html',
                     success: function(html) {
                         $('#collapse-payment-method .panel-body').html(html);
@@ -1320,7 +1325,7 @@ $(document).delegate('#button-register', 'click', function() {
                 <?php } ?>
 
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_address',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_address',
                     dataType: 'html',
                     complete: function() {
                         $('#button-register').button('reset');
@@ -1345,7 +1350,7 @@ $(document).delegate('#button-register', 'click', function() {
 // Payment Address
 $(document).delegate('#button-payment-address', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/payment_address/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_address/save',
         type: 'post',
         data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'password\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
         dataType: 'json',
@@ -1380,7 +1385,7 @@ $(document).delegate('#button-payment-address', 'click', function() {
             } else {
                 <?php if ($shipping_required) { ?>
                 $.ajax({
-                    url: 'index.php?route=checkout/shipping_address',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_address',
                     dataType: 'html',
                     success: function(html) {
                         $('#collapse-shipping-address .panel-body').html(html);
@@ -1399,7 +1404,7 @@ $(document).delegate('#button-payment-address', 'click', function() {
                 });
                 <?php } else { ?>
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_method',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_method',
                     dataType: 'html',
                     success: function(html) {
                         $('#collapse-payment-method .panel-body').html(html);
@@ -1417,7 +1422,7 @@ $(document).delegate('#button-payment-address', 'click', function() {
                 <?php } ?>
 
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_address',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_address',
                     dataType: 'html',
                     success: function(html) {
                         $('#collapse-payment-address .panel-body').html(html);
@@ -1438,7 +1443,7 @@ $(document).delegate('#button-payment-address', 'click', function() {
 $(document).delegate('#button-shipping-address', 'click', function() {
     debugger;
     $.ajax({
-        url: 'index.php?route=checkout/shipping_address/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_address/save',
         type: 'post',
         data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
         dataType: 'json',
@@ -1471,7 +1476,7 @@ $(document).delegate('#button-shipping-address', 'click', function() {
 				$('.text-danger').parent().parent().addClass('has-error');
             } else {
                 $.ajax({
-                    url: 'index.php?route=checkout/shipping_method',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_method',
                     dataType: 'html',
                     complete: function() {
                         $('#button-shipping-address').button('reset');
@@ -1487,7 +1492,7 @@ $(document).delegate('#button-shipping-address', 'click', function() {
 						$('#collapse-checkout-confirm').parent().find('.panel-heading .panel-title').html('<?php echo $text_checkout_confirm; ?>');
 
                         $.ajax({
-                            url: 'index.php?route=checkout/shipping_address',
+                            url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_address',
                             dataType: 'html',
                             success: function(html) {
                                 $('#collapse-shipping-address .panel-body').html(html);
@@ -1503,7 +1508,7 @@ $(document).delegate('#button-shipping-address', 'click', function() {
                 });
 
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_address',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_address',
                     dataType: 'html',
                     success: function(html) {
                         $('#collapse-payment-address .panel-body').html(html);
@@ -1523,7 +1528,7 @@ $(document).delegate('#button-shipping-address', 'click', function() {
 // Guest
 $(document).delegate('#button-guest', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/guest/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/guest/save',
         type: 'post',
         data: $('#collapse-payment-address input[type=\'text\'], #collapse-payment-address input[type=\'date\'], #collapse-payment-address input[type=\'datetime-local\'], #collapse-payment-address input[type=\'time\'], #collapse-payment-address input[type=\'checkbox\']:checked, #collapse-payment-address input[type=\'radio\']:checked, #collapse-payment-address input[type=\'hidden\'], #collapse-payment-address textarea, #collapse-payment-address select'),
         dataType: 'json',
@@ -1560,7 +1565,7 @@ $(document).delegate('#button-guest', 'click', function() {
 
                 if (shipping_address) {
                     $.ajax({
-                        url: 'index.php?route=checkout/shipping_method',
+                        url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_method',
                         dataType: 'html',
                         complete: function() {
                             $('#button-guest').button('reset');
@@ -1568,7 +1573,7 @@ $(document).delegate('#button-guest', 'click', function() {
                         success: function(html) {
 							// Add the shipping address
                             $.ajax({
-                                url: 'index.php?route=checkout/guest_shipping',
+                                url: '/<?php echo $language_href; ?>index.php?route=checkout/guest_shipping',
                                 dataType: 'html',
                                 success: function(html) {
                                     $('#collapse-shipping-address .panel-body').html(html);
@@ -1595,7 +1600,7 @@ $(document).delegate('#button-guest', 'click', function() {
                     });
                 } else {
                     $.ajax({
-                        url: 'index.php?route=checkout/guest_shipping',
+                        url: '/<?php echo $language_href; ?>index.php?route=checkout/guest_shipping',
                         dataType: 'html',
                         complete: function() {
                             $('#button-guest').button('reset');
@@ -1618,7 +1623,7 @@ $(document).delegate('#button-guest', 'click', function() {
                 }
                 <?php } else { ?>
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_method',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_method',
                     dataType: 'html',
                     complete: function() {
                         $('#button-guest').button('reset');
@@ -1648,7 +1653,7 @@ $(document).delegate('#button-guest', 'click', function() {
 // Guest Shipping
 $(document).delegate('#button-guest-shipping', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/guest_shipping/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/guest_shipping/save',
         type: 'post',
         data: $('#collapse-shipping-address input[type=\'text\'], #collapse-shipping-address input[type=\'date\'], #collapse-shipping-address input[type=\'datetime-local\'], #collapse-shipping-address input[type=\'time\'], #collapse-shipping-address input[type=\'password\'], #collapse-shipping-address input[type=\'checkbox\']:checked, #collapse-shipping-address input[type=\'radio\']:checked, #collapse-shipping-address textarea, #collapse-shipping-address select'),
         dataType: 'json',
@@ -1681,7 +1686,7 @@ $(document).delegate('#button-guest-shipping', 'click', function() {
 				$('.text-danger').parent().addClass('has-error');
             } else {
                 $.ajax({
-                    url: 'index.php?route=checkout/shipping_method',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_method',
                     dataType: 'html',
                     complete: function() {
                         $('#button-guest-shipping').button('reset');
@@ -1710,7 +1715,7 @@ $(document).delegate('#button-guest-shipping', 'click', function() {
 
 $(document).delegate('#button-shipping-method', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/shipping_method/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/shipping_method/save',
         type: 'post',
         data: $('#collapse-shipping-method input[type=\'radio\']:checked, #collapse-shipping-method textarea'),
         dataType: 'json',
@@ -1730,7 +1735,7 @@ $(document).delegate('#button-shipping-method', 'click', function() {
                 }
             } else {
                 $.ajax({
-                    url: 'index.php?route=checkout/payment_method',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_method',
                     dataType: 'html',
                     complete: function() {
                         $('#button-shipping-method').button('reset');
@@ -1758,7 +1763,7 @@ $(document).delegate('#button-shipping-method', 'click', function() {
 
 $(document).delegate('#button-payment-method', 'click', function() {
     $.ajax({
-        url: 'index.php?route=checkout/payment_method/save',
+        url: '/<?php echo $language_href; ?>index.php?route=checkout/payment_method/save',
         type: 'post',
         data: $('#collapse-payment-method input[type=\'radio\']:checked, #collapse-payment-method input[type=\'checkbox\']:checked, #collapse-payment-method textarea'),
         dataType: 'json',
@@ -1778,7 +1783,7 @@ $(document).delegate('#button-payment-method', 'click', function() {
                 }
             } else {
                 $.ajax({
-                    url: 'index.php?route=checkout/confirm',
+                    url: '/<?php echo $language_href; ?>index.php?route=checkout/confirm',
                     dataType: 'html',
                     complete: function() {
                         $('#button-payment-method').button('reset');

@@ -7,6 +7,8 @@ class ControllerCheckoutCheckout extends Controller {
 			$this->response->redirect($this->url->link('checkout/cart'));
 		}
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		// Validate minimum quantity requirements.
 		$products = $this->cart->getProducts();
 
@@ -67,7 +69,94 @@ class ControllerCheckoutCheckout extends Controller {
 		$data['text_checkout_confirm'] = $this->language->get('text_checkout_confirm');
 
 		$data['text_delivery'] = $this->language->get('text_delivery');
+	
+	$data['text_select_delive_adress'] = $this->language->get('text_select_delive_adress');
+	$data['text_cart'] = $this->language->get('text_cart');
+	$data['text_order'] = $this->language->get('text_order');
+	$data['text_confirmation_order'] = $this->language->get('text_confirmation_order');
+	$data['text_delivery_information'] = $this->language->get('text_delivery_information');
+	$data['text_summary_information_on_ordering'] = $this->language->get('text_summary_information_on_ordering');
+	$data['text_help_is_needed'] = $this->language->get('text_help_is_needed');
+	$data['text_write_to_us'] = $this->language->get('text_write_to_us');
+	$data['text_faq'] = $this->language->get('text_faq');
+	$data['text_send_email'] = $this->language->get('text_send_email');
+	$data['text_email'] = $this->language->get('text_email');
+	$data['text_email_placeholder'] = $this->language->get('text_email_placeholder');
+	$data['text_password'] = $this->language->get('text_password');
+	$data['text_password_placeholder'] = $this->language->get('text_password_placeholder');
+	$data['text_password_confirm'] = $this->language->get('text_password_confirm');
+	$data['text_password_confirm_placeholder'] = $this->language->get('text_password_confirm_placeholder');
+	$data['text_name'] = $this->language->get('text_name');
+	$data['text_name_placeholder'] = $this->language->get('text_name_placeholder');
+	$data['text_last_name'] = $this->language->get('text_last_name');
+	$data['text_last_name_placeholder'] = $this->language->get('text_last_name_placeholder');
+	$data['text_address1'] = $this->language->get('text_address1');
+	$data['text_address1_placeholder'] = $this->language->get('text_address1_placeholder');
+	$data['text_address2'] = $this->language->get('text_address2');
+	$data['text_address2_placeholder'] = $this->language->get('text_address2_placeholder');
+	$data['text_fields_zip'] = $this->language->get('text_fields_zip');
+	$data['text_fields_zip_placeholder'] = $this->language->get('text_fields_zip_placeholder');
+	$data['text_city'] = $this->language->get('text_city');
+	$data['text_city_placeholder'] = $this->language->get('text_city_placeholder');
+	$data['text_country'] = $this->language->get('text_country');
+	$data['text_fields_phone'] = $this->language->get('text_fields_phone');
+	$data['text_fields_phone_placeholder'] = $this->language->get('text_fields_phone_placeholder');
+	$data['text_have_questions'] = $this->language->get('text_have_questions');
+	$data['text_live_chat'] = $this->language->get('text_live_chat');
+	$data['text_email_us'] = $this->language->get('text_email_us');
+	$data['text_delivery_info'] = $this->language->get('text_delivery_info');
+	$data['text_delivery_edit'] = $this->language->get('text_delivery_edit');
+	$data['text_payment_details'] = $this->language->get('text_payment_details');
+	$data['text_credit_card_number'] = $this->language->get('text_credit_card_number');
+	$data['text_credit_card_number_placeholder'] = $this->language->get('text_credit_card_number_placeholder');
+	$data['text_credit_card_expiration'] = $this->language->get('text_credit_card_expiration');
+	$data['text_month'] = $this->language->get('text_month');
+	$data['text_month_mm'] = $this->language->get('text_month_mm');
+	$data['text_january'] = $this->language->get('text_january');
+	$data['text_february'] = $this->language->get('text_february');
+	$data['text_march'] = $this->language->get('text_march');
+	$data['text_april'] = $this->language->get('text_april');
+	$data['text_may'] = $this->language->get('text_may');
+	$data['text_june'] = $this->language->get('text_june');
+	$data['text_july'] = $this->language->get('text_july');
+	$data['text_august'] = $this->language->get('text_august');
+	$data['text_september'] = $this->language->get('text_september');
+	$data['text_october'] = $this->language->get('text_october');
+	$data['text_november'] = $this->language->get('text_november');
+	$data['text_december'] = $this->language->get('text_december');
+	$data['text_year'] = $this->language->get('text_year');
+	$data['text_year_yyyy'] = $this->language->get('text_year_yyyy');
+	$data['text_credit_card_cvn'] = $this->language->get('text_credit_card_cvn');
+	$data['text_credit_card_cvn_placeholder'] = $this->language->get('text_credit_card_cvn_placeholder');
+	$data['text_what_is_it'] = $this->language->get('text_what_is_it');
+	$data['text_what_is_cvn'] = $this->language->get('text_what_is_cvn');
+	$data['text_what_is_cvn_text'] = $this->language->get('text_what_is_cvn_text');
+	$data['text_credit_card_name'] = $this->language->get('text_credit_card_name');
+	$data['text_credit_card_name_placeholder'] = $this->language->get('text_credit_card_name_placeholder');
+	$data['text_agreement'] = $this->language->get('text_agreement');
+	$data['text_error_name'] = $this->language->get('text_error_name');
+	$data['text_error_last_name'] = $this->language->get('text_error_last_name');
+	$data['text_error_email'] = $this->language->get('text_error_email');
+	$data['text_error_password'] = $this->language->get('text_error_password');
+	$data['text_error_password_confirm'] = $this->language->get('text_error_password_confirm');
+	$data['text_error_addres1'] = $this->language->get('text_error_addres1');
+	$data['text_error_addres2'] = $this->language->get('text_error_addres2');
+	$data['text_error_fields_zip'] = $this->language->get('text_error_fields_zip');
+	$data['text_error_city'] = $this->language->get('text_error_city');
+	$data['text_error_fields_phone'] = $this->language->get('text_error_fields_phone');
+	$data['text_error_credit_card_number'] = $this->language->get('text_error_credit_card_number');
+	$data['text_error_month'] = $this->language->get('text_error_month');
+	$data['text_error_year'] = $this->language->get('text_error_year');
+	$data['text_error_credit_card_cvn'] = $this->language->get('text_error_credit_card_cvn');
+	$data['text_error_credit_card_name'] = $this->language->get('text_error_credit_card_name');
+	$data['text_error_agreement'] = $this->language->get('text_error_agreement');
+	$data['text_order_q'] = $this->language->get('text_order_q');
+	$data['text_purchase_terms'] = $this->language->get('text_purchase_terms');
+	
+	$data['text_error_form_valid'] = $this->language->get('text_error_form_valid');
 
+		
+		
 		if (isset($this->session->data['error'])) {
 			$data['error_warning'] = $this->session->data['error'];
 			unset($this->session->data['error']);

@@ -16,7 +16,18 @@ class ModelCatalogManufacturer extends Model {
 									";
 		$query = $this->db->query($sql);
 
-		return $query->row;
+		
+		$return = $query->row;
+		
+		$return['name'] = html_entity_decode(html_entity_decode($return['name']));
+		$return['title_h1'] = html_entity_decode(html_entity_decode($return['title_h1']));
+		$return['description'] = html_entity_decode(html_entity_decode($return['description']));
+		$return['meta_title'] = html_entity_decode(html_entity_decode($return['meta_title']));
+		$return['meta_description'] = html_entity_decode(html_entity_decode($return['meta_description']));
+		$return['meta_keyword'] = html_entity_decode(html_entity_decode($return['meta_keyword']));
+		
+		return $return;
+				
 	}
 
 	

@@ -94,3 +94,98 @@ $_['error_no_shipping']              = 'Warning: No Shipping options are availab
 $_['error_payment']                  = 'Warning: Payment method required!';
 $_['error_no_payment']               = 'Warning: No Payment options are available. Please <a href="%s">contact us</a> for assistance!';
 $_['error_custom_field']             = '%s required!';
+
+$_['text_select_delive_adress'] = 'Choose from the list of saved addresses';
+$_['text_cart'] = 'Cart';
+$_['text_order'] = 'Order';
+$_['text_confirmation_order'] = 'Confirm order';
+$_['text_delivery_information'] = 'Delivery information';
+$_['text_summary_information_on_ordering'] = 'Summary order information';
+$_['text_help_is_needed'] = 'Needed help?';
+$_['text_write_to_us'] = 'Contact us';
+$_['text_faq'] = 'FAQ';
+$_['text_send_email'] = 'eng-Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+
+$_['text_email'] = 'Email';
+$_['text_email_placeholder'] = 'name@email.com';
+$_['text_password'] = 'Password';
+$_['text_password_placeholder'] = 'Password';
+$_['text_password_confirm'] = 'Confirm Password';
+$_['text_password_confirm_placeholder'] = 'Confirm Password';
+$_['text_name'] = 'First Name';
+$_['text_name_placeholder'] = 'First Name';
+$_['text_last_name'] = 'Last Name';
+$_['text_last_name_placeholder'] = 'Last Name';
+$_['text_address1'] = 'Address';
+$_['text_address1_placeholder'] = '62, Pushkina str';
+$_['text_address2'] = 'Address 2';
+$_['text_address2_placeholder'] = '62, Pushkina str';
+$_['text_fields_zip'] = 'ZIP';
+$_['text_fields_zip_placeholder'] = '15000';
+$_['text_city'] = 'City';
+$_['text_city_placeholder'] = 'Moskva';
+$_['text_country'] = 'Country';
+$_['text_fields_phone'] = 'Phone';
+$_['text_fields_phone_placeholder'] = '+7 258 000 00 00';
+
+$_['text_have_questions'] = 'If you have any questions about your order please contact us';
+$_['text_live_chat'] = 'Live chat';
+$_['text_email_us'] = 'E-mail us';
+
+$_['text_delivery_info'] = 'Delivery info';
+$_['text_delivery_edit'] = 'Edit';
+
+$_['text_payment_details'] = 'Payment detail';
+$_['text_credit_card_number'] = 'Card number';
+$_['text_credit_card_number_placeholder'] = '0000 0000 0000 0000';
+$_['text_credit_card_expiration'] = 'Expiration date: ';
+$_['text_month'] = 'Month';
+$_['text_month_mm'] = 'MM';
+$_['text_january'] = 'Janury';
+$_['text_february'] = 'February';
+$_['text_march'] = 'March';
+$_['text_april'] = 'April';
+$_['text_may'] = 'May';
+$_['text_june'] = 'June';
+$_['text_july'] = 'July';
+$_['text_august'] = 'August';
+$_['text_september'] = 'September';
+$_['text_october'] = 'October';
+$_['text_november'] = 'November';
+$_['text_december'] = 'December';
+$_['text_year'] = 'Year';
+$_['text_year_yyyy'] = date('Y');
+$_['text_credit_card_cvn'] = 'CVV/CID/CVC';
+$_['text_credit_card_cvn_placeholder'] = 'CVV/CID/CVC';
+$_['text_what_is_it'] = 'What is it?';
+$_['text_what_is_cvn'] = 'What is cvn (CVN)?';
+$_['text_what_is_cvn_text'] = 'For MasterCard and Visa, enter the last three digits on the signature strip.';
+$_['text_credit_card_name'] = 'Customer name on card';
+$_['text_credit_card_name_placeholder'] = 'Sergey Koltyarov';
+$_['text_agreement'] = 'Please keep in mind that your data are collected and processed by TLG. This is done in your intiresah and necessary for your purchase. You can be sure that your data is kept completely confidential and safe. For more information, please check the privacy policy.';
+
+$_['text_error_name'] = 'Enter First Name first';
+$_['text_error_last_name'] = 'Enter Last Name first';
+$_['text_error_email'] = 'E-mail is incorrect!';
+$_['text_error_password'] = 'Enter Password';
+$_['text_error_password_confirm'] = 'Repeat Password';
+$_['text_error_addres1'] = 'Enter address 1';
+$_['text_error_addres2'] = 'Enter address 2';
+$_['text_error_fields_zip'] = 'Enter ZIP';
+$_['text_error_city'] = 'Enter City';
+$_['text_error_fields_phone'] = 'Enter phone number';
+
+$_['text_error_credit_card_number'] = 'Cart number is incorrect';
+$_['text_error_month'] = 'This field is required';
+$_['text_error_year'] = 'This field is required';
+$_['text_error_credit_card_cvn'] = 'Error CVN';
+$_['text_error_credit_card_name'] = 'Error card customer name';
+$_['text_error_agreement'] = 'This field is required!';
+
+$_['text_order_q'] = 'Question about the order';
+
+$_['text_purchase_terms'] = 'eng-Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>';
+
+$_['text_error_form_valid']     = 'Not all fields are filled in correctly';
+
+

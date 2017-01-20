@@ -10,7 +10,7 @@
                         <div class="b-customer_service-sub_header-right">
                             <div class="b-customer_service-sub_header-title"><?php echo $text_contact; ?></div>
                             <div class="b-customer_service-sub_header-sub_title"><?php echo $text_info; ?></div>
-                            <a class="b-customer_service-sub_header-link" href="index.php?route=information/contact"><?php echo $email; ?></a>
+                            <a class="b-customer_service-sub_header-link" href="contact_us"><?php echo $our_email; ?></a>
                         </div>
                     </div>
                 </div>

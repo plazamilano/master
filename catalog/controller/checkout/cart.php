@@ -19,6 +19,8 @@ class ControllerCheckoutCart extends Controller {
 			'text' => $this->language->get('heading_title')
 		);
 
+		$data['language_href'] = $this->session->data['language_href'];
+		
 		if ($this->cart->hasProducts() || !empty($this->session->data['vouchers'])) {
 			$data['heading_title'] = $this->language->get('heading_title');
 
@@ -38,6 +40,31 @@ class ControllerCheckoutCart extends Controller {
 			$data['button_shopping'] = $this->language->get('button_shopping');
 			$data['button_checkout'] = $this->language->get('button_checkout');
 
+			
+			$data['text_cart'] = $this->language->get('text_cart');
+			$data['text_order'] = $this->language->get('text_order');
+			$data['text_confirmation_order'] = $this->language->get('text_confirmation_order');
+			$data['text_wishlist'] = $this->language->get('text_wishlist');
+			$data['text_in_stock'] = $this->language->get('text_in_stock');
+			$data['text_delivery_method'] = $this->language->get('text_delivery_method');
+			$data['text_delivery_country'] = $this->language->get('text_delivery_country');
+			$data['text_delivery'] = $this->language->get('text_delivery');
+			$data['text_summary_information_on_ordering'] = $this->language->get('text_summary_information_on_ordering');
+			$data['text_total'] = $this->language->get('text_total');
+			$data['text_back_to_shopping'] = $this->language->get('text_back_to_shopping');
+			$data['text_help_is_needed'] = $this->language->get('text_help_is_needed');
+			$data['text_write_to_us'] = $this->language->get('text_write_to_us');
+			$data['text_faq'] = $this->language->get('text_faq');
+			$data['text_send_email'] = $this->language->get('text_send_email');
+			$data['text_size'] = $this->language->get('text_size');
+			$data['text_color'] = $this->language->get('text_color');
+			$data['text_order_q'] = $this->language->get('text_order_q');
+			$data['column_name'] = $this->language->get('column_name');
+			$data['column_duti'] = $this->language->get('column_duti');
+			$data['text_conditional_preliminary_confirmation'] = $this->language->get('text_conditional_preliminary_confirmation');
+			$data['text_purchase_terms'] = $this->language->get('text_purchase_terms');
+	
+			
 			if (!$this->cart->hasStock() && (!$this->config->get('config_stock_checkout') || $this->config->get('config_stock_warning'))) {
 				$data['error_warning'] = $this->language->get('error_stock');
 			} elseif (isset($this->session->data['error'])) {
@@ -319,9 +346,12 @@ class ControllerCheckoutCart extends Controller {
 
 		if (isset($this->request->post['product_id'])) {
 			$product_id = (int)$this->request->post['product_id'];
+		}elseif (isset($this->request->get['product_id'])) {
+			$product_id = (int)$this->request->get['product_id'];
 		} else {
 			$product_id = 0;
 		}
+
 
 		$this->load->model('catalog/product');
 
@@ -337,11 +367,13 @@ class ControllerCheckoutCart extends Controller {
 
 			if (isset($this->request->post['option'])) {
 				$option = array_filter($this->request->post['option']);
+			}elseif (isset($this->request->get['option'])) {
+				$option = array_filter($this->request->get['option']);
 			} else {
 				$option = array();
 			}
 
-			$product_options = $this->model_catalog_product->getProductOptions($this->request->post['product_id']);
+			$product_options = $this->model_catalog_product->getProductOptions($product_id);
 
 
 			foreach ($product_options as $product_option) {
@@ -369,12 +401,56 @@ class ControllerCheckoutCart extends Controller {
 					$json['error']['recurring'] = $this->language->get('error_recurring_required');
 				}
 			}
+			
+			//Проверим или есть достаточное количество
+			$products = $this->cart->getProducts();
+			
+			$avalable = 0;
+			$wer_qnt = (int)$quantity;
+			foreach($products as $product){
+				if($product['product_id'] == $product_id){
+					
+					if(count($option)){
+						
+						foreach($product['option'] AS $product_option){
+							
+							if(	isset($option[$product_option['product_option_id']]) AND $option[$product_option['product_option_id']] ==$product_option['product_option_value_id']){
+								$wer_qnt = (int)$product['quantity'];
+							}
+							
+						}
+						
+						
+					}else{
+						$wer_qnt += (int)$product['quantity'];
+					}
+					
+				}
+			}
+			
+			foreach ($option as $product_option_id => $product_option_value_id) {
+				
+				$sql = 'SELECT * FROM ' . DB_PREFIX . 'product_option_value WHERE product_option_id = "'.$product_option_id.'" AND
+													product_option_value_id = "'.$product_option_value_id.'" AND
+													product_id = "'.$product_id.'" LIMIT 1;';
+				
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows){
+					if($r->row['quantity'] <= $wer_qnt){
+						$json['error']['recurring'] = $this->language->get('error_no_quantity');
+					}
+				}
+				
+			}
+			//Проверим или есть достаточное количество - end
+
 
 			if (!$json) {
 			
-				$this->cart->add($this->request->post['product_id'], $quantity, $option, $recurring_id);
+				$this->cart->add($product_id, $quantity, $option, $recurring_id);
 
-				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']), $product_info['name'], $this->url->link('checkout/cart'));
+				$json['success'] = sprintf($this->language->get('text_success'), $this->url->link('product/product', 'product_id=' . $product_id), $product_info['name'], $this->url->link('checkout/cart'));
 
 				// Unset all shipping and payment methods
 				unset($this->session->data['shipping_method']);
@@ -423,7 +499,7 @@ class ControllerCheckoutCart extends Controller {
 				$json['int_summ_curr'] = $this->currency->format($total);
 				$json['int_summ'] = $total;
 			} else {
-				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']));
+				$json['redirect'] = str_replace('&amp;', '&', $this->url->link('product/product', 'product_id=' . $product_id));
 			}
 		}
 

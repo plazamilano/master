@@ -1,17 +1,25 @@
+<?php
+/*
+$text_login_pleace = 'Войдите в аккаунт для ускорения процесса оформления заказа.';
+$text_enter = 'ВОЙТИ';
+$text_signup_pleace = 'Если Вы зарегистрированный пользователь, пожалуйста, введите Ваш адрес элетронной почты и пароль.';
+*/
+?>
+
 <div class="js-checkout_login_button">
   <div class="b-checkout_login-title">
-    <p>Войдите в аккаунт для ускорения процесса оформления заказа.</p>
+    <p><?php echo $text_login_pleace; ?></p>
   </div>
   <div class="b-checkout_login-button">
     <button class="g-button js_show_block"
             data-show-block=".js-checkout_login_container"
             data-hide-block=".js-checkout_login_button"
-            onclick="return false"><span>ВОЙТИ</span></button>
+            onclick="return false"><span><?php echo $text_enter; ?></span></button>
   </div>
 </div>
 <div class="js-checkout_login_container h-hidden">
   <div class="b-checkout_login-title">
-    <p>Если Вы зарегистрированный пользователь, пожалуйста, введите Ваш адрес элетронной почты и пароль.</p>
+    <p><?php echo $text_signup_pleace; ?></p>
   </div>
 
   <div class="form-group f-field f-field-email">

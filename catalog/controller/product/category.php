@@ -1114,11 +1114,11 @@ class ControllerProductCategory extends Controller {
 			$pagination->limit = $limit;
 			//$pagination->url = $data['category_alias'] . $url;
 			if(isset($this->request->get['_route_'] )){
-				$pagination->url = $this->request->get['_route_'] . $url;
+				$pagination->url = '/'.$this->session->data['language_href'].$this->request->get['_route_'] . $url;
 			}elseif(isset($this->request->get['search'] )){
-				$pagination->url = '?search='.$this->request->get['search'];
+				$pagination->url = '/'.$this->session->data['language_href'].'?search='.$this->request->get['search'];
 			}else{
-				$pagination->url = '';
+				$pagination->url = '/'.$this->session->data['language_href'];
 			}
 			
 			

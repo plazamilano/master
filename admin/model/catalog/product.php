@@ -54,9 +54,12 @@ class ModelCatalogProduct extends Model {
 							 product_id = '" . (int)$product_id . "',
 							 language_id = '" . (int)$language_id . "',
 							 name = '" . $this->db->escape($value['name']) . "',
-							 description = '" . $value['description'] . "',
-							 description_detail = '" . $value['description_detail'] . "',
-							 tag = '" . $this->db->escape($value['tag']) . "', meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+							 description = '" . $this->db->escape($value['description']) . "',
+							 description_detail = '" .$this->db->escape($value['description_detail']) . "',
+							 tag = '" . $this->db->escape($value['tag']) . "',
+							 meta_title = '" . $this->db->escape($value['meta_title']) . "',
+							 meta_description = '" . $this->db->escape($value['meta_description']) . "',
+							 meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 			
 		}
 
@@ -316,10 +319,12 @@ class ModelCatalogProduct extends Model {
 								product_id = '" . (int)$product_id . "',
 								language_id = '" . (int)$language_id . "',
 								name = '" . $this->db->escape($value['name']) . "',
-								description = '" . $value['description'] . "',
-								description_detail = '" . $value['description_detail'] . "',
+								description = '" . $this->db->escape($value['description']) . "',
+								description_detail = '" . $this->db->escape($value['description_detail']) . "',
 								tag = '" . $this->db->escape($value['tag']) . "',
-								meta_title = '" . $this->db->escape($value['meta_title']) . "', meta_description = '" . $this->db->escape($value['meta_description']) . "', meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
+								meta_title = '" . $this->db->escape($value['meta_title']) . "',
+								meta_description = '" . $this->db->escape($value['meta_description']) . "',
+								meta_keyword = '" . $this->db->escape($value['meta_keyword']) . "'");
 
 		}
 
@@ -592,14 +597,14 @@ class ModelCatalogProduct extends Model {
 								  FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
 								  WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
-										  
+		$return = $query->row;								  
 								  
-		$query->row['name']     		= html_entity_decode($query->row['name'], ENT_QUOTES, 'UTF-8');				  
-		$query->row['description']     		= html_entity_decode($query->row['description'], ENT_QUOTES, 'UTF-8');				  
-		$query->row['description_detail'] 	= html_entity_decode($query->row['description_detail'], ENT_QUOTES, 'UTF-8');					  
-	
+		$return['name']     		= html_entity_decode($return['name']);				  
+		$return['description']     		= html_entity_decode($return['description']);				  
+		$return['description_detail'] 	= html_entity_decode($return['description_detail']);					  
+		
 								  
-		return $query->row;
+		return $return;
 	}
 
 	public function getProductsIdList($data = array()){
@@ -717,13 +722,13 @@ class ModelCatalogProduct extends Model {
 
 		foreach ($query->rows as $result) {
 			$product_description_data[$result['language_id']] = array(
-				'name'             => $result['name'],
-				'description'      => $result['description'],
-				'description_detail'      => $result['description_detail'],
-				'meta_title'       => $result['meta_title'],
-				'meta_description' => $result['meta_description'],
-				'meta_keyword'     => $result['meta_keyword'],
-				'tag'              => $result['tag']
+				'name'             => html_entity_decode(html_entity_decode(html_entity_decode($result['name']))),
+				'description'      => html_entity_decode(html_entity_decode(html_entity_decode($result['description']))),
+				'description_detail'      => html_entity_decode(html_entity_decode(html_entity_decode($result['description_detail']))),
+				'meta_title'       => html_entity_decode(html_entity_decode(html_entity_decode($result['meta_title']))),
+				'meta_description' => html_entity_decode(html_entity_decode(html_entity_decode($result['meta_description']))),
+				'meta_keyword'     => html_entity_decode(html_entity_decode(html_entity_decode($result['meta_keyword']))),
+				'tag'              => html_entity_decode(html_entity_decode(html_entity_decode($result['tag'])))
 			);
 		}
 

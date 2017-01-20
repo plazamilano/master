@@ -1,6 +1,7 @@
 <?php echo $header; ?>
 
 <?php
+/*
 $text_cart = 'Корзина';
 $text_order = 'Заказать';
 $text_confirmation_order = 'Подтверждение заказа';
@@ -18,25 +19,18 @@ $text_faq = 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ';
 $text_send_email = 'Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
 $text_size = 'Размер:';
 $text_color = 'Цвет:';
-$text_order_q = 'Вопрос%20по%20заказа';
+$text_order_q = 'Вопрос%20по%20заказу';
 
 $column_name = 'Товар';       // есть переменная column_name = 'Название' - переименовать на 'Товар'
 
 $column_duti = 'Пошлины';     // эта колонка скрыта, но текст в ней есть... так что не знаю удалять или переводить...
 
 $text_conditional_preliminary_confirmation = 'Условное предварительное подтверждение';  // этот текст сейчас скрыт. нужно переводить?
-
-
+$text_purchase_terms = 'Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>'
+*/
 $faq_array = array ();   // Сюда засунуть фак
 //$faq_array['href'];
 //$faq_array['title'];
-
-
-/*
-header("Content-Type: text/html; charset=UTF-8");
-echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
-*/
-
 
 /*
 Осталось без перевода:
@@ -50,7 +44,7 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
 
 <main role="main" class="l-main_checkout">
   <ol class="b-checkout_progress_indicator">
-    <li class="b-checkout_progress_indicator-step b-checkout_progress_indicator-step--active"><a href="/index.php?route=checkout/cart"><?php echo $text_cart; ?></a></li>
+    <li class="b-checkout_progress_indicator-step b-checkout_progress_indicator-step--active"><a href="/<?php echo $language_href; ?>index.php?route=checkout/cart"><?php echo $text_cart; ?></a></li>
     <li class="b-checkout_progress_indicator-step" onclick="$('.js-submit-button').click();"><span><?php echo $text_order; ?></span></li>
     <li class="b-checkout_progress_indicator-step "><span><?php echo $text_confirmation_order; ?></span></li>
   </ol>
@@ -248,7 +242,7 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
       </form>
 
       <div class="l-checkout_button_bottom">
-        <form action="index.php?route=checkout/checkout" method="post" name="dwfrm_cart">
+        <form action="/<?php echo $language_href; ?>index.php?route=checkout/checkout" method="post" name="dwfrm_cart">
           <div class="l-checkout_button">
             <button class="b-checkout_button js-submit-button" name="dwfrm_checkout_submitStep" value="0">
               <?php echo $text_order; ?>
@@ -287,7 +281,7 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
 
       </div>
 
-      <form action="index.php?route=checkout/checkout" method="post" name="dwfrm_cart">
+      <form action="/<?php echo $language_href; ?>index.php?route=checkout/checkout" method="post" name="dwfrm_cart">
         <div class="l-checkout_button">
           <button class="b-checkout_button" name="dwfrm_checkout_submitStep" value="0">
             <?php echo $text_order; ?>
@@ -298,7 +292,7 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
       <div class="b-checkout_content_block">
         <div class="b-checkout_content_block-info">
           <div class="b-content_asset b-content_asset--customer-service-help-contact-checkout content-asset">
-            <h2>Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span></h2>
+            <h2><?php echo $text_purchase_terms; ?></h2>
             <br> 
             <h3 class="b-checkout_content_block-toggle_title b-checkout_content_block-toggle_title--open js-checkout_contact_us_block_tt"
                 data-hide=".js-faq-questions_block_tt"
@@ -365,12 +359,12 @@ echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
   
   //Смена страны и доставки
  $(document).on('change', '#delivery_address', function(){
-    
+   
     var country_code = $(this).val();
     
       $.ajax({
           type: 'post',
-          url: 'index.php?route=checkout/delivery/getDeliveryOnCountryId',
+          url: '/<?php echo $language_href; ?>index.php?route=checkout/delivery/getDeliveryOnCountryId',
           data: 'country_code='+country_code,
           dataType: 'json',
           cache: false,

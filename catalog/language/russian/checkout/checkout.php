@@ -93,3 +93,100 @@ $_['error_no_shipping']              = 'Нет доступных способо
 $_['error_payment']                  = 'Необходимо указать способ оплаты!';
 $_['error_no_payment']               = 'Нет доступных способов оплаты. Пожалуйста <a href="%s">свяжитесь с администрацией</a>!';
 $_['error_custom_field']             = '%s обязательно!';
+
+
+$_['text_select_delive_adress'] = 'Выбрать из списка сохраненных адресов';
+$_['text_cart'] = 'Корзина';
+$_['text_order'] = 'Заказать';
+$_['text_confirmation_order'] = 'Подтверждение заказа';
+$_['text_delivery_information'] = 'Информация о доставке';
+$_['text_summary_information_on_ordering'] = 'Итоговая информация о заказе';
+$_['text_help_is_needed'] = 'Нужна помощь?';
+$_['text_write_to_us'] = 'Написать нам';
+$_['text_faq'] = 'ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ';
+$_['text_send_email'] = 'Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+
+$_['text_email'] = 'Email';
+$_['text_email_placeholder'] = 'Например, name@email.com';
+$_['text_password'] = 'Пароль';
+$_['text_password_placeholder'] = 'Пароль';
+$_['text_password_confirm'] = 'Повтор пароля';
+$_['text_password_confirm_placeholder'] = 'Пароль ещё раз';
+$_['text_name'] = 'Имя';
+$_['text_name_placeholder'] = 'Имя';
+$_['text_last_name'] = 'Фамилия';
+$_['text_last_name_placeholder'] = 'Фамилия';
+$_['text_address1'] = 'Адрес';
+$_['text_address1_placeholder'] = 'Адрес 1 - например, ul. Pushkina, 62';
+$_['text_address2'] = 'Адрес 2';
+$_['text_address2_placeholder'] = 'Адрес 2 - например, ul. Pushkina, 62';
+$_['text_fields_zip'] = 'Индекс';
+$_['text_fields_zip_placeholder'] = 'Например, 150000';
+$_['text_city'] = 'Город';
+$_['text_city_placeholder'] = 'Например, Moskva';
+$_['text_country'] = 'Страна';
+$_['text_fields_phone'] = 'Номер телефона';
+$_['text_fields_phone_placeholder'] = 'Номер телефона';
+
+$_['text_have_questions'] = 'Если у Вас остались вопросы по Вашему заказу Вы можете связаться с нами';
+$_['text_live_chat'] = 'Live chat';
+$_['text_email_us'] = 'E-mail us';
+
+$_['text_delivery_info'] = 'Информация о доставке';
+$_['text_delivery_edit'] = 'Редактировать';
+
+$_['text_payment_details'] = 'Ваши детали оплаты';
+$_['text_credit_card_number'] = 'Номер';
+$_['text_credit_card_number_placeholder'] = 'Номер';
+$_['text_credit_card_expiration'] = 'Дата окончания: ';
+$_['text_month'] = 'Месяц';
+$_['text_month_mm'] = 'ММ';
+$_['text_january'] = 'Январь';
+$_['text_february'] = 'Февраль';
+$_['text_march'] = 'Март';
+$_['text_april'] = 'Апрель';
+$_['text_may'] = 'Май';
+$_['text_june'] = 'Июнь';
+$_['text_july'] = 'Июль';
+$_['text_august'] = 'Август';
+$_['text_september'] = 'Сентябрь';
+$_['text_october'] = 'Октябрь';
+$_['text_november'] = 'Ноябрь';
+$_['text_december'] = 'Декабрь';
+$_['text_year'] = 'Год';
+$_['text_year_yyyy'] = date('Y');
+$_['text_credit_card_cvn'] = 'CVV/CID/CVC';
+$_['text_credit_card_cvn_placeholder'] = 'CVV/CID/CVC';
+$_['text_what_is_it'] = 'Что это?';
+$_['text_what_is_cvn'] = 'Что такое проверочный код карты (CVN)?';
+$_['text_what_is_cvn_text'] = 'Для MasterCard и Visa введите последние три цифры на полосе с подписью.';
+$_['text_credit_card_name'] = 'Имя на карте';
+$_['text_credit_card_name_placeholder'] = 'Сергей Котляров';
+$_['text_agreement'] = 'Пожалуйста, имейте ввиду, что Ваши данные собираются и обрабатываются TLG. Это совершается в Ваших интиресах и необходимо для Вашей покупки. Вы можете быть уверены, что Ваши данные содержаться в полной конфиденциальности и безопасност. Для дополнительной информации, пожалуйста, ознакомтесь с политикой конфиденциальности.';
+
+$_['text_error_name'] = 'Пожалуйста, введите имя';
+$_['text_error_last_name'] = 'Пожалуйста, введите фамилию';
+$_['text_error_email'] = 'E-mail адрес введен неверно!';
+$_['text_error_password'] = 'Введите пароль';
+$_['text_error_password_confirm'] = 'Введите пароль еще раз';
+$_['text_error_addres1'] = 'Пожалуйста, введите адрес';
+$_['text_error_addres2'] = 'Пожалуйста, введите адрес';
+$_['text_error_fields_zip'] = 'Пожалуйста, введите индекс';
+$_['text_error_city'] = 'Пожалуйста, введите город';
+$_['text_error_fields_phone'] = 'Пожалуйста, введите номер телефона';
+
+$_['text_error_credit_card_number'] = 'Пожалуйста, введите номер, как указано на карте';
+$_['text_error_month'] = 'Это поле обязательно';
+$_['text_error_year'] = 'Это поле обязательно';
+$_['text_error_credit_card_cvn'] = 'Пожалуйста, введите Ваш код безопасности';
+$_['text_error_credit_card_name'] = 'Пожалуйста, введите Ваше имя, как указано на карте';
+$_['text_error_agreement'] = 'Это обязательное для заполнения поле!';
+
+$_['text_order_q'] = 'Вопрос%20по%20заказу';
+$_['text_purchase_terms'] = 'Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>';
+
+$_['text_error_form_valid'] = 'Не все поля заполнены верно!';
+
+
+
+
