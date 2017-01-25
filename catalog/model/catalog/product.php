@@ -1387,7 +1387,13 @@ class ModelCatalogProduct extends Model {
 		
 		$sql = "SELECT DISTINCT p.product_id";
 
-		if (!empty($data['filter_category_id'])) {
+		if (!empty($data['filter_sale']) AND $data['filter_sale']) {
+			$sql .= " FROM " . DB_PREFIX . "product_special ps 
+						LEFT JOIN " . DB_PREFIX . "product p ON (ps.product_id = p.product_id)
+						LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (p.product_id = p2c.product_id)
+						LEFT JOIN " . DB_PREFIX . "category_path cp ON (cp.category_id = p2c.category_id)";
+
+		}elseif (!empty($data['filter_category_id'])) {
 			if (!empty($data['filter_sub_category'])) {
 				$sql .= " FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (cp.category_id = p2c.category_id)";
 			} else {

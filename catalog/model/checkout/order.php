@@ -124,7 +124,12 @@ class ModelCheckoutOrder extends Model {
 		// Totals
 		if (isset($data['totals'])) {
 			foreach ($data['totals'] as $total) {
-				$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int)$order_id . "', code = '" . $this->db->escape($total['code']) . "', title = '" . $this->db->escape($total['title']) . "', `value` = '" . (float)$total['value'] . "', sort_order = '" . (int)$total['sort_order'] . "'");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET
+								 order_id = '" . (int)$order_id . "',
+								 code = '" . $this->db->escape($total['code']) . "',
+								 title = '" . $this->db->escape($total['title']) . "',
+								 `value` = '" . (float)$total['value'] . "',
+								 sort_order = '" . (int)$total['sort_order'] . "'");
 			}
 		}
 

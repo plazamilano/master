@@ -1,6 +1,7 @@
 <?php echo $header; ?>
 
 <?php
+
 /*
 $text_cart = 'Корзина';
 $text_order = 'Заказать';
@@ -361,7 +362,8 @@ $faq_array = array ();   // Сюда засунуть фак
  $(document).on('change', '#delivery_address', function(){
    
     var country_code = $(this).val();
-    
+    //debugger;
+      
       $.ajax({
           type: 'post',
           url: '/<?php echo $language_href; ?>index.php?route=checkout/delivery/getDeliveryOnCountryId',
@@ -370,17 +372,20 @@ $faq_array = array ();   // Сюда засунуть фак
           cache: false,
           success: function(json) {
             
-            //console.log(json);
+            console.log(json);
             //debugger;
             
             var html = '';
             var count = 0;
             $.each(json, function( index, value ) {
                 
-                html = html + '<div class="b-cart_shipping_method-list_wrapper"><div class="b-cart_shipping_method-radio f-field f-field-radio">';
+                if (value.CityLable == null ) {
+                    value.CityLable = '';
+                }
                 
-                html = html + '<input class="f-radio" name="Address_shippingMethodID" id="shipping-method-'+value.delivery_id+'" ';
-                html = html + 'value="'+value.delivery_id+'" ';
+                html = html + '<div class="b-cart_shipping_method-list_wrapper"><div class="b-cart_shipping_method-radio f-field f-field-radio">';
+                html = html + '<input class="f-radio" name="Address_shippingMethodID" id="shipping-method-'+value.delivery_to_country_id+'" ';
+                html = html + 'value="'+value.delivery_to_country_id+'" ';
                 html = html + 'data-price="'+value.price+'" ';
                 html = html + 'data-curs="'+value.value+'" ';
                 html = html + 'data-realprice="'+value.realprice+'" ';
@@ -389,11 +394,16 @@ $faq_array = array ();   // Сюда засунуть фак
                 html = html + 'data-simbol-right="'+value.real_simbol_right+'" ';
                 html = html + 'data-price_all="'+value.symbol_left+value.price+value.symbol_right+'" ';
                 html = html + 'type="radio"';
-                if(count < 1)  html = html + ' checked="checked"';
+                <?php if(isset($delivery['delivery_to_country_id'])){ ?>
+                  if(<?php echo $delivery['delivery_to_country_id']; ?> == value.delivery_to_country_id)  html = html + ' checked="checked"';
+                <?php }else{ ?>
+                  if(count < 1)  html = html + ' checked="checked"';
+                <?php } ?>
+                
                 html = html + '>';
-                html = html + '<label class="f-label" for="shipping-method-'+value.delivery_id+'"><span class="f-label-value">'+value.name+'</span></label></div>';
+                html = html + '<label class="f-label" for="shipping-method-'+value.delivery_to_country_id+'"><span class="f-label-value">'+value.CityLable+' '+value.name+'</span></label></div>';
                 html = html + '<div class="b-cart_shipping_method-label">'+value.text+'</div><div class="b-cart_shipping_method-value">';
-                html = html + '<span class="b-cross_shipping-cost">'+value.symbol_left+value.price+value.symbol_right+'</span></div></div>';
+                html = html + '<span class="b-cross_shipping-cost">'+value.real_simbol_left+value.realprice+value.real_simbol_right+'</span></div></div>';
                 
                 count = count + 1;
                 
@@ -412,6 +422,11 @@ $faq_array = array ();   // Сюда засунуть фак
     
     var radio = $('input[name="Address_shippingMethodID"]:checked').val();
     
+    if (radio == undefined) {
+        $('input[name="Address_shippingMethodID"]').first().prop('checked','checked');
+        radio = $('input[name="Address_shippingMethodID"]:checked').val();
+    }
+    
     var str_price = $('#summa').html();
     str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
     str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');
@@ -419,10 +434,31 @@ $faq_array = array ();   // Сюда засунуть фак
   
     var sum = parseFloat(str_price, 10);
     var delivery_sum = $('#shipping-method-'+radio).data('realprice');
+    
+    if ($.isNumeric(delivery_sum)) {
+        //code
+    }else{
+      delivery_sum = delivery_sum.replace(' ','');
+    }
+    
     var simbol_price = $('#shipping-method-'+radio).data('realprice-s');
     
     $('#delivery_summ').html(simbol_price);
     $('#total').html($('#shipping-method-'+radio).data('simbol_left')+(parseFloat(delivery_sum) + parseFloat(sum))+$('#shipping-method-'+radio).data('simbol-right'));
+    
+          $.ajax({
+          type: 'post',
+          url: '/<?php echo $language_href; ?>index.php?route=checkout/delivery/setDeliveryData',
+          data: 'delivery_to_country_id='+radio+'&delivery_realprice='+delivery_sum+'&delivery_real_simbol_left='+$('#shipping-method-'+radio).data('simbol_left')+'&delivery_real_simbol_right='+$('#shipping-method-'+radio).data('simbol-right'),
+          dataType: 'json',
+          cache: false,
+          success: function(json) {
+            
+            console.log(json);
+            //debugger;
+          }
+      });
+    
     
  });
  

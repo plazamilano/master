@@ -227,7 +227,7 @@ class ControllerCheckoutCart extends Controller {
 			
 			$this->load->model('localisation/country');
 	
-			$data['countries'] = $this->model_localisation_country->getCountries();
+			$data['countries'] = $this->model_localisation_country->getCountriesForDelivery();
 
 			//echo $this->session->data['country_id'];
 			$data['country_code'] = 'RU';
@@ -301,6 +301,12 @@ class ControllerCheckoutCart extends Controller {
 				}
 			}
 
+			//Данные по выбранной доставке
+			if(isset($this->session->data['delivery_realprice'])) $data['delivery']['realprice'] = $this->session->data['delivery_realprice'];
+			if(isset($this->session->data['delivery_real_simbol_left'])) $data['delivery']['real_simbol_left'] = $this->session->data['delivery_real_simbol_left'];
+			if(isset($this->session->data['delivery_real_simbol_right'])) $data['delivery']['real_simbol_right'] = $this->session->data['delivery_real_simbol_right'];
+			if(isset($this->session->data['delivery_to_country_id'])) $data['delivery']['delivery_to_country_id'] = $this->session->data['delivery_to_country_id'];
+			
 			$data['column_left'] = $this->load->controller('common/column_left');
 			$data['column_right'] = $this->load->controller('common/column_right');
 			$data['content_top'] = $this->load->controller('common/content_top');
@@ -365,6 +371,8 @@ class ControllerCheckoutCart extends Controller {
 				$quantity = $product_info['minimum'] ? $product_info['minimum'] : 1;
 			}
 
+			//if($quantity < 1) $quantity = 1;
+			
 			if (isset($this->request->post['option'])) {
 				$option = array_filter($this->request->post['option']);
 			}elseif (isset($this->request->get['option'])) {
@@ -415,7 +423,7 @@ class ControllerCheckoutCart extends Controller {
 						foreach($product['option'] AS $product_option){
 							
 							if(	isset($option[$product_option['product_option_id']]) AND $option[$product_option['product_option_id']] ==$product_option['product_option_value_id']){
-								$wer_qnt = (int)$product['quantity'];
+								$wer_qnt += (int)$product['quantity'];
 							}
 							
 						}
@@ -437,7 +445,7 @@ class ControllerCheckoutCart extends Controller {
 				$r = $this->db->query($sql);
 				
 				if($r->num_rows){
-					if($r->row['quantity'] <= $wer_qnt){
+					if($r->row['quantity'] < $wer_qnt){
 						$json['error']['recurring'] = $this->language->get('error_no_quantity');
 					}
 				}

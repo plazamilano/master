@@ -416,7 +416,7 @@ class ControllerCheckoutConfirm extends Controller {
 			}else {
 				$country_id = 176;
 			}
-	
+	/*
 			$this->load->model('checkout/delivery');
 	
 			if(is_numeric($country_id)){
@@ -436,7 +436,16 @@ class ControllerCheckoutConfirm extends Controller {
 				$data['delivery']['real_simbol_right'] = $this->currency->getSymbolRight($this->session->data['currency']);
 				
 			}
-
+*/
+	
+			$realprice = $data['delivery']['realprice'] = $this->session->data['delivery_realprice'];
+			$data['delivery']['real_simbol_left'] = $this->session->data['delivery_real_simbol_left'];
+			$data['delivery']['real_simbol_right'] = $this->session->data['delivery_real_simbol_right'];
+		
+			$realprice = preg_replace('/[^0-9.]/', '', $realprice);
+			$realprice = $this->currency->convert($realprice, $this->session->data['currency'], 'USD');
+			$realprice = number_format($realprice, 2, '.','');
+			
 			$total_data = $order_data['totals'];
 			
 			//Сумма
@@ -448,30 +457,30 @@ class ControllerCheckoutConfirm extends Controller {
 			//Доставка
 			$data['totals'][] = array(
 				'title' => $data['text_delivery'],
-				'text'  => $data['delivery']['real_simbol_left'].$data['delivery']['realprice'].$data['delivery']['real_simbol_right'],
+				'text'  => $data['delivery']['real_simbol_left'].$realprice.$data['delivery']['real_simbol_right'],
 			);
+			
 			$order_data['totals'][1] = array(
 										'code' => 'delivery',
 										'title' => 'delivery',
-										'value' => $data['delivery']['realprice'],
+										'value' => $realprice,
 										'sort_order' => 2
 								);
 			
 			//Итого
 			$data['totals'][] = array(
 				'title' => $total_data[1]['title'],
-				'text'  => $this->currency->format($data['delivery']['realprice'] + $total_data[0]['value']),
+				'text'  => $realprice + $this->currency->format($total_data[0]['value']),
 			);
 			$order_data['totals'][2] = array(
 									'code' => 'total',
 									'title' => 'Итого',
-									'value' => $order_data['totals'][0][value] + $data['delivery']['realprice'],
+									'value' => $order_data['totals'][0][value] + $realprice,
 									'sort_order' => 9
 							);
-			$order_data['total'] = $order_data['totals'][0][value] + $data['delivery']['realprice'];
+			$order_data['total'] = $order_data['totals'][0][value] + $realprice;
 			
-			
-			
+		
 			$this->load->model('checkout/order');
 			$data['order_id'] = $this->session->data['order_id'] = $this->model_checkout_order->addOrder($order_data);
 

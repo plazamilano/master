@@ -57,13 +57,13 @@ $_['text_back_to_shopping'] = 'Back to shopping';
 $_['text_help_is_needed'] = 'Needed help?';
 $_['text_write_to_us'] = 'Contack us';
 $_['text_faq'] = 'FAQ';
-$_['text_send_email'] = 'eng-Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+$_['text_send_email'] = 'Please send us an email and we will get back shortly.';
 $_['text_size'] = 'Size:';
 $_['text_color'] = 'Color:';
 $_['text_order_q']= 'Question about the order';
 $_['column_name'] = 'Product';       // есть переменная column_name = 'Название' - переименовать на 'Товар'
 $_['column_duti'] = 'Dues';     // эта колонка скрыта, но текст в ней есть... так что не знаю удалять или переводить...
 $_['text_conditional_preliminary_confirmation'] = 'Conditional preliminary confirmation';  // этот текст сейчас скрыт. нужно переводить?
-$_['text_purchase_terms'] = 'eng-Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>';
+$_['text_purchase_terms'] = "PLEASE NOTE THAT YOUR PERSONAL DATA IS BEING COLLECTED AND PROCESSED BY TLG. IT'S BEING DONE IN YOUR INTERESTS AND IS NECESSARY FOR COMPLETING YOUR PURCHASE. YOU MIGHT BE ASSURED THAT YOUR DATA IS KEPT CONFIDENTIAL AND IS FULLY PROTECTED.FOR ADDITIONAL INFORMATION, PLEASE READ OUR PRIVACY POLICY.";
 
 $_['error_no_quantity'] = 'This quantity is not available !!!';

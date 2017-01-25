@@ -104,7 +104,7 @@ $_['text_summary_information_on_ordering'] = 'Summary order information';
 $_['text_help_is_needed'] = 'Needed help?';
 $_['text_write_to_us'] = 'Contact us';
 $_['text_faq'] = 'FAQ';
-$_['text_send_email'] = 'eng-Пожалуйста, отправьте нам email, и мы скоро с Вами свяжемся.';
+$_['text_send_email'] = 'Please send us an email and we will get back shortly.';
 
 $_['text_email'] = 'Email';
 $_['text_email_placeholder'] = 'name@email.com';
@@ -184,7 +184,7 @@ $_['text_error_agreement'] = 'This field is required!';
 
 $_['text_order_q'] = 'Question about the order';
 
-$_['text_purchase_terms'] = 'eng-Размещая заказ, Вы принимаете наши <a href="#" target="_blank">Условия продажи</a> и <a href="#" target="_blank">Политику конфиденциальности.</a> <span class="ru">Если доставка осуществляется в РФ, Вы также соглашаетесь с <a href="#">Условиями и Положениями DHL.</a></span>';
+$_['text_purchase_terms'] = "PLEASE NOTE THAT YOUR PERSONAL DATA IS BEING COLLECTED AND PROCESSED BY TLG. IT'S BEING DONE IN YOUR INTERESTS AND IS NECESSARY FOR COMPLETING YOUR PURCHASE. YOU MIGHT BE ASSURED THAT YOUR DATA IS KEPT CONFIDENTIAL AND IS FULLY PROTECTED.FOR ADDITIONAL INFORMATION, PLEASE READ OUR PRIVACY POLICY.";
 
 $_['text_error_form_valid']     = 'Not all fields are filled in correctly';
 

@@ -98,9 +98,12 @@ class ControllerCommonSeoUrl extends Controller {
 			
 			$sql = 'SELECT Domain FROM '.DB_PREFIX.'citys WHERE IsDomain="0";';
 			$query = $this->db->query($sql);
-			foreach($query->rows as $row){
-				if(strpos($this->request->get['_route_'], $row['Domain']) !== false){
-					$pach_city = $row['Domain'].'/';
+			
+			if($query->num_rows){
+				foreach($query->rows as $row){
+					if($row['Domain'] != '' AND strpos($this->request->get['_route_'], $row['Domain']) !== false){
+						$pach_city = $row['Domain'].'/';
+					}
 				}
 			}
 			

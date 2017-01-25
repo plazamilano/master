@@ -236,7 +236,7 @@ class ControllerCheckoutCheckout extends Controller {
 		}
 
 		$this->load->model('checkout/delivery');
-
+/*
 		if(is_numeric($country_id)){
 			$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
 		}else{
@@ -254,6 +254,15 @@ class ControllerCheckoutCheckout extends Controller {
 			$data['delivery']['real_simbol_right'] = $this->currency->getSymbolRight($this->session->data['currency']);
 			
 		}
+	*/
+
+		$realprice = $data['delivery']['realprice'] = $this->session->data['delivery_realprice'];
+		$data['delivery']['real_simbol_left'] = $this->session->data['delivery_real_simbol_left'];
+		$data['delivery']['real_simbol_right'] = $this->session->data['delivery_real_simbol_right'];
+	
+		$realprice = preg_replace('/[^0-9.]/', '', $realprice);
+		
+
 	
 		$data['totals'] = array();
 		
@@ -267,12 +276,8 @@ class ControllerCheckoutCheckout extends Controller {
 			);
 		$data['totals'][] = array(
 				'title' => $total_data[1]['title'],
-				'text'  => $this->currency->format($data['delivery']['realprice'] + $total_data[0]['value']),
+				'text'  => $data['delivery']['real_simbol_left'].((float)$realprice + preg_replace('/[^0-9.]/', '',$this->currency->format($total_data[0]['value']))).$data['delivery']['real_simbol_right'],
 			);
-		
-		//header("Content-Type: text/html; charset=UTF-8");
-		//echo "<pre>";  print_r(var_dump( $_SESSION )); echo "</pre>";
-
 /*
 		foreach ($total_data as $result) {
 			$data['totals'][] = array(

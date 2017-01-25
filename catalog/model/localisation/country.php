@@ -25,4 +25,19 @@ class ModelLocalisationCountry extends Model {
 
 		return $country_data;
 	}
+	public function getCountriesForDelivery() {
+		$country_data = $this->cache->get('country.status');
+
+		if (!$country_data) {
+			$query = $this->db->query("SELECT C.* FROM " . DB_PREFIX . "delivery_to_country C2D
+									  LEFT JOIN " . DB_PREFIX . "country C ON C2D.country_id = C.country_id
+									  WHERE C2D.status = '1' GROUP BY C.name ORDER BY C.name ASC");
+
+			$country_data = $query->rows;
+
+			$this->cache->set('country.status', $country_data);
+		}
+
+		return $country_data;
+	}
 }
