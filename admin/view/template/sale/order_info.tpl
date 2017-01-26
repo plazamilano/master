@@ -68,6 +68,10 @@
               <td><button data-toggle="tooltip" title="<?php echo $text_telephone; ?>" class="btn btn-info btn-xs"><i class="fa fa-phone fa-fw"></i></button></td>
               <td><?php echo $telephone; ?></td>
             </tr>
+             <tr>
+            <td><button data-toggle="tooltip" title="Доставка" class="btn btn-info btn-xs"><i class="fa fa-shopping-cart fa-fw"></i></button></td>
+              <td><?php echo $delivery['country_name'].', '.$delivery['CityLable']; ?></td>
+            </tr>
           </table>
         </div>
       </div>

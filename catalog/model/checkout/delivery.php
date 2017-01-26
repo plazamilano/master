@@ -8,7 +8,9 @@ class ModelCheckoutDelivery extends Model {
 								LEFT JOIN `" . DB_PREFIX . "delivery` D ON D.delivery_id = D2C.delivery_id 
 								LEFT JOIN `" . DB_PREFIX . "citys` Ci ON Ci.CityID = D2C.CityID 
 								LEFT JOIN `" . DB_PREFIX . "currency` C ON C.currency_id = D2C.currency_id
-								WHERE D2C.country_id = '" . (int)$country_id . "';");
+								WHERE D2C.country_id = '" . (int)$country_id . "'
+								ORDER BY D2C.sort ASC, Ci.CityLable ASC
+								;");
 		
 		if($r->num_rows == 0){
 			$country_id = 223;
@@ -17,7 +19,9 @@ class ModelCheckoutDelivery extends Model {
 								LEFT JOIN `" . DB_PREFIX . "delivery` D ON D.delivery_id = D2C.delivery_id 
 								LEFT JOIN `" . DB_PREFIX . "currency` C ON C.currency_id = D2C.currency_id
 								LEFT JOIN `" . DB_PREFIX . "citys` Ci ON Ci.CityID = D2C.CityID 
-								WHERE D2C.country_id = '" . (int)$country_id . "';");
+								WHERE D2C.country_id = '" . (int)$country_id . "'
+								ORDER BY D2C.sort ASC, Ci.CityLable ASC
+								;");
 			
 		}
 	

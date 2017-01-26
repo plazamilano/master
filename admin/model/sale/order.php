@@ -236,6 +236,15 @@ class ModelSaleOrder extends Model {
 		return $query->rows;
 	}
 
+	public function getOrderDelivery($order_id) {
+		$query = $this->db->query("SELECT D2C.*, C.name AS country_name, CY.CityLable  FROM " . DB_PREFIX . "order O
+											LEFT JOIN " . DB_PREFIX . "delivery_to_country D2C ON D2C.delivery_to_country_id = O.delivery_to_country_id
+											LEFT JOIN " . DB_PREFIX . "country C ON D2C.country_id = C.country_id
+											LEFT JOIN " . DB_PREFIX . "citys CY ON D2C.CityID = CY.CityID
+											WHERE O.order_id = '" . (int)$order_id . "' LIMIT 1");
+
+		return $query->row;
+	}
 	public function getOrderProducts($order_id) {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
 

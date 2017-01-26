@@ -960,6 +960,8 @@ class ControllerSaleOrder extends Controller {
 
 			$data['products'] = array();
 
+			$data['delivery'] = $this->model_sale_order->getOrderDelivery($this->request->get['order_id']);
+	
 			$products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
 
 			foreach ($products as $product) {

@@ -438,6 +438,10 @@ class ControllerCheckoutConfirm extends Controller {
 			}
 */
 	
+	
+			$order_data['delivery_to_country_id'] = $this->session->data['delivery_to_country_id'];
+			
+	
 			$realprice = $data['delivery']['realprice'] = $this->session->data['delivery_realprice'];
 			$data['delivery']['real_simbol_left'] = $this->session->data['delivery_real_simbol_left'];
 			$data['delivery']['real_simbol_right'] = $this->session->data['delivery_real_simbol_right'];
