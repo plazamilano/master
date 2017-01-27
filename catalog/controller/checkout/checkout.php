@@ -1,4 +1,4 @@
-<?php
+го<?php
 class ControllerCheckoutCheckout extends Controller {
 	public function index() {
 		// Validate cart has products and has stock.
@@ -8,6 +8,8 @@ class ControllerCheckoutCheckout extends Controller {
 		}
 
 		$data['language_href'] = $this->session->data['language_href'];
+		
+		$this->load->model('checkout/delivery');
 		
 		// Validate minimum quantity requirements.
 		$products = $this->cart->getProducts();
@@ -240,7 +242,7 @@ class ControllerCheckoutCheckout extends Controller {
 			$country_id = 176;
 		}
 
-		$this->load->model('checkout/delivery');
+		
 /*
 		if(is_numeric($country_id)){
 			$delivery_info = $this->model_checkout_delivery->getDeliveryOnCountryId($country_id);
