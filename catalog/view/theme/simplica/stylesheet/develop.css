@@ -1566,6 +1566,10 @@ body.checkout-checkout {
     clear: both;
     padding-top: 20px;
 }
+.b-summary_list-line:last-child {
+    border-top: 1px solid #CCCCCC;
+    padding-top: 23px;
+}
 /* Корзина END */
 
 
