@@ -1561,6 +1561,11 @@ body.checkout-checkout {
     margin-top: 50px;
     margin-bottom: 0 !important;
 }
+
+.b-cart_shipping_method-sity_text {
+    clear: both;
+    padding-top: 20px;
+}
 /* Корзина END */
 
 

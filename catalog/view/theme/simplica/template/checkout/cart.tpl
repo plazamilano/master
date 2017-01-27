@@ -2,6 +2,9 @@
 
 <?php
 
+$text_delivery_sity = 'Город доставки';
+$text_delivery_price = 'Стоимость доставки';
+
 /*
 $text_cart = 'Корзина';
 $text_order = 'Заказать';
@@ -212,24 +215,10 @@ $faq_array = array ();   // Сюда засунуть фак
           </div>
         </div>
         <div class="b-cart_shipping_method-info h-hidden"></div>
-        <div class="b-cart_shipping_method-list" id="shipping_method-list">
 
-        <?php //foreach () { ?>
-          <!--div class="b-cart_shipping_method-list_wrapper">
-            <div class="b-cart_shipping_method-radio f-field f-field-radio">
-              <input class="f-radio" name="dwfrm_singleshipping_shippingAddress_shippingMethodID" id="shipping-method-EXPRESS_UA" checked="checked" value="EXPRESS_UA" type="radio">
-              <label class="f-label" for="shipping-method-EXPRESS_UA">
-                <span class="f-label-value">Express</span>
-              </label>
-            </div>
-            <div class="b-cart_shipping_method-label">Планируемая дата доставки: 14-11-2016</div>
-            <div class="b-cart_shipping_method-value">
-              <span class="b-cross_shipping-cost">€30,00</span>
-            </div>
-          </div-->
-        <?php //} ?>
 
-        </div>
+        <div class="b-cart_shipping_method-select_block" id="shipping_method-list"></div>
+
         <div class="b-cart_shipping_method-no_shipping"></div>
       </div>
 <!-- Способ доставки. END -->
@@ -377,15 +366,31 @@ $faq_array = array ();   // Сюда засунуть фак
             
             var html = '';
             var count = 0;
+
+            html = html + '<div class="b-cart_shipping_method-error_message h-hidden"></div>';
+            html = html + '<div class="f-field f-field-select">';
+            if (json.length <= 1) {
+              html = html + '<label class="f-label h-hidden" for="dwfrm_singleshipping_shippingAddress_addressFields_sity">';
+            } else {
+              html = html + '<label class="f-label" for="dwfrm_singleshipping_shippingAddress_addressFields_sity">';
+            }            
+            html = html + '<span class="f-label-value"><?php echo $text_delivery_sity; ?></span>';
+            html = html + '</label>';
+            if (json.length <= 1) {
+              html = html + '<div class="f-field-wrapper h-hidden">';
+            } else {
+              html = html + '<div class="f-field-wrapper">';
+            }
+            html = html + '<div class="f-select-wrapper">';
+            html = html + '<select class="f-select sity" id="delivery_sity" name="dwfrm_singleshipping_shippingAddress_addressFields_sity">';
+
             $.each(json, function( index, value ) {
                 
                 if (value.CityLable == null ) {
                     value.CityLable = '';
                 }
-                
-                html = html + '<div class="b-cart_shipping_method-list_wrapper"><div class="b-cart_shipping_method-radio f-field f-field-radio">';
-                html = html + '<input class="f-radio" name="Address_shippingMethodID" id="shipping-method-'+value.delivery_to_country_id+'" ';
-                html = html + 'value="'+value.delivery_to_country_id+'" ';
+
+                html = html + '<option value="'+value.CityLable+'" ';
                 html = html + 'data-price="'+value.price+'" ';
                 html = html + 'data-curs="'+value.value+'" ';
                 html = html + 'data-realprice="'+value.realprice+'" ';
@@ -393,29 +398,58 @@ $faq_array = array ();   // Сюда засунуть фак
                 html = html + 'data-simbol_left="'+value.real_simbol_left+'" ';
                 html = html + 'data-simbol-right="'+value.real_simbol_right+'" ';
                 html = html + 'data-price_all="'+value.symbol_left+value.price+value.symbol_right+'" ';
-                html = html + 'type="radio"';
+                html = html + 'data-text="'+value.text+'" ';
+                html = html + 'data-delivery_to_country_id="'+value.delivery_to_country_id+'" ';
+                html = html + 'data-name-delivery="'+value.name+'" ';
+
                 <?php if(isset($delivery['delivery_to_country_id'])){ ?>
-                  if(<?php echo $delivery['delivery_to_country_id']; ?> == value.delivery_to_country_id)  html = html + ' checked="checked"';
+                  if(<?php echo $delivery['delivery_to_country_id']; ?> == value.delivery_to_country_id) { html = html + ' selected="selected">'; } else { html = html + '>'; } ;
                 <?php }else{ ?>
-                  if(count < 1)  html = html + ' checked="checked"';
+                  if(count < 1)  html = html + ' selected="selected">' else html = html + '>';
                 <?php } ?>
-                
-                html = html + '>';
-                html = html + '<label class="f-label" for="shipping-method-'+value.delivery_to_country_id+'"><span class="f-label-value">'+value.CityLable+' '+value.name+'</span></label></div>';
-                html = html + '<div class="b-cart_shipping_method-label">'+value.text+'</div><div class="b-cart_shipping_method-value">';
-                html = html + '<span class="b-cross_shipping-cost">'+value.real_simbol_left+value.realprice+value.real_simbol_right+'</span></div></div>';
-                
-                count = count + 1;
+                html = html + value.CityLable+'</option>';
                 
             });
+
+            html = html + '</select>';
+            html = html + '</div>';
+            html = html + '<span class="f-error_message"><span class="f-error_message-block"></span></span>';
+            html = html + '</div>';
+            html = html + '<div class="b-cart_shipping_method-sity_text js-cart_shipping_method-sity_text"></div>';
+            html = html + '</div>';
             
             $('#shipping_method-list').html(html);
             setTimeout(function(){$('.f-radio').trigger('change');},500);
+
+            $('#delivery_sity').change();
                        
           }
       });
  });
  
+$(document).on('change', '#delivery_sity', function(){
+  html = '';
+
+  var delivery_to_country_id = $(this).find('option:selected').data('delivery_to_country_id');
+  html = html + '<div class="b-cart_shipping_method-list_wrapper"><div class="b-cart_shipping_method-radio f-field f-field-radio">';
+  html = html + '<input class="f-radio" name="Address_shippingMethodID" id="shipping-method-'+delivery_to_country_id+'" ';
+  html = html + 'value="'+delivery_to_country_id+'" ';
+  html = html + 'data-price="'+$(this).find('option:selected').data('price')+'" ';
+  html = html + 'data-curs="'+$(this).find('option:selected').data('curs')+'" ';
+  html = html + 'data-realprice="'+$(this).find('option:selected').data('realprice')+'" ';
+  html = html + 'data-realprice-s="'+$(this).find('option:selected').data('realprice-s')+'" ';
+  html = html + 'data-simbol_left="'+$(this).find('option:selected').data('simbol_left')+'" ';
+  html = html + 'data-simbol-right="'+$(this).find('option:selected').data('simbol-right')+'" ';
+  html = html + 'data-price_all="'+$(this).find('option:selected').data('price_all')+'" ';
+  html = html + 'type="radio"';
+  html = html + '>';
+  html = html + '<label class="f-label" for="shipping-method-'+delivery_to_country_id+'"><span class="f-label-value">'+$(this).find('option:selected').data('name-delivery')+'</span></label></div>';
+  html = html + '<div class="b-cart_shipping_method-label">'+$(this).find('option:selected').data('text')+'</div><div class="b-cart_shipping_method-value">';
+  html = html + '<span class="b-cross_shipping-cost">'+$(this).find('option:selected').data('realprice-s')+'</span></div></div>';
+
+  $('.js-cart_shipping_method-sity_text').html(html);
+});
+
  //Выбор доставки
  $(document).on('change', '.f-radio', function(){
     //debugger;
