@@ -1,4 +1,4 @@
-го<?php
+<?php
 class ControllerCheckoutCheckout extends Controller {
 	public function index() {
 		// Validate cart has products and has stock.

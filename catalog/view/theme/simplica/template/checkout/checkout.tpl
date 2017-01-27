@@ -1,7 +1,6 @@
 <?php echo $header; ?>
 
 <?php
-//echo $delivery_info;
 /*
 $text_select_delive_adress = 'Выбрать из списка сохраненных адресов';
 $text_cart = 'Корзина';
@@ -348,24 +347,27 @@ $faq_array = array ();   // Сюда засунуть фак
               </span>
             </div>
           </div>
-
+          
+          <?php if ( isset($delivery_info[0]['CityLable']) && $delivery_info[0]['CityLable'] != '' ) { ?>
           <div class="f-field f-field-textinput f-state-required">
             <label class="f-label" for="city">
               <span class="f-label-value"><?php echo $text_city; ?></span>
             </label>
             <div class="f-field-wrapper">
-              <input id="city"
+              <!-- <input id="city"
                      name="city"
                      class="f-textinput f-state-required js-state-required"
                      placeholder="<?php echo $text_city_placeholder; ?>"
                      value="<?php //echo isset($customer_info['firstname']) ? $customer_info['firstname'] : ''; ?>"
                      type="text"
-                     maxlength="50">
+                     maxlength="50"> -->
+              <label class="f-label"><?php echo $delivery_info[0]['CityLable']; ?></label>
               <span class="f-error_message">
                 <span class="f-error_message-block js-error_city"></span>
               </span>
             </div>
           </div>
+          <?php } ?>
 
           <div class="f-field f-field-textinput">
             <label class="f-label" for="country">
