@@ -24,7 +24,8 @@ class Url {
 		if(isset($_SESSION["default"]) AND
 			isset($_SESSION["default"]['language_href']) AND
 				$_SESSION["default"]['language_href'] != '' AND
-					$_SESSION["default"]['language_href'] != '/'){
+					$_SESSION["default"]['language_href'] != '/'
+						AND strpos($_SERVER['REQUEST_URI'],'admin/') === false){
 			
 			$url .= $_SESSION["default"]['language_href'];
 		}

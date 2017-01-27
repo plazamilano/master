@@ -305,7 +305,7 @@ $faq_array = array ();   // Сюда засунуть фак
                   <div class="b-checkout_content_block-title"><?php echo $text_write_to_us; ?></div>
                   <br>
                   <div class="b-checkout_content_block-icon_block">
-                    <a class="b-checkout_content_block-icon_mail" href="mailto:info@plazamilano.com?Subject=<?php echo $text_order_q; ?>">
+                    <a class="b-checkout_content_block-icon_mail" href="/contact_us">
                     </a>
                   </div>
                 </div>

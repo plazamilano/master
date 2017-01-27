@@ -19,8 +19,8 @@ class ControllerInformationContact extends Controller {
 			$mail->smtp_port = $this->config->get('config_mail_smtp_port');
 			$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
 
-			$mail->setTo($this->config->get('config_email'));
-			$mail->setFrom($this->request->post['email']);
+			$mail->setTo('plazamilano@yandex.ru');//'info@plazamilano.com');//'folder.list@gmail.com'); //$this->config->get('config_email') );
+			$mail->setFrom($this->config->get('config_email'));//$this->request->post['email']);
 			$mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
 			$mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
 			
@@ -29,10 +29,11 @@ class ControllerInformationContact extends Controller {
 			$html .= 'Тема:'.$this->request->post['myquestion'].'<br>';
 			$html .= 'Страна:'.$this->request->post['countries_country'].'<br>';
 			$html .= 'Сообщение:'.$this->request->post['input-enquiry'].'<br>';
-			
-			$mail->setText($html);
-			//@$mail->send();
 
+			$mail->setText($html);
+			echo $mail->send();
+
+			
 			$this->response->redirect($this->url->link('information/contact/success'));
 		}
 

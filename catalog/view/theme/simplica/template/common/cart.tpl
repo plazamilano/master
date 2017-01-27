@@ -22,7 +22,7 @@
           </div>
           <div class="l-mini_cart-product_info">
             <div class="b-mini_cart-product_name">
-              <a class="b-mini_cart-product_name-link" href="/<?php echo $language_href; ?><?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
+              <a class="b-mini_cart-product_name-link" href="<?php echo $language_href; ?><?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
             </div>
             <div class="b-mini_cart-product_pricing">
               <div class="b-mini_cart-product_pricing-qty">

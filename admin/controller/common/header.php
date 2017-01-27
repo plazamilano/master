@@ -54,6 +54,8 @@ class ControllerCommonHeader extends Controller {
 			// Orders
 			$this->load->model('sale/order');
 
+		
+		
 			// Processing Orders
 			$data['processing_status_total'] = $this->model_sale_order->getTotalOrders(array('filter_order_status' => implode(',', $this->config->get('config_processing_status'))));
 			$data['processing_status'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_order_status=' . implode(',', $this->config->get('config_processing_status')), 'SSL');

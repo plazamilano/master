@@ -49,7 +49,9 @@ class Cart {
 
 				$option_data = array();
 				
-				if($cart['option'] == null) $cart['option'] = '[]';
+				if($cart['option'] == null OR $cart['option'] == 'null') $cart['option'] = '[]';
+				
+				$cart['option'] = html_entity_decode(html_entity_decode($cart['option']));
 				
 				foreach (json_decode(html_entity_decode($cart['option'], ENT_QUOTES, 'UTF-8'), true) as $product_option_id => $value) {
 					$option_query = $this->db->query("SELECT po.product_option_id, po.option_id, od.name, o.type FROM " . DB_PREFIX . "product_option po LEFT JOIN `" . DB_PREFIX . "option` o ON (po.option_id = o.option_id) LEFT JOIN " . DB_PREFIX . "option_description od ON (o.option_id = od.option_id) WHERE po.product_option_id = '" . (int)$product_option_id . "' AND po.product_id = '" . (int)$cart['product_id'] . "' AND od.language_id = '" . (int)$this->config->get('config_language_id') . "'");

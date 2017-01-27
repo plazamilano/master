@@ -37,6 +37,12 @@ class Pagination {
 		if(isset($_GET['price_to'])){
 			$this->url .= '&price_to='.(int)$_GET['price_to'];
 		}
+		if(isset($_GET['filter_category'])){
+			$this->url .= '&filter_category='.(int)$_GET['filter_category'];
+		}
+		if(isset($_GET['filter_category_name'])){
+			$this->url .= '&filter_category_name='.$_GET['filter_category_name'];
+		}
 		//$this->url = $this->url.'?page={page}';
 		
 		if(strpos($_SERVER['REQUEST_URI'],'/admin/') !== false){
