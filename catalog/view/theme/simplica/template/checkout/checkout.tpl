@@ -399,6 +399,14 @@ $faq_array = array ();   // Сюда засунуть фак
               <span class="f-label-value"><?php echo $text_fields_phone; ?></span>
             </label>
             <div class="f-field-wrapper">
+            <div class="f-select-wrapper">
+              <select class="f-select phoneCode f-state-required" id="fields_phoneCode" name="fields_phoneCode">
+                <option value="1">+1</option>
+                <option value="233">+233</option>
+                <option value="27">+27</option>
+                <option value="30">+30</option>
+              </select>
+              </div>
               <span class="f-error_message">
                 <span class="f-error_message-block js-error_fields_phoneCode"></span>
               </span>
