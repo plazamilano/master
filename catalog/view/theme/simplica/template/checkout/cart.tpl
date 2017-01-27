@@ -1,7 +1,6 @@
 <?php echo $header; ?>
 
 <?php
-
 $text_delivery_sity = 'Город доставки';
 $text_delivery_price = 'Стоимость доставки';
 
@@ -448,6 +447,16 @@ $(document).on('change', '#delivery_sity', function(){
   html = html + '<span class="b-cross_shipping-cost">'+$(this).find('option:selected').data('realprice-s')+'</span></div></div>';
 
   $('.js-cart_shipping_method-sity_text').html(html);
+
+  var str_price = $('#summa').html();
+  str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
+  str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');
+  var sum = parseFloat(str_price, 10);
+  var simbol_price = $('#shipping-method-'+delivery_to_country_id).data('realprice-s');
+  var total_sum = sum + parseFloat($('#shipping-method-'+delivery_to_country_id).data('realprice'));
+    
+  $('#delivery_summ').html(simbol_price);
+  $('#total').html('<?php echo $currency['SymbolLeft'];?>' + total_sum.toFixed(2) + '<?php echo $currency['SymbolRight'];?>');
 });
 
  //Выбор доставки
@@ -478,7 +487,7 @@ $(document).on('change', '#delivery_sity', function(){
     var simbol_price = $('#shipping-method-'+radio).data('realprice-s');
     
     $('#delivery_summ').html(simbol_price);
-    $('#total').html($('#shipping-method-'+radio).data('simbol_left')+(parseFloat(delivery_sum) + parseFloat(sum))+$('#shipping-method-'+radio).data('simbol-right'));
+    $('#total').html($('#shipping-method-'+radio).data('simbol_left')+(parseFloat(delivery_sum) + parseFloat(sum)).toFixed(2)+$('#shipping-method-'+radio).data('simbol-right'));
     
           $.ajax({
           type: 'post',

@@ -1,6 +1,7 @@
 <?php echo $header; ?>
 
 <?php
+//echo $delivery_info;
 /*
 $text_select_delive_adress = 'Выбрать из списка сохраненных адресов';
 $text_cart = 'Корзина';
