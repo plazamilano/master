@@ -27,6 +27,11 @@ class ControllerCheckoutCheckout extends Controller {
 				$this->response->redirect($this->url->link('checkout/cart'));
 			}
 		}
+		
+		
+		if(isset($this->session->data['delivery_to_country_id'])){
+			$data['delivery_info'] = $this->model_checkout_delivery->getDeliveryInfo((int)$this->session->data['delivery_to_country_id']);
+		}
 
 		$this->load->language('checkout/checkout');
 
