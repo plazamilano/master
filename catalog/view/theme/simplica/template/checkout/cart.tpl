@@ -404,7 +404,11 @@ $faq_array = array ();   // Сюда засунуть фак
                 <?php if(isset($delivery['delivery_to_country_id'])){ ?>
                   if(<?php echo $delivery['delivery_to_country_id']; ?> == value.delivery_to_country_id) { html = html + ' selected="selected">'; } else { html = html + '>'; } ;
                 <?php }else{ ?>
-                  if(count < 1)  html = html + ' selected="selected">' else html = html + '>';
+                  if(count < 1){
+                    html = html + ' selected="selected">';
+                  }else{
+                    html = html + '>';
+                  }
                 <?php } ?>
                 html = html + value.CityLable+'</option>';
                 
@@ -448,6 +452,7 @@ $(document).on('change', '#delivery_sity', function(){
 
   $('.js-cart_shipping_method-sity_text').html(html);
 
+  /*
   var str_price = $('#summa').html();
   str_price = str_price.replace('<?php echo $currency['SymbolLeft'];?>', '');
   str_price = str_price.replace('<?php echo $currency['SymbolRight'];?>', '');
@@ -457,6 +462,8 @@ $(document).on('change', '#delivery_sity', function(){
     
   $('#delivery_summ').html(simbol_price);
   $('#total').html('<?php echo $currency['SymbolLeft'];?>' + total_sum.toFixed(2) + '<?php echo $currency['SymbolRight'];?>');
+  */
+  setTimeout(function(){$('.f-radio').trigger('change');},500);
 });
 
  //Выбор доставки
