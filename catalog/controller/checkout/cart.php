@@ -40,6 +40,9 @@ class ControllerCheckoutCart extends Controller {
 			$data['button_shopping'] = $this->language->get('button_shopping');
 			$data['button_checkout'] = $this->language->get('button_checkout');
 
+			$data['text_delivery_sity'] = $this->language->get('text_delivery_sity');
+			$data['text_delivery_price'] = $this->language->get('text_delivery_price');
+
 			
 			$data['text_cart'] = $this->language->get('text_cart');
 			$data['text_order'] = $this->language->get('text_order');

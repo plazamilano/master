@@ -515,6 +515,9 @@ class ModelCatalogProduct extends Model {
 			}
 		}
 
+		
+		$this->resetProductQuantity($product_id);
+		
 		$this->cache->delete('product');
 
 		$this->event->trigger('post.admin.product.edit', $product_id);
@@ -594,8 +597,10 @@ class ModelCatalogProduct extends Model {
 								  
 								  /*(SELECT keyword FROM " . DB_PREFIX . "url_alias WHERE query = 'product_id=" . (int)$product_id . "') AS keyword*/
 								  
-								  FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
-								  WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
+								  FROM " . DB_PREFIX . "product p
+								  LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+								  WHERE p.product_id = '" . (int)$product_id . "' AND
+								  pd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 
 		$return = $query->row;								  
 								  
@@ -822,6 +827,27 @@ class ModelCatalogProduct extends Model {
 		return $product_option_data;
 	}
 
+	public function resetProductQuantity($product_id){
+		
+		$product = $this->getProductOptions($product_id);
+		
+		$quantity = 0;
+			
+		if(isset($product['0']['product_option_value'])){
+			
+			foreach($product['0']['product_option_value'] as $row){
+				$quantity += (int)$row['quantity'];
+			}
+			
+			$sql = 'UPDATE ' . DB_PREFIX . 'product SET quantity = "'.$quantity.'" WHERE product_id = "'.$product_id.'"';
+			$desc = $this->db->query($sql);
+			
+		}
+		
+		return $quantity;
+		
+	}
+	
 	public function getProductOptionValue($product_id, $product_option_value_id) {
 		$query = $this->db->query("SELECT pov.option_value_id, ovd.name, pov.quantity, pov.subtract, pov.price, pov.price_prefix, pov.points, pov.points_prefix, pov.weight, pov.weight_prefix FROM " . DB_PREFIX . "product_option_value pov LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id) LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id) WHERE pov.product_id = '" . (int)$product_id . "' AND pov.product_option_value_id = '" . (int)$product_option_value_id . "' AND ovd.language_id = '" . (int)$this->config->get('config_language_id') . "'");
 

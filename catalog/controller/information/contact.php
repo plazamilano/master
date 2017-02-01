@@ -24,13 +24,49 @@ class ControllerInformationContact extends Controller {
 			$mail->setSender(html_entity_decode($this->request->post['name'], ENT_QUOTES, 'UTF-8'));
 			$mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
 			
+			$this->load->model('localisation/location');
+			$this->load->model('localisation/country');
+			$this->load->model('localisation/content');
+
+			$county_name = $this->request->post['countries_country'];
+			$countries = $this->model_localisation_country->getCountries();
+			foreach ($countries as $country) {
+				if($country['iso_code_2'] == $this->request->post['countries_country']){
+					
+					$county_name = $country['name'];
+					break;
+				}
+			}
+			
+			$contacts = $this->model_localisation_content->getContents('contact_theme');
+			$contact_theme = $this->request->post['myquestion'];
+			foreach ($contacts as $contact) {
+				if($contact['content_id'] == $this->request->post['myquestion']){
+					
+					$contact_theme = $contact['value'];
+					break;
+				}
+			}
+			
+			
+			
 			$html = 'От:'.$this->request->post['name'].' '.$this->request->post['lastname'].'<br>';
+			$html .= 'Email:'.$this->request->post['name'].' '.$this->request->post['email'].'<br>';
 			$html .= 'Заказ:'.$this->request->post['ordernumber'].'<br>';
-			$html .= 'Тема:'.$this->request->post['myquestion'].'<br>';
-			$html .= 'Страна:'.$this->request->post['countries_country'].'<br>';
+			$html .= 'Тема:'.$contact_theme.'<br>';
+			$html .= 'Страна:'.$county_name.'<br>';
 			$html .= 'Сообщение:'.$this->request->post['input-enquiry'].'<br>';
 
-			$mail->setText($html);
+			$text = 'От:'.$this->request->post['name'].' '.$this->request->post['lastname']."\n\r";
+			$text .= 'Email:'.$this->request->post['name'].' '.$this->request->post['email']."\n\r";
+			$text .= 'Заказ:'.$this->request->post['ordernumber']."\n\r";
+			$text .= 'Тема:'.$contact_theme."\n\r";
+			$text .= 'Страна:'.$county_name."\n\r";
+			$text .= 'Сообщение:'.$this->request->post['input-enquiry']."\n\r";
+
+			$mail->setText($text);
+			$mail->setHtml($html);
+			
 			echo $mail->send();
 
 			

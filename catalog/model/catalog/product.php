@@ -542,6 +542,8 @@ class ModelCatalogProduct extends Model {
 					AND p.price <= '".$data['filter_price']['price_to']."' ";
 		}
 		
+		$sql .= " AND p.quantity > 0";
+		
 		//Фильтр по размерам
 		if (!empty($data['filter_sizes']) AND count($data['filter_sizes']) > 0) {
 			$sql .= " AND (pov.option_value_id IN (" . $this->db->escape($data['filter_sizes']) . ") OR pov.alternative_size IN (" . $this->db->escape($data['filter_sizes']) . "))";
@@ -836,7 +838,7 @@ class ModelCatalogProduct extends Model {
 
 		if (!$product_data) {
 			$query = $this->db->query("SELECT p.product_id FROM " . DB_PREFIX . "product p
-									  LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.#status AND p.date_available <= NOW() AND  p.moderation_id = 0 AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'
+									  LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE p.#status AND p.date_available <= NOW() AND  p.moderation_id = 0 AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND p.quantity > 0
 									  ORDER BY p.date_added DESC LIMIT " . (int)$limit);
 
 			foreach ($query->rows as $result) {
@@ -949,6 +951,28 @@ class ModelCatalogProduct extends Model {
 		return $product_option_data;
 	}
 
+	
+	public function resetProductQuantity($product_id){
+		
+		$product = $this->getProductOptions($product_id);
+		
+		$quantity = 0;
+			
+		if(isset($product['0']['product_option_value'])){
+			
+			foreach($product['0']['product_option_value'] as $row){
+				$quantity += (int)$row['quantity'];
+			}
+			
+			$sql = 'UPDATE ' . DB_PREFIX . 'product SET quantity = "'.$quantity.'" WHERE product_id = "'.$product_id.'"';
+			$desc = $this->db->query($sql);
+			
+		}
+		
+		return $quantity;
+		
+	}
+	
 	public function getProductsOptions($products_ids = array()) {
 		
 		if(!count($products_ids)) return array();
@@ -963,7 +987,9 @@ class ModelCatalogProduct extends Model {
 				$product_option_value_data = array();
 	
 				$sql = "SELECT *,
-						(SELECT distinct ovd2.name FROM " . DB_PREFIX . "option_value_description ovd2 WHERE pov.alternative_size = ovd2.option_value_id) as alternative_name
+						(SELECT distinct ovd2.name FROM " . DB_PREFIX . "option_value_description ovd2 WHERE
+						ovd2.language_id = '" . (int)$this->config->get('config_language_id') . "' AND 
+						pov.alternative_size = ovd2.option_value_id) as alternative_name
 						FROM " . DB_PREFIX . "product_option_value pov
 						LEFT JOIN " . DB_PREFIX . "option_value ov ON (pov.option_value_id = ov.option_value_id)
 						LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON (ov.option_value_id = ovd.option_value_id)
@@ -1453,6 +1479,8 @@ class ModelCatalogProduct extends Model {
 				$sql .= " AND pf.filter_id IN (" . implode(',', $implode) . ")";
 			}
 		}
+			
+		$sql .= ' AND p.quantity > 0 ';
 					
 /*					
 		if (!empty($data['filter_category_id'])) {
@@ -1716,6 +1744,8 @@ class ModelCatalogProduct extends Model {
 			$sql .= ")";
 		}
 
+		$sql .= ' AND p.quantity > 0 ';
+		
 		if (!empty($data['filter_manufacturer_id'])) {
 			if (is_array($data['filter_manufacturer_id'])) {
 				$sql .= " AND p.manufacturer_id IN (" . implode(',', $data['filter_manufacturer_id']) . ")";

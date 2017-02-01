@@ -65,8 +65,20 @@ class ControllerCatalogCategory extends Controller {
 		$this->mysqli2 = mysqli_connect(DB_HOSTNAME,DB_USERNAME,DB_PASSWORD,DB_DATABASE2) or die("Error " . mysqli_error($this->mysqli2)); 
 		mysqli_set_charset($this->mysqli2,"utf8");
 
+		
+		
+// Главная переменная наличия товара вычитаемая по остаткам в размерах
+die('***');		
+		$this->load->model("catalog/product");
+		$products = $this->model_catalog_product->getProducts();
+		
+		foreach($products as $product){
+			$this->model_catalog_product->resetProductQuantity($product['product_id']);
+		}
+		
+		
 // Вычищаем спецсимволы	в таблице информация
-//die('***');
+die('***');
 
 		$sql = 'SELECT * FROM  ' . DB_PREFIX . 'information_description';
 		$desc = $this->db->query($sql);

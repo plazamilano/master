@@ -2,6 +2,9 @@
 // Heading
 $_['heading_title']    = 'Корзина покупок';
 
+$_['text_delivery_sity'] = 'Город доставки';
+$_['text_delivery_price'] = 'Стоимость доставки';
+
 // Text
 $_['text_success']     = '<a href="%s">%s</a> добавлен <a href="%s">в корзину покупок</a>!';
 $_['text_remove']      = 'Корзина покупок изменена!';

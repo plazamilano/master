@@ -87,7 +87,7 @@ class ModelCheckoutOrder extends Model {
 			$addr_id = $this->model_account_address->addAddress($addr);
 		}
 	
-
+	$this->load->model("catalog/product");
 	
 		// Products
 		if (isset($data['products'])) {
@@ -103,6 +103,9 @@ class ModelCheckoutOrder extends Model {
 									 quantity = quantity - ".(int)$product['quantity']."
 									 WHERE product_option_value_id = '" . (int)$option['product_option_value_id'] . "'");
 				}
+			
+				$this->model_catalog_product->resetProductQuantity((int)$product['product_id']);
+			
 			}
 		}
 

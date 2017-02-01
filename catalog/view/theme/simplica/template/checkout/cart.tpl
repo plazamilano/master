@@ -1,8 +1,8 @@
 <?php echo $header; ?>
 
 <?php
-$text_delivery_sity = 'Город доставки';
-$text_delivery_price = 'Стоимость доставки';
+//$text_delivery_sity = 'Город доставки';
+//$text_delivery_price = 'Стоимость доставки';
 
 /*
 $text_cart = 'Корзина';

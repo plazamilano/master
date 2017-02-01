@@ -25,15 +25,23 @@
       </div>
       <div class="panel-body">
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-country" class="form-horizontal">
-          <div class="form-group required">
-            <label class="col-sm-2 control-label" for="input-name"><?php echo $entry_name; ?></label>
-            <div class="col-sm-10">
-              <input type="text" name="name" value="<?php echo $name; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name" class="form-control" />
-              <?php if ($error_name) { ?>
-              <div class="text-danger"><?php echo $error_name; ?></div>
-              <?php } ?>
+
+        <?php foreach ($languages as $language) { ?>
+          <?php echo $language['name']; ?>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-country"><?php echo $entry_name; ?></label>
+              <div class="col-sm-10">
+                <input type="text" name="country_description[<?php echo $language['language_id']; ?>][name]" value="<?php echo isset($country_description[$language['language_id']]['name']) ? $country_description[$language['language_id']]['name'] : ''; ?>" placeholder="<?php echo $entry_name; ?>" id="input-name<?php echo $language['language_id']; ?>" class="form-control" />
+              </div>
             </div>
+        <?php } ?>
+
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-iso-code-2">&nbsp;</label>
           </div>
+  
+
           <div class="form-group">
             <label class="col-sm-2 control-label" for="input-iso-code-2"><?php echo $entry_iso_code_2; ?></label>
             <div class="col-sm-10">
