@@ -397,7 +397,9 @@ $faq_array = array ();   // Сюда засунуть фак
             </div>
           </div>
 
-          <div class="f-field f-field-select f-type-phonecode f-state-required">
+
+<?php //"Номер телефона" с полем для кода: ?>
+<!--           <div class="f-field f-field-select f-type-phonecode f-state-required">
             <label class="f-label" for="fields_phoneCode">
               <span class="f-label-value"><?php echo $text_fields_phone; ?></span>
             </label>
@@ -425,6 +427,25 @@ $faq_array = array ();   // Сюда засунуть фак
                      value="<?php echo isset($customer_info['telephone']) ? $customer_info['telephone'] : ''; ?>"
                      type="text">
               <span class="f-field_description"></span>
+              <span class="f-error_message">
+                <span class="f-error_message-block js-error_fields_phone"></span>
+              </span>
+            </div>
+          </div> -->
+
+<?php //"Номер телефона" без поля для кода: ?>
+          <div class="f-field f-field-select f-state-required">
+            <label class="f-label" for="fields_phoneCode">
+              <span class="f-label-value"><?php echo $text_fields_phone; ?></span>
+            </label>
+            <div class="f-field-wrapper">
+              <input id="fields_phone"
+                     name="fields_phone"
+                     class="f-textinput phone f-state-required js-state-required"
+                     placeholder="<?php echo $text_fields_phone_placeholder; ?>"
+                     maxlength="20"
+                     value="<?php echo isset($customer_info['telephone']) ? $customer_info['telephone'] : ''; ?>"
+                     type="text">
               <span class="f-error_message">
                 <span class="f-error_message-block js-error_fields_phone"></span>
               </span>
