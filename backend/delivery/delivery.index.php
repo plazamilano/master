@@ -109,11 +109,24 @@ while($row = $r->fetch_assoc()){
 }
 
 //страны
-$sql = 'SELECT * FROM '.DB_PREFIX.'country ORDER BY name;';
-$r = $mysqli->query($sql);
+$sql = 'SELECT * FROM '.DB_PREFIX.'country C
+			LEFT JOIN '.DB_PREFIX.'country_description CD ON (CD.country_id = C.country_id)
+			WHERE CD.language_id = 1
+			ORDER BY name ;';
+$r = $mysqli->query($sql) or die($sql);
 $country = array();
 while($row = $r->fetch_assoc()){
 	$country[$row['country_id']] = $row;
+}
+
+//Тексты
+$sql = 'SELECT * FROM '.DB_PREFIX.'delivery_to_country_description 
+			WHERE language_id = 1
+			ORDER BY name ;';
+$r = $mysqli->query($sql) or die($sql);
+$delivery_text = array();
+while($row = $r->fetch_assoc()){
+	$delivery_text[$row['delivery_to_country_id']] = $row;
 }
 
 
@@ -200,7 +213,7 @@ while($row = $r->fetch_assoc()){
 		<th rowspan="2">Макс. вес коробки кг</th>
 		<th rowspan="2">Мин дней</th>
 		<th rowspan="2">Макс дней</th>
-		<th rowspan="2">Текст для сайта (доставка дней добавится автоматически)</th>
+		<th rowspan="2">Текст для сайта (Тут редактор текстов)</th>
 		<th rowspan="2"></th>
     </tr>
 	<tr>
@@ -269,7 +282,16 @@ while($row = $r->fetch_assoc()){
 		<td class="mixed"><input type="text"        id="max_kg" style="width:70px;" value="0"></td>
 		<td class="mixed"><input type="text"        id="min_days" style="width:70px;" value="0"></td>
 		<td class="mixed"><input type="text"        id="max_days" style="width:70px;" value="0"></td>
-		<td class="mixed"><input type="text"        id="text" style="width:300px;" value="0"></td>
+		<!--td class="mixed"><input type="text"        id="text" style="width:150px;" value="0"></td-->
+		<td class="mixed">
+			<select id="text" style="width:150px;">
+				<option value="0">Выбрать текст для доставик</option>
+				<?php foreach($delivery_text as $index => $row){ ?>
+				<option value="<?php echo $index;?>"><?php echo $row['name'];?></option>
+				<?php } ?>
+			</select>
+		</td>
+    
 
         <td>        
             <a href="javascript:" class="add">
@@ -348,8 +370,20 @@ while($row = $r->fetch_assoc()){
         <td class="mixed"><input type="text" class="edit" id="max_kg<?php echo $ex[$main_key];?>" style="width:70px;" value="<?php echo number_format($ex['max_kg'],0,'.',''); ?>"></td>
         <td class="mixed"><input type="text" class="edit" id="min_days<?php echo $ex[$main_key];?>" style="width:70px;" value="<?php echo number_format($ex['min_days'],0,'.',''); ?>"></td>
         <td class="mixed"><input type="text" class="edit" id="max_days<?php echo $ex[$main_key];?>" style="width:70px;" value="<?php echo number_format($ex['max_days'],0,'.',''); ?>"></td>
-        <td class="mixed"><input type="text" class="edit" id="text<?php echo $ex[$main_key];?>" style="width:300px;" value="<?php echo $ex['text']; ?>"></td>
-        
+        <!--td class="mixed"><input type="text" class="edit" id="text<?php echo $ex[$main_key];?>" style="width:300px;" value="<?php echo $ex['text']; ?>"></td-->
+        <td class="mixed">
+			<select class="edit" id="text<?php echo $ex[$main_key];?>" style="width:150px;">
+				<option value="0">Выбрать текст для доставик</option>
+				<?php foreach($delivery_text as $index => $row){ ?>
+					<?php if($ex['text'] == $index){ ?>
+					<option value="<?php echo $index;?>" selected><?php echo $row['name'];?></option>
+					<?php }else{ ?>
+					<option value="<?php echo $index;?>"><?php echo $row['name'];?></option>
+					<?php } ?>
+				<?php } ?>
+			</select>
+		</td>
+	
 	    <td>        
             <a href="javascript:;" class="dell" data-id="<?php echo $ex[$main_key];?>">
                 <img src="/<?php echo TMP_DIR; ?>backend/img/cancel.png" title="удалить" width="16" height="16">
@@ -396,7 +430,7 @@ while($row = $r->fetch_assoc()){
     
     $(document).on('change','.edit', function(){
 		var id = jQuery(this).parent('td').parent('tr').attr('id');
-	
+	//debugger;
 		var status = 0;
 		var delivery_id = $('#delivery_id'+id).val();
 		var country_id = $('#country_id'+id).val();

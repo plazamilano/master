@@ -23,6 +23,8 @@ foreach($_POST as $index => $value){
         $table = $value;
     }elseif($index == 'id'){
         $id = str_replace($find,$replace,$value);
+    }elseif($index == 'language_id'){
+        $language_id = $value;
     }elseif($index == 'mainkey'){
         $mainkey = $value;
     }elseif($index == 'radio_name'){
@@ -66,6 +68,11 @@ if($key == 'edit'){
 	}
 	$sql = trim($sql, ',');
 	$sql .=	" WHERE `$mainkey` = '" . $id . "'";
+	
+	if(isset($language_id)){
+		$sql .=	" AND `language_id` = '" . $language_id . "'";
+	}
+	
 echo $sql;
 	$mysqli->query($sql) or die('sadlkjgfljsad bf;j '.$sql);
 		

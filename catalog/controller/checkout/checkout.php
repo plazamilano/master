@@ -295,7 +295,7 @@ class ControllerCheckoutCheckout extends Controller {
 */
 		$this->load->model('localisation/country');
 		$data['countries'] = $this->model_localisation_country->getCountries();
-		
+
 		$data['shipping_required'] = $this->cart->hasShipping();
 
 		$data['column_left'] = $this->load->controller('common/column_left');
