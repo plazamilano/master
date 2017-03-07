@@ -10,7 +10,6 @@ class ControllerProductCategory extends Controller {
 	public function index() {
 
 
-		
 		$this->load->language('product/category');
 
 		$this->load->model('catalog/category');
@@ -252,8 +251,8 @@ class ControllerProductCategory extends Controller {
 				'text' => $category_info['name'],
 				'href' => TMP_URL.$data['language_href'].''.$category_info['href']
 			);
-				
-	
+			
+
 		//Если это полная выборка по разпродаже
 		}elseif (isset($this->request->get['main_sale'])) {
 			$category_id = 0;

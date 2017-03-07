@@ -69,4 +69,4 @@ $_['column_duti'] = 'Dues';     // эта колонка скрыта, но те
 $_['text_conditional_preliminary_confirmation'] = 'Conditional preliminary confirmation';  // этот текст сейчас скрыт. нужно переводить?
 $_['text_purchase_terms'] = "PLEASE NOTE THAT YOUR PERSONAL DATA IS BEING COLLECTED AND PROCESSED BY TLG. IT'S BEING DONE IN YOUR INTERESTS AND IS NECESSARY FOR COMPLETING YOUR PURCHASE. YOU MIGHT BE ASSURED THAT YOUR DATA IS KEPT CONFIDENTIAL AND IS FULLY PROTECTED.FOR ADDITIONAL INFORMATION, PLEASE READ OUR PRIVACY POLICY.";
 
-$_['error_no_quantity'] = 'This quantity is not available !!!';
+$_['error_no_quantity'] = "The item of the selected size is already in the basket.\n\rUnfortunately the quantity of the product of this size is limited.";

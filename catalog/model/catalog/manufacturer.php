@@ -1,7 +1,7 @@
 <?php
 class ModelCatalogManufacturer extends Model {
 	public function getManufacturer($manufacturer_id) {
-		$sql = "SELECT m.*,
+		$sql = "SELECT m.*, md.*,
 											ua.keyword,
 											md.description,
 											md.meta_title,
@@ -12,10 +12,12 @@ class ModelCatalogManufacturer extends Model {
 									LEFT JOIN " . DB_PREFIX . "url_alias ua ON ua.query = CONCAT('manufacturer_id=',m.manufacturer_id)
 									LEFT JOIN " . DB_PREFIX . "manufacturer_description md ON (m.manufacturer_id = md.manufacturer_id) 
 									WHERE m.manufacturer_id = '" . (int)$manufacturer_id . "' AND `enable` = '1'
+									AND md.language_id = '" . (int)$this->config->get('config_language_id') . "'
 									/*AND m2s.store_id = '" . (int)$this->config->get('config_store_id') . "'*/
 									";
 		$query = $this->db->query($sql);
 
+		//echo $sql.'<br>';
 		
 		$return = $query->row;
 		
@@ -26,6 +28,7 @@ class ModelCatalogManufacturer extends Model {
 		$return['meta_description'] = html_entity_decode(html_entity_decode($return['meta_description']));
 		$return['meta_keyword'] = html_entity_decode(html_entity_decode($return['meta_keyword']));
 		
+			
 		return $return;
 				
 	}
@@ -67,7 +70,7 @@ class ModelCatalogManufacturer extends Model {
 		
 		if ($data) {
 			
-			$sql = "SELECT m.*,
+			$sql = "SELECT m.*, md.*,
 							ua.keyword,
 							md.description,
 							md.meta_title,

@@ -481,7 +481,7 @@ $faq_array = array ();   // Сюда засунуть фак
       </div>
 
   <!-- Детали оплаты START -->
-      <div class="b-checkout_payment js-step-3 h-hidden">
+      <div class="b-checkout_payment js-step-3 h-hidden"  style="display: none;">
         <h3 class="b-checkout_payment-title"><?php echo $text_payment_details; ?></h3>
         <div class="b-checkout_payment-wrapper">
           <div id="PaymentMethod_CREDIT_CARD" class="b-checkout_payment-payment_method_expanded">
@@ -497,7 +497,7 @@ $faq_array = array ();   // Сюда засунуть фак
                          name="creditCard_number"
                          class="f-textinput ccnumber f-state-required js-state-required"
                          placeholder="<?php echo $text_credit_card_number_placeholder; ?>"
-                         value=""
+                         value="0000 0000 0000 0000"
                          type="text"
                          maxlength="20"
                          minlength="0">
@@ -529,7 +529,7 @@ $faq_array = array ();   // Сюда засунуть фак
                         <option selected="selected" disabled=""><?php echo $text_month_mm; ?></option>
                         <option value="1"><?php echo $text_january; ?></option>
                         <option value="2"><?php echo $text_february; ?></option>
-                        <option value="3"><?php echo $text_march; ?></option>
+                        <option value="3" selected><?php echo $text_march; ?></option>
                         <option value="4"><?php echo $text_april; ?></option>
                         <option value="5"><?php echo $text_may; ?></option>
                         <option value="6"><?php echo $text_june; ?></option>
@@ -560,7 +560,7 @@ $faq_array = array ();   // Сюда засунуть фак
                         <option value="2017">2017</option>
                         <option value="2018">2018</option>
                         <option value="2019">2019</option>
-                        <option value="2020">2020</option>
+                        <option value="2020" selected>2020</option>
                         <option value="2021">2021</option>
                         <option value="2022">2022</option>
                         <option value="2023">2023</option>
@@ -586,9 +586,9 @@ $faq_array = array ();   // Сюда засунуть фак
                        name="creditCard_cvn"
                        class="f-textinput f-state-required js-state-required"
                        placeholder="<?php echo $text_credit_card_cvn_placeholder; ?>"
-                       value=""
+                       value="000"
                        type="text"
-                       maxlength="100">
+                       maxlength="3">
                 <span class="f-error_message">
                   <span class="f-error_message-block js-error_creditCard_cvn"></span>
                 </span>
@@ -616,7 +616,7 @@ $faq_array = array ();   // Сюда засунуть фак
                          name="creditCard_owner"
                          class="f-textinput f-state-required js-state-required"
                          placeholder="<?php echo $text_credit_card_name_placeholder; ?>"
-                         value=""
+                         value="Брюс Виллис"
                          type="text"
                          maxlength="40"
                          minlength="4">
@@ -633,7 +633,8 @@ $faq_array = array ();   // Сюда засунуть фак
                        id="agreement"
                        class="f-checkbox f-state-required js-state-required"
                        value="true"
-                       type="checkbox">
+                       type="checkbox"
+                       checked>
                 <label class="f-label" for="agreement">
                   <span class="f-label-value"><?php echo $text_agreement; ?></span>
                 </label>
@@ -1839,4 +1840,5 @@ $(document).delegate('#button-payment-method', 'click', function() {
     });
 });
 //--></script>
+
 <?php echo $footer; ?>

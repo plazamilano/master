@@ -35,6 +35,7 @@ class ModelCatalogManufacturer extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturer_description SET
 								manufacturer_id = '" . (int)$manufacturer_id . "',
 								language_id = '".$language_id."',
+								name = '" . $this->db->escape($value['name']) . "',
 								title_h1 = '" . $this->db->escape($value['title_h1']) . "',
 								description = '" . $this->db->escape($value['description']) . "',
 								meta_title = '" . $this->db->escape($value['meta_title']) . "',
@@ -100,6 +101,7 @@ class ModelCatalogManufacturer extends Model {
 				$this->db->query("INSERT INTO " . DB_PREFIX . "manufacturer_description SET
 								manufacturer_id = '" . (int)$manufacturer_id . "',
 								language_id = '".$language_id."',
+								name = '" . $this->db->escape($value['name']) . "',
 								title_h1 = '" . $this->db->escape($value['title_h1']) . "',
 								description = '" . $this->db->escape($value['description']) . "',
 								meta_title = '" . $this->db->escape($value['meta_title']) . "',

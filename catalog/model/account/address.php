@@ -51,7 +51,11 @@ class ModelAccountAddress extends Model {
 		$address_query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "address WHERE address_id = '" . (int)$address_id . "' AND customer_id = '" . (int)$this->customer->getId() . "'");
 
 		if ($address_query->num_rows) {
-			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$address_query->row['country_id'] . "'");
+			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` C
+												LEFT JOIN `" . DB_PREFIX . "country_description` CD ON C.country_id = CD.country_id
+											  WHERE C.country_id = '" .  (int)$address_query->row['country_id']. "'
+													AND CD.language_id = '" . (int)$this->config->get('config_language_id') . "'
+												");
 
 			if ($country_query->num_rows) {
 				$country = $country_query->row['name'];
@@ -107,7 +111,11 @@ class ModelAccountAddress extends Model {
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "address WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 
 		foreach ($query->rows as $result) {
-			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` WHERE country_id = '" . (int)$result['country_id'] . "'");
+			$country_query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` C
+												LEFT JOIN `" . DB_PREFIX . "country_description` CD ON C.country_id = CD.country_id
+											  WHERE C.country_id = '" . (int)$result['country_id'] . "'
+													AND CD.language_id = '" . (int)$this->config->get('config_language_id') . "'
+												");
 
 			if ($country_query->num_rows) {
 				$country = $country_query->row['name'];

@@ -1,18 +1,46 @@
 <?php
 class ModelCatalogCategory extends Model {
 	public function getCategory($category_id) {
-		$query = $this->db->query("SELECT DISTINCT * FROM " . DB_PREFIX . "category c
+		
+		$sql = "SELECT DISTINCT * FROM " . DB_PREFIX . "category c
 								  LEFT JOIN " . DB_PREFIX . "category_description cd ON (c.category_id = cd.category_id)
 								  LEFT JOIN " . DB_PREFIX . "url_alias ua ON (ua.query = CONCAT('category_id=', c.category_id))
-								  LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id) WHERE c.category_id = '" . (int)$category_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'");
+								  LEFT JOIN " . DB_PREFIX . "category_to_store c2s ON (c.category_id = c2s.category_id)
+								  WHERE c.category_id = '" . (int)$category_id . "' AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'
+										AND c2s.store_id = '" . (int)$this->config->get('config_store_id') . "' AND c.status = '1'";
+		
+		$query = $this->db->query($sql);
 
 		$return = $query->row;
+	
 		
 		$return['name'] = html_entity_decode(html_entity_decode($return['name']));
-		$return['name_sush'] = html_entity_decode(html_entity_decode($return['name_sush']));
-		$return['name_rod'] = html_entity_decode(html_entity_decode($return['name_rod']));
-		$return['name_several'] = html_entity_decode(html_entity_decode($return['name_several']));
-		$return['title_h1'] = html_entity_decode(html_entity_decode($return['title_h1']));
+		if(!isset($return['name_sush'])){
+			$return['name_sush'] = "";
+		}else{
+			$return['name_sush'] = html_entity_decode(html_entity_decode($return['name_sush']));
+		}
+	
+		if(!isset($return['name_rod'])){
+			$return['name_rod'] = "";
+		}else{
+			$return['name_rod'] = html_entity_decode(html_entity_decode($return['name_rod']));
+		}
+	
+		if(!isset($return['name_several'])){
+			$return['name_several'] = "";
+		}else{
+			$return['name_several'] = html_entity_decode(html_entity_decode($return['name_several']));
+		}
+	
+		if(!isset($return['title_h1'])){
+			$return['title_h1'] = $return['name'];
+		}else{
+			$return['title_h1'] = html_entity_decode(html_entity_decode($return['title_h1']));
+		}
+	
+	//echo $category_id.'<br> '.(int)$this->config->get('config_language_id').'<br>'.$sql;
+	
 		$return['description'] = html_entity_decode(html_entity_decode($return['description']));
 		$return['meta_title'] = html_entity_decode(html_entity_decode($return['meta_title']));
 		$return['meta_description'] = html_entity_decode(html_entity_decode($return['meta_description']));
