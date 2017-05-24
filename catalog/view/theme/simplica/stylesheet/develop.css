@@ -1570,9 +1570,6 @@ body.checkout-checkout {
     border-top: 1px solid #CCCCCC;
     padding-top: 23px;
 }
-.b-checkout_content_block-toggle_title--open::before {
-    content: "";
-}
 /* Корзина END */
 
 
